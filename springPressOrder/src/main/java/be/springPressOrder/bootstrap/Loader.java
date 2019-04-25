@@ -31,11 +31,11 @@ public class Loader implements ApplicationListener<ContextRefreshedEvent> {
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event) {
 
-        Order order1 = new Order(2,1);
+        Order order1 = new Order(2,"AppleJuice",1);
         orderRepository.save(order1);
         log.info("Saved order1 - id: " + order1.getId());
 
-        Order order2 = new Order(3,2);
+        Order order2 = new Order(3,"PearJuice",2);
         orderRepository.save(order2);
         log.info("Saved order2 - id: " + order2.getId());
 

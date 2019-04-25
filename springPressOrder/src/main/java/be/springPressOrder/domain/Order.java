@@ -15,14 +15,28 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
-    @Digits(integer=3, fraction=0, message = "No more 3 digits")
+    @Digits(integer=3, fraction=0, message = "Please select an amount less than thousand ")
     private int amount;
-    public enum OrderStatus {Canceled};
-    private OrderStatus status;
+    public enum Status {NotPlanned, Planned, Executing, Executed, Canceled}
+    private Status status;
     @DateTimeFormat(pattern = "yyyy-MM-dd' 'HH:mm")
     private Date orderDate;
-    //private Juice juice;
+    private String juice;
     private int idClient;
+
+    public void setIdClient(int idClient) {
+        this.idClient = idClient;
+    }
+
+    public String getJuice() {
+        return juice;
+    }
+
+    public void setJuice(String juice) {
+        this.juice = juice;
+    }
+
+
 
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -33,6 +47,8 @@ public class Order {
     }
 
     public Order(){
+        orderDate = new Date();
+        status = Status.NotPlanned;
     }
 
     public int getId() {
@@ -47,11 +63,11 @@ public class Order {
         this.amount = amount;
     }
 
-    public OrderStatus getStatus() {
+    public Status getStatus() {
         return status;
     }
 
-    public void setStatus(OrderStatus status) {
+    public void setStatus(Status status) {
         this.status = status;
     }
 
@@ -63,21 +79,13 @@ public class Order {
         this.orderDate = orderDate;
     }
 
-    public Order(int amount, /*Juice juice,*/ int idClient){
+    public Order(int amount, String juice, int idClient){
         this.amount = amount;
-        //this.juice = juice;
+        this.juice = juice;
         this.idClient = idClient;
         orderDate = new Date();
-        status = OrderStatus.Canceled;
+        status = Status.NotPlanned;
     }
-
-    /*public Juice getJuice() {
-        return juice;
-    }
-
-    public void setJuice(Juice juice) {
-        this.juice = juice;
-    }*/
 
 
 
