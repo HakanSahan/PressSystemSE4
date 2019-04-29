@@ -124,6 +124,7 @@ public class PressOrder {
     public void setOrder(Order order) {
         this.order = order;
     }
+
 /*
     public Machine getMachine() {
         return machine;

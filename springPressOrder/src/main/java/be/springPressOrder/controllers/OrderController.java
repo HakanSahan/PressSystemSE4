@@ -2,13 +2,17 @@ package be.springPressOrder.controllers;
 
 import be.springPressOrder.domain.Order;
 import be.springPressOrder.services.OrderService;
+import be.springPressOrder.services.OrderServiceImpl;
 import be.springPressOrder.services.PressOrderService;
+import jdk.nashorn.internal.ir.RuntimeNode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class OrderController {
@@ -69,6 +73,11 @@ public class OrderController {
         //model.addAttribute("message", "HELLO");
         return "ordersdetails";
     }
-
+    @RequestMapping(value={"/orderbyclientid.html"}, method = RequestMethod.GET)
+    public String orderDetailsByClientId(@RequestParam("idClient") Integer idClient, ModelMap model){
+        //Order order = orderService.getOrderByClientId(idClient);
+        model.addAttribute("objOrder",orderService.getOrderByClientId(idClient));
+        return "ordersshow";
+    }
 
 }

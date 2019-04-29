@@ -8,6 +8,8 @@ public interface OrderService {
 
     Order getOrderById(Integer id);
 
+    Order getOrderByClientId(Integer clientId);
+
     Order saveOrder(Order order);
 
     void deleteOrder(Integer id);
