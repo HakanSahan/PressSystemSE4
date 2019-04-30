@@ -37,7 +37,7 @@ public class PressOrderServiceImpl implements PressOrderService {
         ArrayList<PressOrder> result = new  ArrayList();
         for (PressOrder pressOrder : pressOrderRepository.findAll())
         {
-            if(pressOrder.getOrderId() == id)
+            if(pressOrder.getId() == id)
                 result.add(pressOrder);
         }
         return result;
