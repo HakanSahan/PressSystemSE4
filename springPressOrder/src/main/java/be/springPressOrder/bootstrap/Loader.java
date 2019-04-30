@@ -1,5 +1,6 @@
 package be.springPressOrder.bootstrap;
 
+import be.springPressOrder.dao.FruitRepository;
 import be.springPressOrder.dao.JuiceRepository;
 import be.springPressOrder.domain.*;
 import be.springPressOrder.dao.OrderRepository;
@@ -18,6 +19,7 @@ public class Loader implements ApplicationListener<ContextRefreshedEvent> {
     private PressOrderRepository pressOrderRepository;
     private OrderRepository orderRepository;
     private JuiceRepository juiceRepository;
+    private FruitRepository fruitRepository;
 
     private Logger log = Logger.getLogger(Loader.class);
 
@@ -25,6 +27,9 @@ public class Loader implements ApplicationListener<ContextRefreshedEvent> {
     public void setPressOrderRepository(PressOrderRepository pressOrderRepository) {
         this.pressOrderRepository = pressOrderRepository;
     }
+
+    @Autowired
+    public void setFruitRepository(FruitRepository fruitRepository){this.fruitRepository = fruitRepository;}
 
     @Autowired
     public void setOrderRepository(OrderRepository orderRepository) {
@@ -38,8 +43,9 @@ public class Loader implements ApplicationListener<ContextRefreshedEvent> {
 
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event) {
-        Fruit apple = new Fruit("apple",0.20,9,11);
-        Sort sortapple1 = new Sort(apple,0.25,new Date(),new Date());
+
+        Fruit sortapple1 = new Fruit("apple",0.25,1,2);
+        fruitRepository.save(sortapple1);
         Juice juice1 = new Juice(sortapple1,20,new Date(),1);
         juiceRepository.save(juice1);
 

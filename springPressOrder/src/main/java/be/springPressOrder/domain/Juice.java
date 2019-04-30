@@ -12,8 +12,8 @@ public class Juice {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
-    @OneToOne(cascade=CascadeType.ALL)
-    private Sort sort;
+   @OneToOne
+    private Fruit fruit;
 
     private int avAmount;
     @DateTimeFormat(pattern = "yyyy-MM-dd' 'HH:mm")
@@ -25,8 +25,8 @@ public class Juice {
     @JoinColumn(name = "order_id", nullable = true)
     private Order order;
 
-    public Juice(Sort sort, int avAmount, Date presdate, int fromClient) {
-        this.sort = sort;
+    public Juice(Fruit fruit, int avAmount, Date presdate, int fromClient) {
+        this.fruit = fruit;
         this.avAmount = avAmount;
         this.presdate = presdate;
         this.fromClient = fromClient;
@@ -35,8 +35,9 @@ public class Juice {
     public Juice(){
 
     }
-    public Sort getSort() {
-        return sort;
+
+    public Fruit getSort() {
+        return fruit;
     }
 
     public int getAvAmount() {
@@ -49,10 +50,6 @@ public class Juice {
 
     public int getFromClient() {
         return fromClient;
-    }
-
-    public void setSort(Sort sort) {
-        this.sort = sort;
     }
 
     public void setAvAmount(int avAmount) {

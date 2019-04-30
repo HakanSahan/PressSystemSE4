@@ -18,6 +18,11 @@ public class Order {
     private int amount;
     public enum OrderStatus {Canceled}
     private OrderStatus status;
+
+    @ManyToOne
+    @JoinColumn(name = "fruid_id")
+    private Fruit fruit;
+
     @DateTimeFormat(pattern = "yyyy-MM-dd' 'HH:mm")
     private Date orderDate;
     private int idClient;

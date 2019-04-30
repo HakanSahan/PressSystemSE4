@@ -1,6 +1,8 @@
 package be.springPressOrder.domain;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "Fruits")
@@ -9,13 +11,32 @@ public class Fruit {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
-    private String fruitname; //TODO ???
+
+    private String fruitname;
     private Double avgJuiceAmount;
     private int beginmonth;
     private int endmonth;
 
-    @OneToOne(cascade=CascadeType.ALL)
-    private Sort sort;
+
+    @OneToMany(mappedBy = "fruit")
+    private Set<Order> orderSet = new HashSet<>();
+
+    @OneToOne
+    private Juice juice;
+
+    public int getId(){return  id;}
+
+    public void setId(int id){
+        this.id = id;
+    }
+
+    public Juice getJuice(){
+        return juice;
+    }
+
+    public void setJuice(Juice juice){
+        this.juice = juice;
+    }
 
     public String getFruitname() {
         return fruitname;
@@ -50,5 +71,9 @@ public class Fruit {
         this.avgJuiceAmount = avgJuiceAmount;
         this.beginmonth = beginmonth;
         this.endmonth = endmonth;
+    }
+
+    public Fruit(){
+
     }
 }
