@@ -13,7 +13,6 @@ public class PressOrder {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
     private int fruitAmount;
-    private int juice;
     private int maxJuiceAmount;
     @DateTimeFormat(pattern = "yyyy-MM-dd' 'HH:mm")
     private Date startHour;
@@ -22,12 +21,9 @@ public class PressOrder {
     public enum Status {NotPlanned, Planned, Executing, Executed, Canceled} ;
     private Status status;
 
-    @ManyToOne
-    @JoinColumn(name = "order_id", nullable = true)
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "order_id", nullable = false)
     private Order order;
-
-    //private Order order;
-    // private Machine machine;
 
     public Integer getId() {
         return id;
@@ -38,22 +34,13 @@ public class PressOrder {
     }
 
     public PressOrder(){
-
+        this.order = new Order();
     }
 
-    public PressOrder(int fruitAmount, int juice, int maxJuiceAmount, Status st){
+    public PressOrder(int fruitAmount, int maxJuiceAmount, Order order){
         this.fruitAmount = fruitAmount;
-        this.juice = juice;
         this.maxJuiceAmount = maxJuiceAmount;
-        this.status = st;
-        order = null;
-    }
-
-    public PressOrder(int fruitAmount, int juice, int maxJuiceAmount, Status st, Order order){
-        this.fruitAmount = fruitAmount;
-        this.juice = juice;
-        this.maxJuiceAmount = maxJuiceAmount;
-        this.status = st;
+        this.status = Status.NotPlanned;
         this.order = order;
     }
 
@@ -70,14 +57,6 @@ public class PressOrder {
 
     public void setFruitAmount(int fruitAmount) {
         this.fruitAmount = fruitAmount;
-    }
-
-    public int getJuice() {
-        return juice;
-    }
-
-    public void setJuice(int juice) {
-        this.juice = juice;
     }
 
     public int getMaxJuiceAmount() {
@@ -124,74 +103,4 @@ public class PressOrder {
     public void setOrder(Order order) {
         this.order = order;
     }
-/*
-    public Machine getMachine() {
-        return machine;
-    }
-
-    public void setMachine(Machine machine) {
-        this.machine = machine;
-    }*/
-
-
- /*   @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
-
-    @Version
-    private Integer version;
-
-    private String productId;
-    private String description;
-    private String imageUrl;
-    private BigDecimal price;
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public Integer getVersion() {
-        return version;
-    }
-
-    public void setVersion(Integer version) {
-        this.version = version;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getProductId() {
-        return productId;
-    }
-
-    public void setProductId(String productId) {
-        this.productId = productId;
-    }
-
-    public String getImageUrl() {
-        return imageUrl;
-    }
-
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
-    }
-
-    public BigDecimal getPrice() {
-        return price;
-    }
-
-    public void setPrice(BigDecimal price) {
-        this.price = price;
-    }
-    */
 }

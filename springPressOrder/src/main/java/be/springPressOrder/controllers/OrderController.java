@@ -1,8 +1,8 @@
 package be.springPressOrder.controllers;
 
+import be.springPressOrder.Data.OrderData;
 import be.springPressOrder.domain.Order;
-import be.springPressOrder.services.OrderService;
-import be.springPressOrder.services.PressOrderService;
+import be.springPressOrder.services.PressSystemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,60 +13,54 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 public class OrderController {
 
-    private OrderService orderService;
-    private PressOrderService pressOrderService;
+
+    private PressSystemService pressSystemService;
 
     @Autowired
-    public void setOrderService(OrderService orderService) {
-        this.orderService = orderService;
-    }
-
-    @Autowired
-    public void setPressOrderService(PressOrderService pressOrderService) {
-        this.pressOrderService = pressOrderService;
+    public void setPressSystemService(PressSystemService pressSystemService) {
+        this.pressSystemService = pressSystemService;
     }
 
     @RequestMapping(value = "/orders", method = RequestMethod.GET)
     public String list(Model model) {
-        model.addAttribute("listOrders", orderService.listAllOrders());
+        model.addAttribute("listOrders", pressSystemService.listAllOrders());
         return "orders";
     }
 
     @RequestMapping("order/{id}")
     public String showOrder(@PathVariable Integer id, Model model) {
-        model.addAttribute("objOrder", orderService.getOrderById(id));
+        model.addAttribute("objOrder", pressSystemService.getOrderById(id));
         return "ordersshow";
     }
 
     @RequestMapping("order/edit/{id}")
     public String edit(@PathVariable Integer id, Model model) {
-        model.addAttribute("objOrder", orderService.getOrderById(id));
+        model.addAttribute("objOrder", pressSystemService.getOrderById(id));
         return "orderform";
     }
 
     @RequestMapping("order/new")
     public String newOrder(Model model) {
-        model.addAttribute("objOrder", new Order());
+        model.addAttribute("objOrder", new OrderData());
+        model.addAttribute("objFruits",pressSystemService.listAllFruits());
         return "orderform";
     }
 
     @RequestMapping(value = "order", method = RequestMethod.POST)
-    public String saveOrder(Order order) {
-        orderService.saveOrder(order);
-        return "redirect:/order/" + order.getId();
+    public String saveOrder(OrderData order) {
+        Order newOrder = pressSystemService.processOrder(order);
+        return "redirect:/order/" + newOrder.getId();
     }
 
     @RequestMapping("order/delete/{id}")
     public String delete(@PathVariable Integer id) {
-        orderService.deleteOrder(id);
+        pressSystemService.deleteOrder(id);
         return "redirect:/orders";
     }
 
     @RequestMapping("order/pressorders/{id}")
     public String listDetail(@PathVariable Integer id,Model model) {
-       // model.addAttribute("listOrders", orderService.listAllOrders());
-        model.addAttribute("listOrders", pressOrderService.listPressOrderByOrder(id));//listAllPressOrders());
-        //model.addAttribute("message", "HELLO");
+        model.addAttribute("listOrders", pressSystemService.listPressOrderByOrder(id));//listAllPressOrders());
         return "ordersdetails";
     }
 
