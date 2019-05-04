@@ -2,9 +2,9 @@ package be.springPressOrder.services;
 
 import be.springPressOrder.Data.OrderData;
 import be.springPressOrder.Data.PressOrderData;
-import be.springPressOrder.domain.Fruit;
-import be.springPressOrder.domain.Order;
-import be.springPressOrder.domain.PressOrder;
+import be.springPressOrder.Data.RequestTechnicianData;
+import be.springPressOrder.Data.ScheduleData;
+import be.springPressOrder.domain.*;
 
 public interface PressSystemService {
     Iterable<PressOrder> listAllPressOrders();
@@ -37,5 +37,21 @@ public interface PressSystemService {
 
     Order processOrder(OrderData orderData);
 
-    public PressOrder processPressOrder(PressOrderData pressOrderData);
+    PressOrder processPressOrder(PressOrderData pressOrderData);
+
+    Iterable<Schedule> listAllSchedules();
+
+    Iterable<Machine> listAllMachines();
+
+    Schedule processSchedule(ScheduleData scheduleData);
+
+    Iterable<Technician> listAllTechnicians();
+
+    Technician getTechnicianById(int id);
+
+    Iterable<RequestTechnician> listAllRequestTechnicians();
+
+    RequestTechnician getRequestTechnicianById(int id);
+
+    RequestTechnician processRequestTechnician(RequestTechnicianData requestTechnicianData);
 }

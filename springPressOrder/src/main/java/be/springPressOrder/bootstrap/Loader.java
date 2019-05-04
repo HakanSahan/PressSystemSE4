@@ -1,11 +1,7 @@
 package be.springPressOrder.bootstrap;
 
-import be.springPressOrder.dao.FruitRepository;
-import be.springPressOrder.domain.Fruit;
-import be.springPressOrder.domain.Order;
-import be.springPressOrder.domain.PressOrder;
-import be.springPressOrder.dao.OrderRepository;
-import be.springPressOrder.dao.PressOrderRepository;
+import be.springPressOrder.dao.*;
+import be.springPressOrder.domain.*;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
@@ -13,6 +9,7 @@ import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
 
 import java.awt.*;
+import java.util.Date;
 
 @Component
 public class Loader implements ApplicationListener<ContextRefreshedEvent> {
@@ -20,6 +17,10 @@ public class Loader implements ApplicationListener<ContextRefreshedEvent> {
     private PressOrderRepository pressOrderRepository;
     private OrderRepository orderRepository;
     private FruitRepository fruitRepository;
+    private MachineRepository machineRepository;
+    private ScheduleRepository scheduleRepository;
+    private TechnicianRepository technicianRepository;
+    private RequestTechnicianRepository requestTechnicianRepository;
 
     private Logger log = Logger.getLogger(Loader.class);
 
@@ -37,6 +38,18 @@ public class Loader implements ApplicationListener<ContextRefreshedEvent> {
     public void setOrderRepository(OrderRepository orderRepository) {
         this.orderRepository = orderRepository;
     }
+
+    @Autowired
+    public void setMachineRepository(MachineRepository machineRepository){this.machineRepository = machineRepository;}
+
+    @Autowired
+    public void setScheduleRepository(ScheduleRepository scheduleRepository){this.scheduleRepository = scheduleRepository;}
+
+    @Autowired
+    public void setTechnicianRepository(TechnicianRepository technicianRepository){this.technicianRepository =technicianRepository;}
+
+    @Autowired
+    public void setRequestTechnicianRepository(RequestTechnicianRepository requestTechnicianRepository){this.requestTechnicianRepository = requestTechnicianRepository;}
 
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event) {
@@ -64,6 +77,41 @@ public class Loader implements ApplicationListener<ContextRefreshedEvent> {
         PressOrder order3 = new PressOrder(100,10,new Order(2,apple,1));
         pressOrderRepository.save(order3);
         log.info("Saved press order3 - id: " + order3.getId());
+
+        Machine machine1 = new Machine(1,false,100);
+        Machine machine2 = new Machine(2,false,100);
+        Machine machine3 = new Machine(3,false,100);
+        machineRepository.save(machine1);
+        machineRepository.save(machine2);
+        machineRepository.save(machine3);
+
+        Technician technician1 = new Technician("Duck","James","+32479019788","JamesDuck@Duck.com");
+        Technician technician2 = new Technician("Flamingo","Jeff","+32488527488","JeffFlamingo@Duck.com");
+
+        RequestTechnician request1 = new RequestTechnician(new Date(),"Please HELP",technician1);
+
+        RequestTechnician request2 = new RequestTechnician(new Date(),"Boot too big",technician1);
+
+        RequestTechnician request3 = new RequestTechnician(new Date(),"Please HELP",technician2);
+
+        RequestTechnician request4 = new RequestTechnician(new Date(),"Boot too big",technician2);
+
+        technician1.getRequestTechnicians().add(request1);
+        technician1.getRequestTechnicians().add(request2);
+        technician2.getRequestTechnicians().add(request3);
+        technician2.getRequestTechnicians().add(request4);
+
+        technicianRepository.save(technician1);
+        technicianRepository.save(technician2);
+
+        requestTechnicianRepository.save(request1);
+        requestTechnicianRepository.save(request4);
+        requestTechnicianRepository.save(request2);
+        requestTechnicianRepository.save(request3);
+
+        Schedule schedule = new Schedule(machine1,pressOrder1,new Date(),new Date());
+
+        scheduleRepository.save(schedule);
 
         /*PressOrder shirt = new PressOrder();
         shirt.setDescription("Spring Framework Guru Shirt");

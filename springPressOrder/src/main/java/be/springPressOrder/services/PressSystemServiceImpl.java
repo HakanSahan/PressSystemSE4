@@ -2,12 +2,10 @@ package be.springPressOrder.services;
 
 import be.springPressOrder.Data.OrderData;
 import be.springPressOrder.Data.PressOrderData;
-import be.springPressOrder.dao.FruitRepository;
-import be.springPressOrder.dao.OrderRepository;
-import be.springPressOrder.dao.PressOrderRepository;
-import be.springPressOrder.domain.Fruit;
-import be.springPressOrder.domain.Order;
-import be.springPressOrder.domain.PressOrder;
+import be.springPressOrder.Data.RequestTechnicianData;
+import be.springPressOrder.Data.ScheduleData;
+import be.springPressOrder.dao.*;
+import be.springPressOrder.domain.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +16,10 @@ public class PressSystemServiceImpl implements PressSystemService {
     private PressOrderRepository pressOrderRepository;
     private FruitRepository fruitRepository;
     private OrderRepository orderRepository;
+    private ScheduleRepository scheduleRepository;
+    private MachineRepository machineRepository;
+    private TechnicianRepository technicianRepository;
+    private RequestTechnicianRepository requestTechnicianRepository;
 
     @Autowired
     public void setPressOrderRepository(PressOrderRepository pressOrderRepository) {
@@ -33,6 +35,18 @@ public class PressSystemServiceImpl implements PressSystemService {
     public void setOrderRepository(OrderRepository orderRepository) {
         this.orderRepository = orderRepository;
     }
+
+    @Autowired
+    public void setScheduleRepository(ScheduleRepository scheduleRepository){this.scheduleRepository = scheduleRepository;}
+
+    @Autowired
+    public void setMachineRepository(MachineRepository machineRepository){this.machineRepository = machineRepository;}
+
+    @Autowired
+    public void setTechnicianRepository(TechnicianRepository technicianRepository){this.technicianRepository = technicianRepository;}
+
+    @Autowired
+    public void setRequestTechnicianRepository (RequestTechnicianRepository requestTechnicianRepository){this.requestTechnicianRepository = requestTechnicianRepository;}
 
     @Override
     public Iterable<PressOrder> listAllPressOrders() {
@@ -135,5 +149,45 @@ public class PressSystemServiceImpl implements PressSystemService {
     @Override
     public PressOrder processPressOrder(PressOrderData pressOrderData){
         return pressOrderRepository.save(new PressOrder(pressOrderData.fruitAmount,pressOrderData.maxJuiceAmount,new Order(0,fruitRepository.findOne(pressOrderData.fruitId),pressOrderData.clientId)));
+    }
+
+    @Override
+    public Iterable<Schedule> listAllSchedules(){
+        return scheduleRepository.findAll();
+    }
+
+    @Override
+    public Schedule processSchedule(ScheduleData scheduleData){
+        return scheduleRepository.save(new Schedule(machineRepository.findOne(scheduleData.machineId),pressOrderRepository.findOne(scheduleData.pressOrderId),scheduleData.beginHour,scheduleData.endHour));
+    }
+
+    @Override
+    public Iterable<Machine> listAllMachines(){
+        return machineRepository.findAll();
+    }
+
+    @Override
+    public Iterable<Technician> listAllTechnicians(){
+        return technicianRepository.findAll();
+    }
+
+    @Override
+    public Technician getTechnicianById(int id){
+        return technicianRepository.findOne(id);
+    }
+
+    @Override
+    public Iterable<RequestTechnician> listAllRequestTechnicians(){
+        return requestTechnicianRepository.findAll();
+    }
+
+    @Override
+    public RequestTechnician getRequestTechnicianById(int id){
+        return requestTechnicianRepository.findOne(id);
+    }
+
+    @Override
+    public RequestTechnician processRequestTechnician(RequestTechnicianData requestTechnicianData){
+        return requestTechnicianRepository.save(new RequestTechnician(requestTechnicianData.sendDate,requestTechnicianData.message,technicianRepository.findOne(requestTechnicianData.technicianId)));
     }
 }
