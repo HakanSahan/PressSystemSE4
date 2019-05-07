@@ -17,25 +17,24 @@ public class Order {
 
     @Digits(integer=3, fraction=0, message = "Please select an amount less than thousand ")
     private int amount;
+
     public enum Status {NotPlanned, Planned, Executing, Executed, Canceled}
     private Status status;
+
     @DateTimeFormat(pattern = "yyyy-MM-dd' 'HH:mm")
     private Date orderDate;
-    private String juice;
-    //TODO  user => klant
+
     @ManyToOne
-    private User user;
+    @JoinColumn(name = "fruid_id")
+    private Fruit fruit;
+    private int idClient;
 
-    public String getJuice() {
-        return juice;
+    public void setIdClient(int idClient) {
+        this.idClient = idClient;
     }
 
-    public void setJuice(String juice) {
-        this.juice = juice;
-    }
-
-    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<PressOrder> pressOrders;
+    @OneToOne(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
+    private PressOrder pressOrders;
 
     public User getUser() {
         return user;
@@ -74,14 +73,16 @@ public class Order {
         this.orderDate = orderDate;
     }
 
-    public Order(int amount, String juice, User user){
+    public Fruit getFruit() {
+        return fruit;
+    }
+
+    public Order(int amount, Fruit fruit, int idClient){
         this.amount = amount;
-        this.juice = juice;
-        this.user = user;
+        this.fruit = fruit;
+        this.idClient = idClient;
         orderDate = new Date();
         status = Status.NotPlanned;
     }
-
-
 
 }

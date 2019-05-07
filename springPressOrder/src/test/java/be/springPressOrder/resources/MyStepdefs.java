@@ -6,7 +6,8 @@ import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import org.openqa.selenium.WebDriver;
-
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
 
 
 public class MyStepdefs {
@@ -16,8 +17,7 @@ public class MyStepdefs {
     @Given("^I am on the page where I can add one Order$")
     public void i_am_on_the_page_where_I_can_introduce_a_new_person() throws Throwable{
         System.setProperty("webdriver.gecko.driver","geckodriver.exe");
-
-        //driver = new FirefoxDriver();
+        driver = new ChromeDriver();
         driver.navigate().to("http://localhost:8080/order/new");
     }
 
