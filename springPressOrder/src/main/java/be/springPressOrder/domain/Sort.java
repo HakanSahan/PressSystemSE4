@@ -2,10 +2,10 @@ package be.springPressOrder.domain;
 
 import javax.persistence.*;
 import java.util.Date;
-@Entity
-@Table(name = "Sorts")
+/*@Entity
+@Table(name = "Sorts")*/
 public class Sort {
-    @Id
+    /*@Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
     @OneToOne(cascade=CascadeType.ALL)
@@ -16,7 +16,7 @@ public class Sort {
     private Date endMonth;
 
     /*@OneToOne(cascade=CascadeType.ALL)
-    private Juice juice;*/
+    private Juice juice;
 
     public Sort(Fruit fruitName, Double averageJuicePercentage, Date startMonth, Date endMonth) {
         this.fruitName = fruitName;
@@ -47,5 +47,5 @@ public class Sort {
 
     public void setEndMonth(Date endMonth) {
         this.endMonth = endMonth;
-    }
+    }*/
 }

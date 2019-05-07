@@ -36,10 +36,10 @@ public class User implements UserDetails {
 
     // will be used to recover dateTimeFrom for a new entry
     // so a dummy Entry must be available for each user
-    @OneToOne
+    /*@OneToOne
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
-    private Entry dummyEntry;
+    private Entry dummyEntry;*/
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

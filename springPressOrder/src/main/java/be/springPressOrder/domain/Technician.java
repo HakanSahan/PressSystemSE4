@@ -1,7 +1,5 @@
 package be.springPressOrder.domain;
 
-import groovy.transform.builder.InitializerStrategy;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;

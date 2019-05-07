@@ -5,6 +5,10 @@ import be.springPressOrder.Data.PressOrderData;
 import be.springPressOrder.Data.RequestTechnicianData;
 import be.springPressOrder.Data.ScheduleData;
 import be.springPressOrder.domain.*;
+import com.google.common.reflect.ImmutableTypeToInstanceMap;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public interface PressSystemService {
     Iterable<PressOrder> listAllPressOrders();
@@ -28,6 +32,8 @@ public interface PressSystemService {
     Iterable<Order> listOrderByFruit(String fruitName);
 
     Order getOrderById(Integer id);
+
+    Iterable<Order> getOrderByClientId(Integer id);
 
     Order addOrder(int amount, Fruit fruit, int idClient);
 

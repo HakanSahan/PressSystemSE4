@@ -17,7 +17,7 @@ public class Juice {
 
     private int avAmount;
     @DateTimeFormat(pattern = "yyyy-MM-dd' 'HH:mm")
-    private Date presdate;
+    private Date pressDate;
     private int fromClient;
 
 
@@ -28,15 +28,12 @@ public class Juice {
     public Juice(Fruit fruit, int avAmount, Date presdate, int fromClient) {
         this.fruit = fruit;
         this.avAmount = avAmount;
-        this.presdate = presdate;
+        this.pressDate = presdate;
         this.fromClient = fromClient;
     }
 
     public Juice(){
 
-    }
-    public Fruit getSort() {
-        return sort;
     }
 
     public int getAvAmount() {
@@ -56,7 +53,7 @@ public class Juice {
     }
 
     public void setPresdate(Date presdate) {
-        this.presdate = presdate;
+        this.pressDate = presdate;
     }
 
     public void setFromClient(int fromClient) {

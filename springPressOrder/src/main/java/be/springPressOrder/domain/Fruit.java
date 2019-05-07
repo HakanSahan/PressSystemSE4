@@ -27,13 +27,13 @@ public class Fruit {
         this.id = id;
     }
 
-    public Juice getJuice(){
+   /* public Juice getJuice(){
         return juice;
     }
 
     public void setJuice(Juice juice){
         this.juice = juice;
-    }
+    }*/
 
     public String getFruitname() {
         return fruitname;

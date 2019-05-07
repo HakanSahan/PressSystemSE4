@@ -8,7 +8,7 @@ Feature: View all contact message
     When I click on view more next to a message
     Then I should see the following on the screen
       | Date         | x           |
-      | message:      | "please help            |
+      | message:      | please help            |
 
     And I close my browser
 

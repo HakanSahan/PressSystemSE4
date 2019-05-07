@@ -4,9 +4,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.validation.constraints.Digits;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Entity
 @Table(name = "Orders")
@@ -23,6 +21,10 @@ public class Order {
     @DateTimeFormat(pattern = "yyyy-MM-dd' 'HH:mm")
     private Date orderDate;
 
+    // Moet set zijn anders :  Illegal attempt to map a non collection as a @OneToMany, @ManyToMany or @CollectionOfElements: be.springPressOrder.domain.Order.juices
+    @OneToMany(mappedBy = "order")
+    private Set<Juice> juices;
+
     @ManyToOne
     @JoinColumn(name = "fruid_id")
     private Fruit fruit;
@@ -35,21 +37,17 @@ public class Order {
     @OneToOne(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
     private PressOrder pressOrders;
 
-    public User getUser() {
-        return user;
-    }
-
     public Order(){
 
     }
 
     public Order(int amount, Juice juice, int idClient){
         this.amount = amount;
-        this.juices = new ArrayList<Juice>();
+        this.juices = new HashSet<>();
         this.juices.add(juice);
         this.idClient = idClient;
         orderDate = new Date();
-        status = OrderStatus.Canceled;
+        status = Status.Canceled;
     }
 
     public int getId() {
@@ -64,11 +62,11 @@ public class Order {
         this.amount = amount;
     }
 
-    public OrderStatus getStatus() {
+    public Status getStatus() {
         return status;
     }
 
-    public void setStatus(OrderStatus status) {
+    public void setStatus(Status status) {
         this.status = status;
     }
 

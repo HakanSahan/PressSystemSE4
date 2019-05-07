@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class PressSystemServiceImpl implements PressSystemService {
@@ -63,7 +64,7 @@ public class PressSystemServiceImpl implements PressSystemService {
         ArrayList<PressOrder> result = new  ArrayList<>();
         for (PressOrder pressOrder : pressOrderRepository.findAll())
         {
-            if(pressOrder.getOrderId().equals(idOrder))
+            if(pressOrder.getOrder().getId() == idOrder)
                 result.add(pressOrder);
         }
         return result;
@@ -113,6 +114,11 @@ public class PressSystemServiceImpl implements PressSystemService {
     @Override
     public Order getOrderById(Integer id) {
         return orderRepository.findOne(id);
+    }
+
+    @Override
+    public List<Order> getOrderByClientId(Integer id) {
+        return orderRepository.findByIdClient(id);
     }
 
     @Override
