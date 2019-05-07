@@ -5,6 +5,8 @@ import be.springPressOrder.dao.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class OrderServiceImpl implements OrderService {
 
@@ -21,10 +23,9 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public Order getOrderById(Integer id) {
-        return orderRepository.findOne(id);
+    public Optional<Order> getOrderById(Integer id) {
+        return orderRepository.findById(id);
     }
-
     @Override
     public Order saveOrder(Order order) {
         return orderRepository.save(order);
@@ -32,6 +33,6 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public void deleteOrder(Integer id) {
-        orderRepository.delete(id);
+        //orderRepository.delete(id);
     }
 }

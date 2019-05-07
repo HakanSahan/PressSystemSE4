@@ -1,11 +1,12 @@
 package be.springPressOrder.services;
 
-import be.springPressOrder.domain.PressOrder;
 import be.springPressOrder.dao.PressOrderRepository;
+import be.springPressOrder.domain.PressOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Optional;
 
 @Service
 public class PressOrderServiceImpl implements PressOrderService {
@@ -22,8 +23,8 @@ public class PressOrderServiceImpl implements PressOrderService {
     }
 
     @Override
-    public PressOrder getPressOrderById(Integer id) {
-        return pressOrderRepository.findOne(id);
+    public Optional<PressOrder> getPressOrderById(Integer id) {
+        return pressOrderRepository.findById(id);
     }
 
     @Override

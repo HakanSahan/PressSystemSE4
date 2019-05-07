@@ -1,9 +1,12 @@
 package be.springPressOrder.resources;
 
 
-import cucumber.api.java.en.*;
+import cucumber.api.java.en.And;
+import cucumber.api.java.en.Given;
+import cucumber.api.java.en.Then;
+import cucumber.api.java.en.When;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
+
 
 
 public class MyStepdefs {
@@ -14,7 +17,7 @@ public class MyStepdefs {
     public void i_am_on_the_page_where_I_can_introduce_a_new_person() throws Throwable{
         System.setProperty("webdriver.gecko.driver","geckodriver.exe");
 
-        driver = new FirefoxDriver();
+        //driver = new FirefoxDriver();
         driver.navigate().to("http://localhost:8080/order/new");
     }
 

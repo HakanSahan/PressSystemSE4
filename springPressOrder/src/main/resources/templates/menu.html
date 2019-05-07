@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head lang="en">
+
+    <title>PIPO Appelsap</title>
+
+    <!--/*/ <th:block th:include="fragments/headerinc :: head"></th:block> /*/-->
+</head>
+<body>
+
+<div class="container">
+    <!--/*/ <th:block th:include="fragments/header :: header"></th:block> /*/-->
+
+    <form method="POST" th:action="@{/logout}" style="float: right">
+        <button class="btn btn-danger btn-md logout" name="logout" value="Logout">Logout</button>
+    </form>
+</div>
+</body>
+</html>
