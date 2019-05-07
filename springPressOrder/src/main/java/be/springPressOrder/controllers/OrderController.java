@@ -3,14 +3,18 @@ package be.springPressOrder.controllers;
 import be.springPressOrder.domain.Order;
 import be.springPressOrder.services.OrderService;
 import be.springPressOrder.services.PressOrderService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+@Slf4j
 @Controller
+@RequestMapping("/menu")
 public class OrderController {
 
     private OrderService orderService;
@@ -26,11 +30,12 @@ public class OrderController {
         this.pressOrderService = pressOrderService;
     }
 
-    @RequestMapping(value = "/orders", method = RequestMethod.GET)
-    public String list(Model model) {
+    @GetMapping
+        public String list(Model model) {
         model.addAttribute("listOrders", orderService.listAllOrders());
         return "orders";
     }
+    //(value = "/orders", method = RequestMethod.GET)
 
     @RequestMapping("order/{id}")
     public String showOrder(@PathVariable Integer id, Model model) {
@@ -64,9 +69,7 @@ public class OrderController {
 
     @RequestMapping("order/pressorders/{id}")
     public String listDetail(@PathVariable Integer id,Model model) {
-       // model.addAttribute("listOrders", orderService.listAllOrders());
-        model.addAttribute("listOrders", pressOrderService.listPressOrderByOrder(id));//listAllPressOrders());
-        //model.addAttribute("message", "HELLO");
+        model.addAttribute("listOrders", pressOrderService.listPressOrderByOrder(id));
         return "ordersdetails";
     }
 

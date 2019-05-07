@@ -3,10 +3,12 @@ package be.springPressOrder.services;
 
 import be.springPressOrder.domain.PressOrder;
 
+import java.util.Optional;
+
 public interface PressOrderService {
     Iterable<PressOrder> listAllPressOrders();
 
-    PressOrder getPressOrderById(Integer id);
+    Optional<PressOrder> getPressOrderById(Integer id);
 
     Iterable<PressOrder> listPressOrderByOrder(Integer id);
 

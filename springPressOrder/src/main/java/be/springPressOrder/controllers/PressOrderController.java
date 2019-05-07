@@ -1,7 +1,8 @@
 package be.springPressOrder.controllers;
 
-import be.springPressOrder.services.PressOrderService;
 import be.springPressOrder.domain.PressOrder;
+import be.springPressOrder.services.PressOrderService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -9,7 +10,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+@Slf4j
 @Controller
+@RequestMapping("/menu")
 public class PressOrderController {
 
     private PressOrderService pressOrderService;
@@ -54,12 +57,6 @@ public class PressOrderController {
         pressOrderService.deletePressOrder(id);
         return "redirect:/pressorders";
     }
-
-    /*@RequestMapping("pressorder/xorder/{id}")
-    public String xorders(@PathVariable Integer id) {
-        //xOrderService.deletePressOrder(id);
-        return "redirect:/xorders";
-    }*/
 
 
 }

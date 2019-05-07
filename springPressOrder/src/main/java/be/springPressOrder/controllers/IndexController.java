@@ -1,21 +1,33 @@
 package be.springPressOrder.controllers;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 public class IndexController {
-    @RequestMapping("/")
-    String index() {
+
+
+    /*@RequestMapping(value = "/login", method = RequestMethod.GET)
+    public String loginPage(Model model) {
+
+        return "login";
+    }*/
+
+    /*@GetMapping("/")
+    public String index() {
+        return "index";
+    }*/
+
+    @GetMapping("/")
+    public String index() {
         return "index";
     }
 
+    /*@RequestMapping("/")
+    String index() {
+        return "index";
+    }*/
 
     @RequestMapping("/login")
     public String login() {
@@ -24,7 +36,13 @@ public class IndexController {
 
     @RequestMapping("/403")
     public String error403() {
-        return "/error/403";
+        return "/403";
+    }
+
+    @GetMapping("/login-error")
+    public String loginError(Model model) {
+        model.addAttribute("error", true);
+        return "login";
     }
 
 }

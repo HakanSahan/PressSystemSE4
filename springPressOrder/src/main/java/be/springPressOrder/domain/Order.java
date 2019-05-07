@@ -22,11 +22,9 @@ public class Order {
     @DateTimeFormat(pattern = "yyyy-MM-dd' 'HH:mm")
     private Date orderDate;
     private String juice;
-    private int idClient;
-
-    public void setIdClient(int idClient) {
-        this.idClient = idClient;
-    }
+    //TODO  user => klant
+    @ManyToOne
+    private User user;
 
     public String getJuice() {
         return juice;
@@ -36,14 +34,11 @@ public class Order {
         this.juice = juice;
     }
 
-
-
-
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<PressOrder> pressOrders;
 
-    public int getIdClient() {
-        return idClient;
+    public User getUser() {
+        return user;
     }
 
     public Order(){
@@ -79,10 +74,10 @@ public class Order {
         this.orderDate = orderDate;
     }
 
-    public Order(int amount, String juice, int idClient){
+    public Order(int amount, String juice, User user){
         this.amount = amount;
         this.juice = juice;
-        this.idClient = idClient;
+        this.user = user;
         orderDate = new Date();
         status = Status.NotPlanned;
     }

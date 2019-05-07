@@ -26,6 +26,17 @@ public class PressOrder {
     @JoinColumn(name = "order_id", nullable = true)
     private Order order;
 
+
+    //TODO  user => klant
+    @ManyToOne
+    private User user;
+
+    public User getUser() {
+        return user;
+    }
+
+
+
     //private Order order;
     // private Machine machine;
 
