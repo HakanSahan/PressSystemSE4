@@ -1,14 +1,18 @@
 package be.springPressOrder.controllers;
 
+import be.springPressOrder.services.OrderService;
+import be.springPressOrder.services.PressOrderService;
 import be.springPressOrder.domain.PressOrder;
 import be.springPressOrder.services.PressOrderService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Slf4j
 @Controller
@@ -16,10 +20,17 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class PressOrderController {
 
     private PressSystemService pressSystemService;
+    private PressOrderService pressOrderService;
+    private OrderService orderService;
 
     @Autowired
     public void setPressOrderService(PressSystemService pressSystemService) {
         this.pressSystemService = pressSystemService;
+    }
+
+    @Autowired
+    public void setOrderService(OrderService orderService) {
+        this.orderService = orderService;
     }
 
     @RequestMapping(value = "/pressorders", method = RequestMethod.GET)
@@ -59,6 +70,19 @@ public class PressOrderController {
         pressSystemService.deletePressOrder(id);
         return "redirect:/pressorders";
     }
+
+    @RequestMapping(value={"/pressorderbyorderbyid.html"}, method = RequestMethod.GET)
+    public String pressOrderDetailsByOrderId(@RequestParam("orderid") Integer orderid, ModelMap model){
+        //Order order = orderService.getOrderByClientId(idClient);
+        model.addAttribute("pressOrder",pressOrderService.getPressOrderByOrder(orderService.getOrderById(orderid)));
+        return "pressordersshow";
+    }
+
+    /*@RequestMapping("pressorder/xorder/{id}")
+    public String xorders(@PathVariable Integer id) {
+        //xOrderService.deletePressOrder(id);
+        return "redirect:/xorders";
+    }*/
 
 
 }

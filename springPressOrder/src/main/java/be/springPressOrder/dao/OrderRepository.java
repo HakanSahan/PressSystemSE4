@@ -7,6 +7,7 @@ import org.springframework.security.core.userdetails.User;
 import java.util.List;
 
 public interface OrderRepository extends CrudRepository<Order, Integer> {
+    Order findByIdClient(int idClient);
 
     public Order findById(int id);
 

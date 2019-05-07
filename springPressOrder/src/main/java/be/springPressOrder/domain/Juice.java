@@ -1,17 +1,34 @@
 package be.springPressOrder.domain;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
+import javax.persistence.*;
 import java.util.Date;
 
+@Entity
+@Table(name = "Juices")
 public class Juice {
-    private Fruit sort;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private int id;
+
+   @OneToOne
+    private Fruit fruit;
+
     private int avAmount;
-    private Date pressDate;
+    @DateTimeFormat(pattern = "yyyy-MM-dd' 'HH:mm")
+    private Date presdate;
     private int fromClient;
 
-    public Juice(Fruit sort, int avAmount, Date pressDate, int fromClient) {
-        this.sort = sort;
+
+    @ManyToOne
+    @JoinColumn(name = "order_id", nullable = true)
+    private Order order;
+
+    public Juice(Fruit fruit, int avAmount, Date presdate, int fromClient) {
+        this.fruit = fruit;
         this.avAmount = avAmount;
-        this.pressDate = pressDate;
+        this.presdate = presdate;
         this.fromClient = fromClient;
     }
 
@@ -32,5 +49,21 @@ public class Juice {
 
     public int getFromClient() {
         return fromClient;
+    }
+
+    public void setAvAmount(int avAmount) {
+        this.avAmount = avAmount;
+    }
+
+    public void setPresdate(Date presdate) {
+        this.presdate = presdate;
+    }
+
+    public void setFromClient(int fromClient) {
+        this.fromClient = fromClient;
+    }
+
+    public void setOrder(Order order) {
+        this.order = order;
     }
 }

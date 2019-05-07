@@ -27,6 +27,11 @@ public class OrderServiceImpl implements OrderService {
         return orderRepository.findById(id);
     }
     @Override
+    public Order getOrderByClientId(Integer clientId) {
+        return orderRepository.findByIdClient(clientId);
+    }
+
+    @Override
     public Order saveOrder(Order order) {
         return orderRepository.save(order);
     }
