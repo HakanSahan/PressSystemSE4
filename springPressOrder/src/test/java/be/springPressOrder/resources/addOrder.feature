@@ -8,6 +8,7 @@ Feature: Add Order
     When I enter 100 in the amount field
     And I enter "AppleJuice" in the juice field
     And I enter 2 in the client id field
+    And I choose "NotPlanned" status
     And I press submit
     Then I should see the following on the screen
       | label        | data           |

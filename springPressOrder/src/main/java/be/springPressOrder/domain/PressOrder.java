@@ -26,7 +26,6 @@ public class PressOrder {
     @JoinColumn(name = "order_id", nullable = true)
     private Order order;
 
-
     //TODO  user => klant
     @ManyToOne
     private User user;
@@ -34,8 +33,6 @@ public class PressOrder {
     public User getUser() {
         return user;
     }
-
-
 
     //private Order order;
     // private Machine machine;
@@ -122,7 +119,6 @@ public class PressOrder {
     public void setStatus(Status status) {
         this.status = status;
     }
-
 
     public Order getOrder() {
         return order;
