@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 public class IndexController {
 
-
     /*@RequestMapping(value = "/login", method = RequestMethod.GET)
     public String loginPage(Model model) {
 

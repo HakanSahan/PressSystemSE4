@@ -12,7 +12,7 @@ public interface OrderRepository extends CrudRepository<Order, Integer> {
 
     public Order findOrderByUser(User user);
 
-    public List<Order> findAllByUserOrderByName(User user);
+    public List<Order> findAllByUser(User user);
 
     //void delete(Integer id);
 }

@@ -2,15 +2,11 @@ package be.springPressOrder;
 
 import be.springPressOrder.dao.OrderRepository;
 import be.springPressOrder.dao.PressOrderRepository;
-import be.springPressOrder.domain.Order;
-import be.springPressOrder.domain.PressOrder;
+import be.springPressOrder.dao.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
-
-import java.util.Arrays;
-import java.util.List;
 
 
 @Component
@@ -23,7 +19,30 @@ public class SpringBootWebAppDB implements CommandLineRunner {
     @Autowired
     OrderRepository orderRepository;
 
-    //private Logger log = Logger.getLogger(be.springPressOrder.bootstrap.Loader.class);
+    /*@Autowired
+    EntryRepository entryRepository;*/
+
+    @Autowired
+    UserRepository userRepository;
+
+        /*for (User user: users) {
+            // user must be saved for it to have an id
+            userRepository.save(user);
+            // There must be 1 dummy entry for each user to save the next startTimeFrom
+            Entry dummyEntry = new Entry();
+            dummyEntry.setUser(user);
+            LocalDateTime now = LocalDateTime.now();
+            dummyEntry.setDateTimeFrom(now);
+            dummyEntry.setDateTimeTo(now);
+            dummyEntry.setDuration(Duration.ZERO);
+            dummyEntry.setDescription("This is your dummy entry, for housekeeping purposes");
+            entryRepository.save(dummyEntry);
+
+            user.setDummyEntry(dummyEntry);
+            userRepository.save(user);
+        }*/
+
+        //private Logger log = Logger.getLogger(be.springPressOrder.bootstrap.Loader.class);
 
     @Autowired
     public void setPressOrderRepository(PressOrderRepository pressOrderRepository) {
@@ -37,6 +56,35 @@ public class SpringBootWebAppDB implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
+/*
+        List<User> users = Arrays.asList(
+                new User("admin","admin", true, true, true,true, SimpleGrantedAuthority(role.toString()),
+                /*new User("press","press",
+                        "ROLE_USER","Tessa", "Wullaert", "tessa@wullaert.be"),
+                new User("client", "client",
+                        "ROLE_USER","Nicky", "Evrard", "nicky@evrard.be"),
+                new User("tech", "tech",
+                        "ROLE_ADMIN","Hans", "Vandenbogaerde","hans@gmail.com")
+        );*/
+
+        /*for (User user: users) {
+            // user must be saved for it to have an id
+            userRepository.save(user);
+            // There must be 1 dummy entry for each user to save the next startTimeFrom
+            Entry dummyEntry = new Entry();
+            dummyEntry.setUser(user);
+            LocalDateTime now = LocalDateTime.now();
+            dummyEntry.setDateTimeFrom(now);
+            dummyEntry.setDateTimeTo(now);
+            dummyEntry.setDuration(Duration.ZERO);
+            dummyEntry.setDescription("This is your dummy entry, for housekeeping purposes");
+            entryRepository.save(dummyEntry);
+
+            user.setDummyEntry(dummyEntry);
+            userRepository.save(user);
+        }*/
+
+
 
         /*List<Order> orders = Arrays.asList(
         new Order(2,"AppleJuice",1),
@@ -65,7 +113,7 @@ public class SpringBootWebAppDB implements CommandLineRunner {
 
         }
 
-        /*PressOrder pressOrder1 = new PressOrder(100, 99, 100, PressOrder.Status.Planned,order2);
+        PressOrder pressOrder1 = new PressOrder(100, 99, 100, PressOrder.Status.Planned,order2);
         pressOrderRepository.save(pressOrder1);
         log.info("Saved press order1 - id: " + pressOrder1.getId());
 

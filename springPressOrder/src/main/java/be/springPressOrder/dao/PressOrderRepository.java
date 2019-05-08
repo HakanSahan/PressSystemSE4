@@ -9,7 +9,7 @@ import java.util.List;
 public interface PressOrderRepository extends CrudRepository<PressOrder, Integer> {
 
     public PressOrder findById(int id);
-    public List<PressOrder > findAllByUserOrderByName(User user);
+    public List<PressOrder > findAllByUser(User user);
 
-    void delete(Integer id);
+    //void delete(Integer id);
 }

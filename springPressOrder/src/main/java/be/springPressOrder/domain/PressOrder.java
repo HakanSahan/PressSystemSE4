@@ -1,12 +1,19 @@
 package be.springPressOrder.domain;
 
+import lombok.Data;
+import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.util.Date;
 
+//import lombok.Data;
+
 @Entity
 @Table(name = "PressOrders")
+@Data
+@RequiredArgsConstructor
+//@NoArgsConstructor(access= AccessLevel.PRIVATE,force=true)
 public class PressOrder {
 
     @Id
@@ -45,32 +52,6 @@ public class PressOrder {
         this.id = id;
     }
 
-    public PressOrder(){
-
-    }
-
-    public PressOrder(int fruitAmount, int juice, int maxJuiceAmount, Status st){
-        this.fruitAmount = fruitAmount;
-        this.juice = juice;
-        this.maxJuiceAmount = maxJuiceAmount;
-        this.status = st;
-        order = null;
-    }
-
-    public PressOrder(int fruitAmount, int juice, int maxJuiceAmount, Status st, Order order){
-        this.fruitAmount = fruitAmount;
-        this.juice = juice;
-        this.maxJuiceAmount = maxJuiceAmount;
-        this.status = st;
-        this.order = order;
-    }
-
-    /*
-    public PressOrder(int hoeveelheidFruit, Order bestelling) {
-        this.fruitAmount = hoeveelheidFruit;
-        this.order = bestelling;
-        status = Status.NotPlannend;
-    }*/
 
     public int getFruitAmount() {
         return fruitAmount;

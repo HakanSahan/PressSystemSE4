@@ -45,6 +45,8 @@ public class PressOrderServiceImpl implements PressOrderService {
 
     @Override
     public void deletePressOrder(Integer id) {
-        pressOrderRepository.delete(id);
+
+        PressOrder pressOrder = pressOrderRepository.findById(id).get();
+        pressOrderRepository.delete(pressOrder);
     }
 }

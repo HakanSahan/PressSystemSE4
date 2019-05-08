@@ -1,5 +1,7 @@
 package be.springPressOrder.domain;
 
+import lombok.Data;
+import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -9,6 +11,9 @@ import java.util.List;
 
 @Entity
 @Table(name = "Orders")
+@Data
+@RequiredArgsConstructor
+//@NoArgsConstructor(force=true)
 public class Order {
 
     @Id
@@ -41,10 +46,10 @@ public class Order {
         return user;
     }
 
-    public Order(){
+    /*public Order(){
         orderDate = new Date();
         status = Status.NotPlanned;
-    }
+    }*/
 
     public int getId() {
         return id;
@@ -74,13 +79,13 @@ public class Order {
         this.orderDate = orderDate;
     }
 
-    public Order(int amount, String juice, User user){
+    /*public Order(int amount, String juice, User user){
         this.amount = amount;
         this.juice = juice;
         this.user = user;
         orderDate = new Date();
         status = Status.NotPlanned;
-    }
+    }*/
 
 
 
