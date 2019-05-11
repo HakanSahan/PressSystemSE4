@@ -19,6 +19,8 @@ public class PressOrder {
     private Status status;
     @OneToOne
     private Order order;
+    private int idClient;
+
     //private Machine machine;
 
     public int getId() {
@@ -27,6 +29,10 @@ public class PressOrder {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public void setClientId(int idClient) {
+        this.idClient = idClient;
     }
 
     public int getFruitAmount() {

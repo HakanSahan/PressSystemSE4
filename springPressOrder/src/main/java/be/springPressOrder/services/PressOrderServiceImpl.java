@@ -32,6 +32,12 @@ public class PressOrderServiceImpl implements PressOrderService {
         return pressOrderRepository.findByOrder(order);
     }
 
+
+    @Override
+    public Iterable<PressOrder> getPressOrdersByClientId(Integer clientId) {
+        return pressOrderRepository.findAllByIdClient(clientId);
+    }
+
     @Override
     public Iterable<PressOrder> listPressOrderByOrder(Integer id) {
         ArrayList<PressOrder> result = new  ArrayList();

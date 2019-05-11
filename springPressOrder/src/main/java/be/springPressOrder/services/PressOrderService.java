@@ -13,6 +13,8 @@ public interface PressOrderService {
 
     Iterable<PressOrder> listPressOrderByOrder(Integer id);
 
+    Iterable<PressOrder> getPressOrdersByClientId(Integer clientId);
+
     PressOrder savePressOrder(PressOrder pressOrder);
 
     void deletePressOrder(Integer id);

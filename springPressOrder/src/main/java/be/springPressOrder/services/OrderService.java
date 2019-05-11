@@ -8,6 +8,8 @@ public interface OrderService {
 
     Order getOrderById(Integer id);
 
+    Iterable<Order> getOrdersByClientId(Integer clientId);
+
     Order getOrderByClientId(Integer clientId);
 
     Order saveOrder(Order order);

@@ -58,6 +58,7 @@ public class Loader implements ApplicationListener<ContextRefreshedEvent> {
         log.info("Saved order2 - id: " + order2.getId());
 
         PressOrder pressOrder1 = new PressOrder(100,order2);
+        pressOrder1.setClientId(1);
         pressOrderRepository.save(pressOrder1);
         log.info("Saved press order1 - id: " + pressOrder1.getId());
 
