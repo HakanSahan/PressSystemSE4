@@ -1,7 +1,10 @@
 package be.springPressOrder.domain;
 
 public class Presser extends Person {
-    public Presser(int id, String name, String firstname, String phone, String email) {
-        super(id, name, firstname, phone, email);
+    public Presser(String name, String firstname, String phone, String email, String username,String password) {
+        super(name, firstname, phone, email,username,"presser",password);
+    }
+    public Presser(){
+        super("presser");
     }
 }
