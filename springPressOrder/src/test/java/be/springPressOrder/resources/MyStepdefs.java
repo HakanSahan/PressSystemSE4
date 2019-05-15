@@ -12,6 +12,9 @@ import cucumber.api.java.en.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.ExpectedCondition;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import javax.persistence.Convert;
 
@@ -59,12 +62,12 @@ public class MyStepdefs {
 
     @Then("^I should see the following on the screen$")
     public void iShouldSeeTheFollowingOnTheScreen(Object checklist) {
-
+        new WebDriverWait(driver,10).until(ExpectedConditions.textToBePresentInElementLocated(By.tagName("h2"),"Order details"));
     }
 
-    @When("^I click the OrdersList link$")
+    @When("^I go to the page with a list of orders$")
     public void iClickTheOrdersListLink() {
-
+        driver.navigate().to("http://localhost:8080/listOrders");
     }
 
     @Then("^I should see a list cointaining \"([^\"]*)\"$")

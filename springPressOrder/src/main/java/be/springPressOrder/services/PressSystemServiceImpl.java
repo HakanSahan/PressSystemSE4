@@ -7,6 +7,8 @@ import be.springPressOrder.Data.ScheduleData;
 import be.springPressOrder.dao.*;
 import be.springPressOrder.domain.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -21,11 +23,14 @@ public class PressSystemServiceImpl implements PressSystemService {
     private MachineRepository machineRepository;
     private TechnicianRepository technicianRepository;
     private RequestTechnicianRepository requestTechnicianRepository;
+    private UserRepository userRepository;
 
     @Autowired
     public void setPressOrderRepository(PressOrderRepository pressOrderRepository) {
         this.pressOrderRepository = pressOrderRepository;
     }
+
+    public void setUserRepository(UserRepository userRepository){this.userRepository = userRepository;}
 
     @Autowired
     public void setFruitRepository(FruitRepository fruitRepository){
@@ -195,5 +200,13 @@ public class PressSystemServiceImpl implements PressSystemService {
     @Override
     public RequestTechnician processRequestTechnician(RequestTechnicianData requestTechnicianData){
         return requestTechnicianRepository.save(new RequestTechnician(requestTechnicianData.sendDate,requestTechnicianData.message,technicianRepository.findOne(requestTechnicianData.technicianId)));
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+
+        User user = userRepository.findByUsername(username);
+        if (user != null) return user;
+        throw new UsernameNotFoundException("User "+username+" not found!");
     }
 }

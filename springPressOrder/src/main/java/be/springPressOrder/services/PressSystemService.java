@@ -6,6 +6,7 @@ import be.springPressOrder.Data.RequestTechnicianData;
 import be.springPressOrder.Data.ScheduleData;
 import be.springPressOrder.domain.*;
 import com.google.common.reflect.ImmutableTypeToInstanceMap;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -60,4 +61,6 @@ public interface PressSystemService {
     RequestTechnician getRequestTechnicianById(int id);
 
     RequestTechnician processRequestTechnician(RequestTechnicianData requestTechnicianData);
+
+    public UserDetails loadUserByUsername(String username);
 }

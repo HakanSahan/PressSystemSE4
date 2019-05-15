@@ -28,6 +28,7 @@ public class Order {
     @ManyToOne
     @JoinColumn(name = "fruid_id")
     private Fruit fruit;
+
     private int idClient;
 
     public void setIdClient(int idClient) {
