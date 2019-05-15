@@ -10,7 +10,7 @@ public class EncryptSomePasswords {
 
     public static void main(String[] args) {
 
-        String[] passwords = {"1", "2", "3","4"};
+        String[] passwords = {"admin", "user", "user2","tech","tech2"};
 
         for (String pwd : passwords ) {
             System.out.printf("%s is {bcrypt}%s%n", pwd, hash(pwd));

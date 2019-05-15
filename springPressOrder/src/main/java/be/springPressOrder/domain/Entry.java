@@ -1,10 +1,13 @@
 package be.springPressOrder.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
 import javax.persistence.*;
+import java.time.Duration;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "Entries")
@@ -18,6 +21,7 @@ public class Entry {
     private final long id;
 
     // Each user has her own entries
+    @JsonBackReference
     @ManyToOne
     private User user;
 
@@ -26,11 +30,10 @@ public class Entry {
 
     @ManyToOne
     private Order order;
-    /*@ManyToOne
-    private Objective objective;
-
     private LocalDateTime dateTimeFrom, dateTimeTo;
     private Duration duration;
 
+    /*@ManyToOne
+    private Objective objective;
     private String description;*/
 }

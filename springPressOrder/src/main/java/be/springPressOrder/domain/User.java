@@ -1,5 +1,6 @@
 package be.springPressOrder.domain;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -35,6 +36,7 @@ public class User implements UserDetails {
 
     // will be used to recover dateTimeFrom for a new entry
     // so a dummy Entry must be available for each user
+    @JsonManagedReference
     @OneToOne
     @EqualsAndHashCode.Exclude
     @ToString.Exclude

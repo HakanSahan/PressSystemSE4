@@ -1,17 +1,46 @@
 package be.springPressOrder.services;
 
+import be.springPressOrder.dao.OrderRepository;
 import be.springPressOrder.dao.PressOrderRepository;
+import be.springPressOrder.domain.Order;
 import be.springPressOrder.domain.PressOrder;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Optional;
 
+@Slf4j
 @Service
 public class PressOrderServiceImpl implements PressOrderService {
     private PressOrderRepository pressOrderRepository;
 
+    private OrderRepository orderRepository;
+
+    @Autowired
+    public void setOrderRepository(OrderRepository orderRepository) {
+        this.orderRepository = orderRepository;
+    }
+
+    @Override
+    public Iterable<Order> listAllOrders() {
+        return orderRepository.findAll();
+    }
+
+    @Override
+    public Optional<Order> getOrderById(Integer id) {
+        return orderRepository.findById(id);
+    }
+    @Override
+    public Order saveOrder(Order order) {
+        return orderRepository.save(order);
+    }
+
+    @Override
+    public void deleteOrder(Integer id) {
+        //orderRepository.delete(id);
+    }
     @Autowired
     public void setPressOrderRepository(PressOrderRepository pressOrderRepository) {
         this.pressOrderRepository = pressOrderRepository;

@@ -1,6 +1,7 @@
 package be.springPressOrder.dao;
 
 import be.springPressOrder.domain.Entry;
+import be.springPressOrder.domain.User;
 import org.springframework.data.repository.CrudRepository;
 
 public interface EntryRepository extends CrudRepository<Entry, Long> {
@@ -12,20 +13,11 @@ public interface EntryRepository extends CrudRepository<Entry, Long> {
      * @param id
      * @return
      */
-    //public Entry findById(long id);
+    public Entry findById(long id);
 
     /**
      * @return The entry with the largest id = the most recently added entry for a given user
      */
-    //public Entry findFirstByUserOrderByIdDesc(User user);
+    public Entry findFirstByUserOrderByIdDesc(User user);
 
-    /**
-     *
-     * @param startDateTime
-     * @param endDateTime
-     * @return The entries with DateTimeFrom between startDateTime and endDateTime for given user, except the dummy entry
-     */
-    //public List<Entry> findByProjectNotNullAndUserAndDateTimeFromBetween(User user,
-                                                                         //LocalDateTime startDateTime,
-                                                                         //LocalDateTime endDateTime);
 }

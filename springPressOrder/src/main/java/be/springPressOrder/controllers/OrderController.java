@@ -1,7 +1,6 @@
 package be.springPressOrder.controllers;
 
 import be.springPressOrder.domain.Order;
-import be.springPressOrder.services.OrderService;
 import be.springPressOrder.services.PressOrderService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,11 +16,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @RequestMapping("/menu")
 public class OrderController {
 
-    private OrderService orderService;
+    private PressOrderService orderService;
     private PressOrderService pressOrderService;
 
     @Autowired
-    public void setOrderService(OrderService orderService) {
+    public void setOrderService(PressOrderService orderService) {
         this.orderService = orderService;
     }
 
