@@ -1,10 +1,7 @@
 package be.springPressOrder.bootstrap;
 
-import be.springPressOrder.dao.FruitRepository;
-import be.springPressOrder.dao.JuiceRepository;
+import be.springPressOrder.dao.*;
 import be.springPressOrder.domain.*;
-import be.springPressOrder.dao.OrderRepository;
-import be.springPressOrder.dao.PressOrderRepository;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
@@ -20,6 +17,7 @@ public class Loader implements ApplicationListener<ContextRefreshedEvent> {
     private OrderRepository orderRepository;
     private JuiceRepository juiceRepository;
     private FruitRepository fruitRepository;
+    private UserRepository userRepository;
 
     private Logger log = Logger.getLogger(Loader.class);
 
@@ -39,6 +37,12 @@ public class Loader implements ApplicationListener<ContextRefreshedEvent> {
     @Autowired
     public void setJuiceRepository(JuiceRepository juiceRepository) {
         this.juiceRepository = juiceRepository;
+    }
+
+
+    @Autowired
+    public void setUserRepository(UserRepository userRepository) {
+        this.userRepository = userRepository;
     }
 
     @Override
@@ -70,6 +74,8 @@ public class Loader implements ApplicationListener<ContextRefreshedEvent> {
         pressOrderRepository.save(order3);
         log.info("Saved press order3 - id: " + order3.getId());
 
+        User user = new User("V","P","04","email","username","USER","password");
+        userRepository.save(user);
         /*PressOrder shirt = new PressOrder();
         shirt.setDescription("Spring Framework Guru Shirt");
         shirt.setPrice(new BigDecimal("18.95"));

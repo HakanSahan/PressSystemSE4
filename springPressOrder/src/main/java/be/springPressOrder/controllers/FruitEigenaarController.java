@@ -1,9 +1,11 @@
 package be.springPressOrder.controllers;
 
 import be.springPressOrder.domain.Client;
+import be.springPressOrder.domain.User;
 import be.springPressOrder.services.ClientService;
 import be.springPressOrder.services.OrderService;
 import be.springPressOrder.services.PressOrderService;
+import be.springPressOrder.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 public class FruitEigenaarController {
     private PressOrderService pressOrderService;
-    private ClientService clientService;
+    private UserService userService;
     private OrderService orderService;
 
     @Autowired
@@ -23,8 +25,8 @@ public class FruitEigenaarController {
     }
 
     @Autowired
-    public void setClientService(ClientService clientService) {
-        this.clientService = clientService;
+    public void setUserService(UserService userService) {
+        this.userService = userService;
     }
 
     @Autowired
@@ -40,15 +42,21 @@ public class FruitEigenaarController {
     }
     @RequestMapping(value = "/fruiteigenaar/registratie", method = RequestMethod.GET)
     public String list(Model model) {
-        model.addAttribute("objClient", new Client());
+        model.addAttribute("objUser", new User());
         //model.addAttribute("PressOrders", pressOrderService.getPressOrdersByClientId(id));
         return "fruiteigenaarregistratie";
     }
 
 
-    @RequestMapping(value = "/fruiteigenaar/create", method = RequestMethod.POST)
-    public String saveOrder(Client client) {
+    //@RequestMapping(value = "/fruiteigenaar/create", method = RequestMethod.POST)
+    /*public String saveOrder(Client client) {
         //clientService.saveClient(client);
         return "redirect:/order/1";
+    }*/
+    @RequestMapping(value = "/fruiteigenaar/create", method = RequestMethod.POST)
+    public String saveOrder(User user) {
+        user.setRole("USER");
+        userService.saveUser(user);
+        return "redirect:/";
     }
 }
