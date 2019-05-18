@@ -57,12 +57,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
      * The default PasswordEncoder is now DelegatingPasswordEncoder which is a non-passive change.
      * This change ensures that passwords are now encoded using BCrypt by default
      */
-    /*@Bean
+    /**@Bean
     public static PasswordEncoder passwordEncoder() {
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();
-    }*/
+    }
 
-    /*@Override
+    @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.authorizeRequests()
                 //.antMatchers("/").hasAnyRole("USER","ADMIN","TECHNICIAN")
@@ -89,14 +89,14 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         httpSecurity.csrf().disable();
         httpSecurity.headers().frameOptions().disable();
 
-    }*/
+    }
 
-   /* public static String hash(String password) {
+    public static String hash(String password) {
         return BCrypt.hashpw(password, BCrypt.gensalt());
-    }*/
+    }
 
-
-     @Autowired
+**/
+  @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
 
         auth.inMemoryAuthentication()

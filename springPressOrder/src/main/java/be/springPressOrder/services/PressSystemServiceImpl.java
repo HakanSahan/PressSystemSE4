@@ -11,8 +11,11 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import javax.crypto.Mac;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 @Service
 public class PressSystemServiceImpl implements PressSystemService {
@@ -208,5 +211,43 @@ public class PressSystemServiceImpl implements PressSystemService {
         User user = userRepository.findByUsername(username);
         if (user != null) return user;
         throw new UsernameNotFoundException("User "+username+" not found!");
+    }
+
+    public void checkMachinesStatus(){
+        Iterable<Machine> machines = machineRepository.findAll();
+        for (Machine machine:machines) {
+            if(machine.getStatus() == Machine.Status.Ok){
+                int hoursActive = 0;
+                for (Schedule schedule:machine.getSchedules()) {
+                    hoursActive += (schedule.getEndHour().getTime() - schedule.getStartHour().getTime())/(60 * 60 * 1000) % 24;
+                }
+                double errorChance = 0.1 + 0.0012 * hoursActive;
+                if(Math.random() < errorChance)
+                    machine.setStatus(Machine.Status.Not_OK);
+            }
+        }
+    }
+
+    public void predictFruitAmount(){
+        Weather weather = new Weather(25,5,20,5,new Date(),new Date());
+        Fruit fruit = new Fruit();
+        //if(weather.getAverageAmountOfRain() > 250 && weather.getAvarageHoursOfSun() > 5)
+    }
+
+    public void pressPressOrder(int pressOrderId){
+        PressOrder po = getPressOrderById(pressOrderId);
+        po.setStatus(PressOrder.Status.Executed);
+        int amountOfJuiceTotal = (int)Math.round(po.getFruitAmount()*po.getOrder().getFruit().getavgJuiceAmount());
+        Juice juiceForClient = new Juice();
+        if(amountOfJuiceTotal > po.getMaxJuiceAmount()) {
+            //juiceForClient.setAvAmount( po.getMaxJuiceAmount());
+            int restAmount = amountOfJuiceTotal - po.getMaxJuiceAmount();
+            Juice restJuice = new Juice();
+            //restJuice.setAvAmount(restAmount);
+        }
+        else;
+            //amountOfJuiceForClient = amountOfJuiceTotal;
+
+        //po.getOrder().setAmount(amountOfJuiceForClient);
     }
 }

@@ -12,10 +12,22 @@ public class Juice {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
-   @OneToOne
+    @OneToOne
     private Fruit fruit;
 
-    private int avAmount;
+    public Storage getStorage() {
+        return storage;
+    }
+
+    public void setStorage(Storage storage) {
+        this.storage = storage;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "storage_id")
+    private Storage storage;
+
+    private int amount;
     @DateTimeFormat(pattern = "yyyy-MM-dd' 'HH:mm")
     private Date pressDate;
     private int fromClient;
@@ -53,9 +65,9 @@ public class Juice {
     @JoinColumn(name = "order_id", nullable = true)
     private Order order;
 
-    public Juice(Fruit fruit, int avAmount, Date presdate, int fromClient) {
+    public Juice(Fruit fruit, int amount, Date presdate, int fromClient) {
         this.fruit = fruit;
-        this.avAmount = avAmount;
+        this.amount = amount;
         this.pressDate = presdate;
         this.fromClient = fromClient;
     }
@@ -64,8 +76,8 @@ public class Juice {
 
     }
 
-    public int getAvAmount() {
-        return avAmount;
+    public int getAmount() {
+        return amount;
     }
 
     public Date getPressdate() {
@@ -76,8 +88,8 @@ public class Juice {
         return fromClient;
     }
 
-    public void setAvAmount(int avAmount) {
-        this.avAmount = avAmount;
+    public void setAmount(int amount) {
+        this.amount = amount;
     }
 
     public void setPresdate(Date presdate) {

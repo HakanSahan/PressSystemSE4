@@ -5,6 +5,7 @@ import be.springPressOrder.domain.Schedule;
 import be.springPressOrder.services.PressSystemService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -30,11 +31,11 @@ public class ScheduleController {
     @Autowired
     public void setPressSystemService(PressSystemService pressSystemService){this.pressSystemService = pressSystemService;}
 
-    @RequestMapping(value = "/schedules", method = RequestMethod.GET)
+    /*@RequestMapping(value = "/schedules", method = RequestMethod.GET)
     public String list(Model model){
         model.addAttribute("listSchedules",pressSystemService.listAllSchedules());
         return "schedules";
-    }
+    }*/
 
     /*@RequestMapping(value = "/schedule/new")
     public String newSchedule(Model model){
@@ -54,9 +55,10 @@ public class ScheduleController {
         return "scheduleform";
     }*/
 
-    @PostMapping(params = "submit")
+    @PostMapping(path = "/test")
     public String saveSchedule(ScheduleData schedule){
-        pressSystemService.processSchedule(schedule);
+        System.out.println("TEST POST");
+        //pressSystemService.processSchedule(schedule);
         return "redirect: /schedules";
     }
 

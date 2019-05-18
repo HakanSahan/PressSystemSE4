@@ -23,6 +23,19 @@ public class Machine {
     public void setId(Integer id){this.id = id;}
 
     public enum Status {Ok,Not_OK}
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public int getMaxCapacityPerHour() {
+        return maxCapacityPerHour;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
+
     private Status status;
     private boolean isOccupied;
     private int maxCapacityPerHour;
