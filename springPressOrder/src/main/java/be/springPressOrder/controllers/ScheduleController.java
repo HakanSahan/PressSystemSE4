@@ -7,16 +7,25 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
-@Slf4j
+
 @Controller
-@RequestMapping("/menu")
+@RequestMapping("/schedule")
 public class ScheduleController {
 
+
     private PressSystemService pressSystemService;
+
+    @GetMapping
+    public String scheduleCreateForm(Model model){
+        ScheduleData newSchedule = new ScheduleData();
+        model.addAttribute("listMachines",pressSystemService.listAllMachines());
+        model.addAttribute("objSchedule",newSchedule);
+        model.addAttribute("listPressOrders", pressSystemService.listAllPressOrders());
+        //model.addAttribute("listMachines",pressSystemService.listAllMachines());
+        return "scheduleform";
+    }
 
     @Autowired
     public void setPressSystemService(PressSystemService pressSystemService){this.pressSystemService = pressSystemService;}
@@ -27,15 +36,14 @@ public class ScheduleController {
         return "schedules";
     }
 
-    @RequestMapping(value = "/schedule/new")
+    /*@RequestMapping(value = "/schedule/new")
     public String newSchedule(Model model){
-        model.addAttribute("objSchedule",new ScheduleData());
-        model.addAttribute("listPressOrders", pressSystemService.listAllPressOrders());
-        model.addAttribute("listMachines",pressSystemService.listAllMachines());
-        return "scheduleform";
-    }
 
-    @RequestMapping(value = "/machine/{idMachine}/newSchedule")
+    }*/
+
+
+
+/*    @RequestMapping(value = "/machine/{idMachine}/newSchedule")
     public String newScheduleAfterChoosingMachine(@PathVariable Integer idMachine, Model model){
 
         ScheduleData newSchedule = new ScheduleData();
@@ -44,9 +52,9 @@ public class ScheduleController {
         model.addAttribute("listPressOrders", pressSystemService.listAllPressOrders());
         //model.addAttribute("listMachines",pressSystemService.listAllMachines());
         return "scheduleform";
-    }
+    }*/
 
-    @RequestMapping(value = "abc", method = RequestMethod.POST)
+    @PostMapping(params = "submit")
     public String saveSchedule(ScheduleData schedule){
         pressSystemService.processSchedule(schedule);
         return "redirect: /schedules";

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head lang="en">
 
     <title>PIPO Appelsap</title>
@@ -14,25 +14,9 @@
     <fieldset>
         <h1>Welcome</h1>
         <h2>Please log in:</h2>
-        <div>
-            <form>
-                   <div class="form-group">
-                        <input type="text" name="username" id="username" class="form-control input-lg"
-                               placeholder="UserName" required="true" autofocus="true"/>
-                    </div>
-                    <div class="form-group">
-                        <input type="password" name="password" id="password" class="form-control input-lg"
-                               placeholder="Password" required="true"/>
-                    </div>
 
-                    <div class="row">
-                        <div class="col-xs-6 col-sm-6 col-md-6">
-                            <input id="signin" type="submit" class="btn btn-lg btn-primary btn-block" value="Sign In"/>
-                        </div>
-                        <div class="col-xs-6 col-sm-6 col-md-6">
-                        </div>
-                    </div>
-            </form>
+        <div th:if="${error}" style="color: red; margin-top: 1em; margin-bottom: 1em;">
+            Unable to login. Check your username and password.<br/>
         </div>
         <form method="POST" th:action="@{/login}">
             <label for="username">Username: </label>
@@ -41,7 +25,7 @@
             <input type="password" name="password"/><br/>
             <input type="submit" value="Login"/>
         </form>
-        </fieldset>
+    </fieldset>
 </div>
 
 </body>

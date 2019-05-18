@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 @Slf4j
 @Controller
-@RequestMapping("/menu")
 public class TechnicianController {
 
     private PressSystemService pressSystemService;

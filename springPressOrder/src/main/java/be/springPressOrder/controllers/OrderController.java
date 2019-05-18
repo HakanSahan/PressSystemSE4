@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @Slf4j
 @Controller
-@RequestMapping("/menu")
 public class OrderController {
 
 

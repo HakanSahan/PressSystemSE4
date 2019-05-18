@@ -29,6 +29,18 @@ public class Order {
     @JoinColumn(name = "fruid_id")
     private Fruit fruit;
 
+    public Set<Juice> getJuices() {
+        return juices;
+    }
+
+    public int getIdClient() {
+        return idClient;
+    }
+
+    public PressOrder getPressOrders() {
+        return pressOrder;
+    }
+
     private int idClient;
 
     public void setIdClient(int idClient) {
@@ -36,7 +48,7 @@ public class Order {
     }
 
     @OneToOne(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
-    private PressOrder pressOrders;
+    private PressOrder pressOrder;
 
     /*public Order(){
 

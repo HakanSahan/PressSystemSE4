@@ -33,14 +33,6 @@ public class User implements UserDetails {
 
     private final String email;
 
-
-    // will be used to recover dateTimeFrom for a new entry
-    // so a dummy Entry must be available for each user
-    /*@OneToOne
-    @EqualsAndHashCode.Exclude
-    @ToString.Exclude
-    private Entry dummyEntry;*/
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return Arrays.asList(new SimpleGrantedAuthority(role));

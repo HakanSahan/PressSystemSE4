@@ -1,12 +1,17 @@
 package be.springPressOrder;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
+@EnableWebSecurity
 @Configuration
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
@@ -33,17 +38,18 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
                 .antMatchers("/", "/h2/**").hasRole("ADMIN")
                 .antMatchers("/orders/**").hasAnyRole("ADMIN")
+                .antMatchers("/schedule").hasAnyRole("ADMIN")
                 //.antMatchers("/order/**").hasAnyRole("ADMIN")
                 .antMatchers("/pressorders/**").hasAnyRole("USER","ADMIN","TECHNICIAN")
                 .antMatchers("/pressorder/**").hasAnyRole("USER","ADMIN")
                 .antMatchers("/order/**").hasAnyRole("USER","ADMIN")
                 .anyRequest().authenticated().and()
-                .formLogin().loginPage("/login").failureUrl("/login-error")
-                .defaultSuccessUrl("/menu",true).permitAll().and()
-                .logout().invalidateHttpSession(true).logoutSuccessUrl("/logout").permitAll();
+                    .formLogin().loginPage("/login").failureUrl("/login-error")
+                        .defaultSuccessUrl("/menu",true).permitAll().and()
+                    .logout().invalidateHttpSession(true).logoutSuccessUrl("/logout").permitAll();
         http.exceptionHandling().accessDeniedPage("/403");
-        http.csrf().disable();                                  // NEEDED FOR H2 CONSOLE
-        http.headers().frameOptions().disable();                // NEEDED FOR H2 CONSOLE
+        http.csrf().and().cors().disable();                     // NEEDED FOR H2 CONSOLE
+        http.headers().frameOptions().disable();               // NEEDED FOR H2 CONSOLE
     }
 
 
@@ -90,7 +96,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     }*/
 
 
-     /*@Autowired
+     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
 
         auth.inMemoryAuthentication()
@@ -101,10 +107,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .withUser("presser").password(("presser")).roles("USER")
                 .and()
                 .withUser("technician").password(("technician")).roles("TECHNICIAN");
-    }*/
-    /*@Bean
+    }
+    @Bean
     public static PasswordEncoder passwordEncoder() {
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();
-    }*/
+    }
 
 }

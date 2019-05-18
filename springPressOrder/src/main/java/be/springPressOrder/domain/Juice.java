@@ -21,6 +21,34 @@ public class Juice {
     private int fromClient;
 
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public Fruit getFruit() {
+        return fruit;
+    }
+
+    public void setFruit(Fruit fruit) {
+        this.fruit = fruit;
+    }
+
+    public Date getPressDate() {
+        return pressDate;
+    }
+
+    public void setPressDate(Date pressDate) {
+        this.pressDate = pressDate;
+    }
+
+    public Order getOrder() {
+        return order;
+    }
+
     @ManyToOne
     @JoinColumn(name = "order_id", nullable = true)
     private Order order;
