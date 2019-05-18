@@ -38,9 +38,9 @@ public class Order {
     @OneToOne(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
     private PressOrder pressOrders;
 
-    public Order(){
+    /*public Order(){
 
-    }
+    }*/
 
     public Order(int amount, Juice juice, int idClient){
         this.amount = amount;
