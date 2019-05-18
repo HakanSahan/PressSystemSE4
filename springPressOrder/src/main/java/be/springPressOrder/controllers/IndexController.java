@@ -2,32 +2,21 @@ package be.springPressOrder.controllers;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 public class IndexController {
-
-
-    /*@RequestMapping(value = "/login", method = RequestMethod.GET)
-    public String loginPage(Model model) {
-
-        return "login";
-    }*/
 
     /*@GetMapping("/")
     public String index() {
         return "index";
     }*/
 
-    @GetMapping("/")
-    public String index() {
-        return "index";
-    }
-
-    /*@RequestMapping("/")
+    @RequestMapping("/")
     String index() {
         return "index";
-    }*/
+    }
 
     @RequestMapping("/login")
     public String login() {
@@ -36,7 +25,7 @@ public class IndexController {
 
     @RequestMapping("/403")
     public String error403() {
-        return "/403";
+        return "/error/403";
     }
 
     @GetMapping("/login-error")
@@ -44,5 +33,6 @@ public class IndexController {
         model.addAttribute("error", true);
         return "login";
     }
+
 
 }

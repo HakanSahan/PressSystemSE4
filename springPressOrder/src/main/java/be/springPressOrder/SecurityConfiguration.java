@@ -4,14 +4,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.web.access.AccessDeniedHandler;
 
+@EnableWebSecurity
 @Configuration
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
-
-    /*@Autowired
-    private AccessDeniedHandler accessDeniedHandler;*/
+    @Autowired
+    private AccessDeniedHandler accessDeniedHandler;
 
     @Autowired
     private UserDetailsService userDetailsService;
@@ -23,88 +25,43 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     }
 
     @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
-
-                .antMatchers("/favicon.ico").permitAll()
-                .antMatchers("/login*").permitAll()
-                .antMatchers("/images/**").permitAll()
-                .antMatchers("/css/**").permitAll()
-
-                .antMatchers("/", "/h2/**").hasRole("ADMIN")
-                .antMatchers("/orders/**").hasAnyRole("ADMIN")
-                //.antMatchers("/order/**").hasAnyRole("ADMIN")
-                .antMatchers("/pressorders/**").hasAnyRole("USER","ADMIN","TECHNICIAN")
-                .antMatchers("/pressorder/**").hasAnyRole("USER","ADMIN")
-                .antMatchers("/order/**").hasAnyRole("USER","ADMIN")
-                .anyRequest().authenticated().and()
-                .formLogin().loginPage("/login").failureUrl("/login-error")
-                .defaultSuccessUrl("/menu",true).permitAll().and()
-                .logout().invalidateHttpSession(true).logoutSuccessUrl("/logout").permitAll();
-        http.exceptionHandling().accessDeniedPage("/403");
-        http.csrf().disable();                                  // NEEDED FOR H2 CONSOLE
-        http.headers().frameOptions().disable();                // NEEDED FOR H2 CONSOLE
-    }
-
-
-    /**
-     * The default PasswordEncoder is now DelegatingPasswordEncoder which is a non-passive change.
-     * This change ensures that passwords are now encoded using BCrypt by default
-     */
-    /*@Bean
-    public static PasswordEncoder passwordEncoder() {
-        return PasswordEncoderFactories.createDelegatingPasswordEncoder();
-    }*/
-
-    /*@Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.authorizeRequests()
-                //.antMatchers("/").hasAnyRole("USER","ADMIN","TECHNICIAN")
-                //.antMatchers("/login*").permitAll()
-                .antMatchers("/orders/**","/h2/**").hasRole("ADMIN")
-                .antMatchers("/pressorders/**").hasAnyRole("USER","ADMIN","TECHNICIAN")
-                .antMatchers("/pressorder/**").hasAnyRole("USER","ADMIN")
-                .antMatchers("/order/**").hasAnyRole("USER","ADMIN")
-                .anyRequest().authenticated().and()
+                .antMatchers("/").hasAnyRole("PRESSER","ADMIN","TECHNICIAN")
+                .antMatchers("/menu/**").hasAnyRole("PRESSER","ADMIN","TECHNICIAN")
 
-                //.authorizeRequests().antMatchers("/h2/**").hasAnyRole("ADMIN")
-                //.and()
-                .formLogin().loginPage("/login").permitAll()
-                .failureUrl("/login-error")
-                .defaultSuccessUrl("/menu",true).permitAll()
-
+                .antMatchers("/fruiteigenaar/**").permitAll()
+                .antMatchers("/orderrest/**").permitAll()
+                .antMatchers("/orders/**").hasAnyRole("ADMIN")
+                //.antMatchers("/order/**").hasAnyRole("ADMIN")
+                .antMatchers("/fruiteigenaaroverzicht/**").hasAnyRole("ADMIN")
+                .antMatchers("/pressorders/**").hasAnyRole("PRESSER","ADMIN")
+                .antMatchers("/weather/**").hasAnyRole("ADMIN")
+                .antMatchers("/technicianOverview/**").hasAnyRole("TECHNICIAN")
+                .antMatchers("/console/**").hasAnyRole("ADMIN")
+                .anyRequest().authenticated()
                 .and()
-                .logout()
-                .invalidateHttpSession(true).logoutSuccessUrl("/logout").permitAll()
+
+                .formLogin().loginPage("/login").permitAll()
 
                 .and()
                 .exceptionHandling().accessDeniedHandler(accessDeniedHandler);
 
+
         httpSecurity.csrf().disable();
         httpSecurity.headers().frameOptions().disable();
-
-    }*/
-
-   /* public static String hash(String password) {
-        return BCrypt.hashpw(password, BCrypt.gensalt());
-    }*/
-
-
-     /*@Autowired
+    }
+//antMatchers("/fruiteigenaar").hasAnyRole("ADMIN")
+//                .antMatchers("/fruiteigenaarregistratie").hasAnyRole("ADMIN")
+    /*@Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
 
         auth.inMemoryAuthentication()
-                .withUser("user").password("password").roles("USER")
+                .withUser("pv").password("{bcrypt}$2a$10$QfNyqLAr24uJVmFMiFC7luVH98wIDefLEL9Z.MRNuKDe9n3YGOMR.").roles("PRESSER")
                 .and()
-                .withUser("admin").password("password").roles("ADMIN")
-                .and()
-                .withUser("presser").password(("presser")).roles("USER")
-                .and()
-                .withUser("technician").password(("technician")).roles("TECHNICIAN");
+                .withUser("hs").password("{bcrypt}$2a$10$tQADq.D9jOmYE0BGKgfWgOUrC0Pi5kJr/DiPLfJkh0tecqzBaTB82").roles("ADMIN");
+
     }*/
-    /*@Bean
-    public static PasswordEncoder passwordEncoder() {
-        return PasswordEncoderFactories.createDelegatingPasswordEncoder();
-    }*/
+
 
 }

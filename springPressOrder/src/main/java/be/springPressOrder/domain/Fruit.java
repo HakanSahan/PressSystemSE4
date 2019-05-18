@@ -21,19 +21,22 @@ public class Fruit {
     @OneToMany(mappedBy = "fruit")
     private Set<Order> orderSet = new HashSet<>();
 
+    @OneToOne
+    private Juice juice;
+
     public int getId(){return  id;}
 
     public void setId(int id){
         this.id = id;
     }
 
-   /* public Juice getJuice(){
+    public Juice getJuice(){
         return juice;
     }
 
     public void setJuice(Juice juice){
         this.juice = juice;
-    }*/
+    }
 
     public String getFruitname() {
         return fruitname;

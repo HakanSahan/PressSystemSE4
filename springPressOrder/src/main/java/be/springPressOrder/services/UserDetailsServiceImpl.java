@@ -1,7 +1,7 @@
 package be.springPressOrder.services;
 
-import be.springPressOrder.domain.User;
 import be.springPressOrder.dao.UserRepository;
+import be.springPressOrder.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.security.core.userdetails.UserDetails;

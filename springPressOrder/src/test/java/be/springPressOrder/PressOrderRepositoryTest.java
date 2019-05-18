@@ -1,6 +1,7 @@
-package be.springPressOrder.dao;
+package be.springPressOrder;
 
 import be.springPressOrder.configuration.RepositoryConfiguration;
+import be.springPressOrder.dao.PressOrderRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,29 +1,23 @@
 package be.springPressOrder;
 
-import be.springPressOrder.dao.OrderRepository;
-import be.springPressOrder.dao.PressOrderRepository;
-import be.springPressOrder.domain.Order;
-import be.springPressOrder.domain.PressOrder;
+import be.springPressOrder.dao.*;
+import be.springPressOrder.domain.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.CommandLineRunner;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.context.ApplicationListener;
+import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
 
-import java.util.Arrays;
-import java.util.List;
-
+import java.util.Date;
 
 @Component
-@ConditionalOnProperty(name = "app.db-init", havingValue = "true")
-public class SpringBootWebAppDB implements CommandLineRunner {
+public class SpringBootWebAppDB implements ApplicationListener<ContextRefreshedEvent> {
 
-    @Autowired
-    PressOrderRepository pressOrderRepository;
+    private PressOrderRepository pressOrderRepository;
+    private OrderRepository orderRepository;
+    private JuiceRepository juiceRepository;
+    private FruitRepository fruitRepository;
+    private UserRepository userRepository;
 
-    @Autowired
-    OrderRepository orderRepository;
-
-    //private Logger log = Logger.getLogger(be.springPressOrder.bootstrap.Loader.class);
 
     @Autowired
     public void setPressOrderRepository(PressOrderRepository pressOrderRepository) {
@@ -31,49 +25,80 @@ public class SpringBootWebAppDB implements CommandLineRunner {
     }
 
     @Autowired
+    public void setFruitRepository(FruitRepository fruitRepository){this.fruitRepository = fruitRepository;}
+
+    @Autowired
     public void setOrderRepository(OrderRepository orderRepository) {
         this.orderRepository = orderRepository;
     }
 
+    @Autowired
+    public void setJuiceRepository(JuiceRepository juiceRepository) {
+        this.juiceRepository = juiceRepository;
+    }
+
+
+    @Autowired
+    public void setUserRepository(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
+
     @Override
-    public void run(String... args) throws Exception {
+    public void onApplicationEvent(ContextRefreshedEvent event) {
 
-        List<Order> orders = Arrays.asList(
-        new Order(2,"AppleJuice",1),
-        new Order(3,"PearJuice",2),
-        new Order(4,"ApplePearJuice",3));
+        Fruit sortapple1 = new Fruit("apple",0.25,1,2);
+        fruitRepository.save(sortapple1);
+        Juice juice1 = new Juice(sortapple1,20,new Date(),1);
+        juiceRepository.save(juice1);
 
-        for (Order order: orders) {
-            orderRepository.save(order);
-        }
+        Order order1 = new Order(5,juice1,1);
+        orderRepository.save(order1);
 
-        //orderRepository.save(order1);
-        //log.info("Saved order1 - id: " + order1.getId());
-
-        Order order2 = new Order(3,"PearJuice",2);
+        Order order2 = new Order(3,juice1,2);
         orderRepository.save(order2);
-        //log.info("Saved order2 - id: " + order2.getId());
-        for(Order order:orders){
-            List<PressOrder> pressOrders = Arrays.asList(
-                    new PressOrder(100, 99, 100,order),
-                    new PressOrder(1, 7, 1 ,order),
-                    new PressOrder(2, 6, 2,order));
 
-            for (PressOrder pressOrder: pressOrders) {
-                pressOrderRepository.save(pressOrder);
-
-        }
-
-        PressOrder pressOrder1 = new PressOrder(100, 99, 100, PressOrder.Status.Planned,order2);
+        PressOrder pressOrder1 = new PressOrder(100,order2);
+        pressOrder1.setClientId(1);
         pressOrderRepository.save(pressOrder1);
-        log.info("Saved press order1 - id: " + pressOrder1.getId());
 
-        PressOrder pressOrder2 = new PressOrder(1, 7, 1, PressOrder.Status.NotPlanned,order2);
+
+        PressOrder pressOrder2 = new PressOrder(7,order2);
         pressOrderRepository.save(pressOrder2);
-        log.info("Saved press order2 - id: " + pressOrder2.getId());
 
-        PressOrder order3 = new PressOrder(2, 6, 2, PressOrder.Status.NotPlanned,order1);
+        PressOrder order3 = new PressOrder(2,order1);
         pressOrderRepository.save(order3);
-        log.info("Saved press order3 - id: " + order3.getId());
+
+
+        User user = new User("Vanvolsem","Pierre","03","p@v.com","pv","PRESSER",
+                "presser");
+        userRepository.save(user);
+
+        User user2 = new User("Sahan","Hakan","04","h@s.com","hs","ADMIN",
+                "admin");
+        userRepository.save(user2);
+
+        User user3 = new User("Klochkova","Alex","05","a@k.com","ak","TECHNICIAN",
+                "tech");
+        userRepository.save(user3);
+
+
+        /*PressOrder shirt = new PressOrder();
+        shirt.setDescription("Spring Framework Guru Shirt");
+        shirt.setPrice(new BigDecimal("18.95"));
+        shirt.setImageUrl("https://springPressOrder.guru/wp-content/uploads/2015/04/spring_framework_guru_shirt-rf412049699c14ba5b68bb1c09182bfa2_8nax2_512.jpg");
+        shirt.setProductId("235268845711068308");
+        pressOrderRepository.save(shirt);
+
+        log.info("Saved Shirt - id: " + shirt.getId());
+
+        PressOrder mug = new PressOrder();
+        mug.setDescription("Spring Framework Guru Mug");
+        mug.setImageUrl("https://springPressOrder.guru/wp-content/uploads/2015/04/spring_framework_guru_coffee_mug-r11e7694903c348e1a667dfd2f1474d95_x7j54_8byvr_512.jpg");
+        mug.setProductId("168639393495335947");
+        mug.setPrice(new BigDecimal("11.95"));
+        pressOrderRepository.save(mug);
+
+        log.info("Saved Mug - id:" + mug.getId());
+        */
     }
 }
