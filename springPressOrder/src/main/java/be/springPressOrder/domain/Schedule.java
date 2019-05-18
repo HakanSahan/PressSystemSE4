@@ -1,7 +1,4 @@
 package be.springPressOrder.domain;
-
-import cucumber.api.java.is.En;
-import cucumber.api.java.it.Ma;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;

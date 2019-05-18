@@ -37,6 +37,7 @@ public class TechnicianController {
 
     @RequestMapping(value = "/request", method = RequestMethod.POST)
     public String saveRequest(RequestTechnicianData requestTechnician){
+        System.out.println("=================================================TEST POST TECHNICIAN REQUEST=============================================");
         pressSystemService.processRequestTechnician(requestTechnician);
         return "redirect: /";
     }

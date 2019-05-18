@@ -1,5 +1,6 @@
 package be.springPressOrder.domain;
 
+import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -12,12 +13,17 @@ public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
+
+    @Column
     @Digits(integer=3, fraction=0, message = "Please select an amount less than thousand ")
     private int amount;
 
     public enum Status {NotPlanned, Planned, Executing, Executed, Canceled}
+
+    @Column
     private Status status;
 
+    @Column
     @DateTimeFormat(pattern = "yyyy-MM-dd' 'HH:mm")
     private Date orderDate;
 
@@ -29,6 +35,37 @@ public class Order {
     @JoinColumn(name = "fruid_id")
     private Fruit fruit;
 
+    private int idClient;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "pressOrder_id", referencedColumnName = "id")
+    private PressOrder pressOrder;
+
+    public Order(int amount, Juice juice, int idClient){
+        this.amount = amount;
+        this.juices = new HashSet<>();
+        this.juices.add(juice);
+        this.idClient = idClient;
+        orderDate = new Date();
+        status = Status.Canceled;
+    }
+
+    public Order(int amount, Fruit fruit, int idClient){
+        this.amount = amount;
+        this.fruit = fruit;
+        this.idClient = idClient;
+        orderDate = new Date();
+        status = Status.NotPlanned;
+    }
+
+    public void setIdClient(int idClient) {
+        this.idClient = idClient;
+    }
+
+    public void setOrderDate(Date orderDate) {
+        this.orderDate = orderDate;
+    }
+
     public Set<Juice> getJuices() {
         return juices;
     }
@@ -39,28 +76,6 @@ public class Order {
 
     public PressOrder getPressOrders() {
         return pressOrder;
-    }
-
-    private int idClient;
-
-    public void setIdClient(int idClient) {
-        this.idClient = idClient;
-    }
-
-    @OneToOne(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
-    private PressOrder pressOrder;
-
-    /*public Order(){
-
-    }*/
-
-    public Order(int amount, Juice juice, int idClient){
-        this.amount = amount;
-        this.juices = new HashSet<>();
-        this.juices.add(juice);
-        this.idClient = idClient;
-        orderDate = new Date();
-        status = Status.Canceled;
     }
 
     public int getId() {
@@ -87,20 +102,11 @@ public class Order {
         return orderDate;
     }
 
-    public void setOrderDate(Date orderDate) {
-        this.orderDate = orderDate;
-    }
-
     public Fruit getFruit() {
         return fruit;
     }
 
-    public Order(int amount, Fruit fruit, int idClient){
-        this.amount = amount;
-        this.fruit = fruit;
-        this.idClient = idClient;
-        orderDate = new Date();
-        status = Status.NotPlanned;
-    }
+    public void addJuice(Juice juice){juices.add(juice);}
 
+    public void setJuices(Set<Juice> juices){this.juices = juices;}
 }

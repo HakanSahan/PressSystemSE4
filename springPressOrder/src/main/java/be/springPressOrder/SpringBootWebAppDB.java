@@ -1,8 +1,6 @@
 package be.springPressOrder;
 
-import be.springPressOrder.dao.OrderRepository;
-import be.springPressOrder.dao.PressOrderRepository;
-import be.springPressOrder.dao.UserRepository;
+import be.springPressOrder.dao.*;
 import be.springPressOrder.domain.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -28,6 +26,12 @@ public class SpringBootWebAppDB implements CommandLineRunner {
     @Autowired
     UserRepository userRepository;
 
+    @Autowired
+    FruitRepository fruitRepository;
+
+    @Autowired
+    MachineRepository machineRepository;
+
     @Override
     public void run(String... args) throws Exception {
 
@@ -35,21 +39,26 @@ public class SpringBootWebAppDB implements CommandLineRunner {
 
         userRepository.save(user);
 
+        Fruit fruit = new Fruit("Apple");
+        fruitRepository.save(fruit);
+
+        machineRepository.save(new Machine());
+
       List<Order> orders = Arrays.asList(
-                new Order(50,new Juice(new Fruit("Apple",0.2,1,6),0,new Date(),1),1),
-                new Order(50,new Juice(new Fruit("Apple",0.2,1,6),0,new Date(),1),1),
-                new Order(50,new Juice(new Fruit("Apple",0.2,1,6),0,new Date(),1),1));
+                new Order(50,fruit,1),
+                new Order(50,fruit,1),
+                new Order(50,fruit,1));
 
             orderRepository.save(orders);
 
         //orderRepository.save(order1);
         //log.info("Saved order1 - id: " + order1.getId());
 
-        Order order2 = new Order(50,new Juice(new Fruit("Apple",0.2,1,6),0,new Date(),1),1);
+        Order order2 = new Order(50,fruit,1);
         orderRepository.save(order2);
         //log.info("Saved order2 - id: " + order2.getId());
 
-          /*  List<PressOrder> pressOrders = Arrays.asList(
+          List<PressOrder> pressOrders = Arrays.asList(
                     new PressOrder(100, 99, order2),
                     new PressOrder(1, 7,  order2),
                     new PressOrder(2, 6, order2));
@@ -67,6 +76,6 @@ public class SpringBootWebAppDB implements CommandLineRunner {
 
             PressOrder order3 = new PressOrder(2, 6, order2);
             pressOrderRepository.save(order3);
-            //log.info("Saved press order3 - id: " + order3.getId());*/
+            //log.info("Saved press order3 - id: " + order3.getId());
         }
     }

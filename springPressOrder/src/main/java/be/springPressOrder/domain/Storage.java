@@ -14,22 +14,23 @@ public class Storage {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
-    @NotNull(message = "Name of storage cannot be null")
-    private String name;
+    @NotNull(message = "Fruit cannot be null")
+    @OneToOne(mappedBy = "storage")
+    private Fruit fruit;
 
     @OneToMany(mappedBy = "storage")
     private Set<Juice> juices;
 
     private int total;
 
-    public Storage(String name, Set<Juice> juices, int total) {
-        this.name = name;
+    public Storage(Fruit fruit, Set<Juice> juices, int total) {
+        this.fruit = fruit;
         this.juices = juices;
         this.total = total;
     }
 
-    public Storage(String name){
-        this.name = name;
+    public Storage(Fruit fruit){
+        this.fruit = fruit;
         this.juices = new HashSet<>();
     }
 
@@ -41,9 +42,7 @@ public class Storage {
         return id;
     }
 
-    public String getName() {
-        return name;
-    }
+    public Fruit getFruit() { return fruit; }
 
     public Set<Juice> getJuices() {
         return juices;
@@ -53,12 +52,12 @@ public class Storage {
         return total;
     }
 
-    public void AddJuice(Juice juice){
+    public void addJuice(Juice juice){
         juices.add(juice);
         total += juice.getAmount();
     }
 
-    public void RemoveJuice(Juice juice){
+    public void removeJuice(Juice juice){
         if(juices.contains(juice)) {
             juices.remove(juices);
             total -= juice.getAmount();

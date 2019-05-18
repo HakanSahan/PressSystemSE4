@@ -18,8 +18,7 @@ public class PressOrder {
     public enum Status {NotPlanned, Planned, Executing, Executed, Canceled}
     private Status status;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "order_id", nullable = false)
+    @OneToOne(mappedBy = "pressOrder")
     private Order order;
     //private Machine machine;
 
@@ -38,6 +37,14 @@ public class PressOrder {
         schedules = new HashSet<>();
     }
 
+    public void setFruitAmount(int fruitAmount) {
+        this.fruitAmount = fruitAmount;
+    }
+
+    public void setMaxJuiceAmount(int maxJuiceAmount) {
+        this.maxJuiceAmount = maxJuiceAmount;
+    }
+
     public Integer getId() {
         return id;
     }
@@ -50,16 +57,8 @@ public class PressOrder {
         return fruitAmount;
     }
 
-    public void setFruitAmount(int fruitAmount) {
-        this.fruitAmount = fruitAmount;
-    }
-
     public int getMaxJuiceAmount() {
         return maxJuiceAmount;
-    }
-
-    public void setMaxJuiceAmount(int maxJuiceAmount) {
-        this.maxJuiceAmount = maxJuiceAmount;
     }
 
     public Status getStatus() {

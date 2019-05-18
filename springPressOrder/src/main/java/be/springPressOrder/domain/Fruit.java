@@ -1,6 +1,9 @@
 package be.springPressOrder.domain;
 
+import sun.plugin2.message.Message;
+
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -12,65 +15,34 @@ public class Fruit {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
+    @NotNull(message = "Fruit name cannot be null")
     private String fruitname;
-    private Double avgJuiceAmount;
-    private int beginmonth;
-    private int endmonth;
-
 
     @OneToMany(mappedBy = "fruit")
-    private Set<Order> orderSet = new HashSet<>();
+    private Set<Order> orderSet;
 
-    public int getId(){return  id;}
+    @OneToMany
+    private Set<Juice> juices;
 
-    public void setId(int id){
-        this.id = id;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "storage_id", referencedColumnName = "id")
+    private Storage storage;
+
+    @OneToOne
+    @JoinColumn(name = "fruitData_id",referencedColumnName = "id")
+    private FruitData fruitData;
+
+    public Fruit(String fruitname) {
+        this.fruitname = fruitname;
+        orderSet = new HashSet<>();
+        juices = new HashSet<>();
     }
 
-   /* public Juice getJuice(){
-        return juice;
-    }
-
-    public void setJuice(Juice juice){
-        this.juice = juice;
-    }*/
+    public Fruit(){}
 
     public String getFruitname() {
         return fruitname;
     }
 
-    public Double getavgJuiceAmount() {
-        return avgJuiceAmount;
-    }
-
-    public void setavgJuiceAmount(Double avgJuiceAmount) {
-        this.avgJuiceAmount = avgJuiceAmount;
-    }
-
-    public int getBeginmonth() {
-        return beginmonth;
-    }
-
-    public void setBeginmonth(int beginmonth) {
-        this.beginmonth = beginmonth;
-    }
-
-    public int getendmonth() {
-        return endmonth;
-    }
-
-    public void setendmonth(int endmonth) {
-        this.endmonth = endmonth;
-    }
-
-    public Fruit(String fruitname, Double avgJuiceAmount, int beginmonth, int endmonth) {
-        this.fruitname = fruitname;
-        this.avgJuiceAmount = avgJuiceAmount;
-        this.beginmonth = beginmonth;
-        this.endmonth = endmonth;
-    }
-
-    public Fruit(){
-
-    }
+    public int getId(){return  id;}
 }

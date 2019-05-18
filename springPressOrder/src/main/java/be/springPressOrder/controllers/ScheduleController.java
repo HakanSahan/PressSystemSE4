@@ -18,6 +18,9 @@ public class ScheduleController {
 
     private PressSystemService pressSystemService;
 
+    @Autowired
+    public void setPressSystemService(PressSystemService pressSystemService){this.pressSystemService = pressSystemService;}
+
     @GetMapping
     public String scheduleCreateForm(Model model){
         ScheduleData newSchedule = new ScheduleData();
@@ -28,10 +31,14 @@ public class ScheduleController {
         return "scheduleform";
     }
 
-    @Autowired
-    public void setPressSystemService(PressSystemService pressSystemService){this.pressSystemService = pressSystemService;}
+    @PostMapping(path = "/test")
+    public String saveSchedule(ScheduleData schedule){
+        System.out.println("TEST POST");
+        pressSystemService.processSchedule(schedule);
+        return "redirect: /schedules";
+    }
 
-    /*@RequestMapping(value = "/schedules", method = RequestMethod.GET)
+        /*@RequestMapping(value = "/schedules", method = RequestMethod.GET)
     public String list(Model model){
         model.addAttribute("listSchedules",pressSystemService.listAllSchedules());
         return "schedules";
@@ -54,12 +61,5 @@ public class ScheduleController {
         //model.addAttribute("listMachines",pressSystemService.listAllMachines());
         return "scheduleform";
     }*/
-
-    @PostMapping(path = "/test")
-    public String saveSchedule(ScheduleData schedule){
-        System.out.println("TEST POST");
-        //pressSystemService.processSchedule(schedule);
-        return "redirect: /schedules";
-    }
 
 }

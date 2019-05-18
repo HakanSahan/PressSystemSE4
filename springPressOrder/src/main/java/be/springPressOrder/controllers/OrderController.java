@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-@Slf4j
+
 @Controller
 public class OrderController {
 
@@ -53,6 +53,7 @@ public class OrderController {
 
     @RequestMapping(value = "order", method = RequestMethod.POST)
     public String saveOrder(OrderData order) {
+        System.out.println("==================================TEST POST ORDER======================================");
         Order newOrder = pressSystemService.processOrder(order);
         return "redirect:/order/" + newOrder.getId();
     }

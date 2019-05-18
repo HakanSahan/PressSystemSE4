@@ -11,11 +11,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import javax.crypto.Mac;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Random;
+import java.util.Set;
 
 @Service
 public class PressSystemServiceImpl implements PressSystemService {
@@ -27,12 +26,13 @@ public class PressSystemServiceImpl implements PressSystemService {
     private TechnicianRepository technicianRepository;
     private RequestTechnicianRepository requestTechnicianRepository;
     private UserRepository userRepository;
+    private StorageRepository storageRepository;
+    private FruitDataRepository fruitDataRepository;
 
     @Autowired
-    public void setPressOrderRepository(PressOrderRepository pressOrderRepository) {
-        this.pressOrderRepository = pressOrderRepository;
-    }
+    public void setPressOrderRepository(PressOrderRepository pressOrderRepository) { this.pressOrderRepository = pressOrderRepository; }
 
+    @Autowired
     public void setUserRepository(UserRepository userRepository){this.userRepository = userRepository;}
 
     @Autowired
@@ -56,6 +56,12 @@ public class PressSystemServiceImpl implements PressSystemService {
 
     @Autowired
     public void setRequestTechnicianRepository (RequestTechnicianRepository requestTechnicianRepository){this.requestTechnicianRepository = requestTechnicianRepository;}
+
+    @Autowired
+    public void setStorageRepository (StorageRepository storageRepository){this.storageRepository = storageRepository;}
+
+    @Autowired
+    public void setFruitDataRepository (FruitDataRepository fruitDataRepository){this.fruitDataRepository=fruitDataRepository;}
 
     @Override
     public Iterable<PressOrder> listAllPressOrders() {
@@ -156,7 +162,6 @@ public class PressSystemServiceImpl implements PressSystemService {
     @Override
     public Order processOrder(OrderData orderData){
         Order order = new Order(orderData.fruitAmount,fruitRepository.findOne(orderData.fruitId),orderData.clientId);
-
         return orderRepository.save(order);
     }
 
@@ -213,9 +218,18 @@ public class PressSystemServiceImpl implements PressSystemService {
         throw new UsernameNotFoundException("User "+username+" not found!");
     }
 
+    public Iterable<Storage> listAllStorages(){
+        return storageRepository.findAll();
+    }
+
+    public Storage getStorageById(int id){
+        return storageRepository.findOne(id);
+    }
+
     public void checkMachinesStatus(){
         Iterable<Machine> machines = machineRepository.findAll();
         for (Machine machine:machines) {
+            Machine.Status oldStatus = machine.getStatus();
             if(machine.getStatus() == Machine.Status.Ok){
                 int hoursActive = 0;
                 for (Schedule schedule:machine.getSchedules()) {
@@ -225,6 +239,8 @@ public class PressSystemServiceImpl implements PressSystemService {
                 if(Math.random() < errorChance)
                     machine.setStatus(Machine.Status.Not_OK);
             }
+            machine.addRapport(new Rapport(machine,oldStatus,machine.getStatus(),""));
+            machineRepository.save(machine);
         }
     }
 
@@ -236,18 +252,53 @@ public class PressSystemServiceImpl implements PressSystemService {
 
     public void pressPressOrder(int pressOrderId){
         PressOrder po = getPressOrderById(pressOrderId);
+        FruitData fruitData = fruitDataRepository.findByFruit(po.getOrder().getFruit());
         po.setStatus(PressOrder.Status.Executed);
-        int amountOfJuiceTotal = (int)Math.round(po.getFruitAmount()*po.getOrder().getFruit().getavgJuiceAmount());
+        int amountOfJuiceTotal = (int)Math.round(po.getFruitAmount()*fruitData.getAvgJuiceAmount());
         Juice juiceForClient = new Juice();
         if(amountOfJuiceTotal > po.getMaxJuiceAmount()) {
-            //juiceForClient.setAvAmount( po.getMaxJuiceAmount());
-            int restAmount = amountOfJuiceTotal - po.getMaxJuiceAmount();
+            juiceForClient.setAmount(po.getMaxJuiceAmount());
             Juice restJuice = new Juice();
-            //restJuice.setAvAmount(restAmount);
+            restJuice.setAmount(amountOfJuiceTotal - po.getMaxJuiceAmount());
+            Storage storage = storageRepository.findStorageByFruit(po.getOrder().getFruit());
+            storage.addJuice(restJuice);
+            storageRepository.save(storage);
         }
-        else;
-            //amountOfJuiceForClient = amountOfJuiceTotal;
+        else
+            juiceForClient.setAmount(po.getMaxJuiceAmount());
+        po.getOrder().setAmount(juiceForClient.getAmount());
+        po.getOrder().addJuice(juiceForClient);
+        pressOrderRepository.save(po);
+    }
 
-        //po.getOrder().setAmount(amountOfJuiceForClient);
+    public void getJuicesForOrder(int orderId){
+        Order order = getOrderById(orderId);
+        Storage storage =storageRepository.findStorageByFruit(order.getFruit());
+        if(storage.getTotal() >= order.getAmount()){
+            if(storage.getTotal() == order.getAmount()) {
+                order.setJuices(storage.getJuices());
+                storage.getJuices().clear();
+            }
+            Set<Juice> juices = storage.getJuices();
+            for (Juice juice:juices) {
+                if(juice.getAmount() <= order.getAmount()){
+                    order.addJuice(juice);
+                    order.setAmount(order.getAmount() - juice.getAmount());
+                    storage.removeJuice(juice);
+                    if(order.getAmount() == 0)
+                        break;
+                }
+                else {
+                    Juice orderJuice = new Juice(juice.getFruit(),order.getAmount(),juice.getPressDate(),juice.getFromClient());
+                    order.addJuice(orderJuice);
+                    juice.setAmount(juice.getAmount()-order.getAmount());
+                    break;
+                }
+            }
+            orderRepository.save(order);
+            storageRepository.save(storage);
+        }
+        else
+            order.setStatus(Order.Status.Canceled);
     }
 }

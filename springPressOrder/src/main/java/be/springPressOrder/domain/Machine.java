@@ -80,8 +80,8 @@ public class Machine {
         return reportList;
     }
 
-    public Rapport MachineCheck(){
-        return new Rapport(this,Status.Ok, Status.Not_OK,"Something went wrong",new Date());
+    public void addRapport(Rapport rapport){
+        reportList.add(rapport);
     }
 
     public Set<Schedule> getSchedules(){
