@@ -9,9 +9,14 @@ import be.springPressOrder.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+
+import javax.validation.Valid;
 
 @Controller
 public class FruitEigenaarController {
@@ -43,7 +48,6 @@ public class FruitEigenaarController {
     @RequestMapping(value = "/fruiteigenaar/registratie", method = RequestMethod.GET)
     public String list(Model model) {
         model.addAttribute("objUser", new User());
-        //model.addAttribute("PressOrders", pressOrderService.getPressOrdersByClientId(id));
         return "fruiteigenaarregistratie";
     }
 
@@ -54,7 +58,9 @@ public class FruitEigenaarController {
         return "redirect:/order/1";
     }*/
     @RequestMapping(value = "/fruiteigenaar/create", method = RequestMethod.POST)
-    public String saveOrder(User user) {
+    public String saveOrder(@ModelAttribute("objUser") @Valid User user,
+                            BindingResult result, ModelMap model) {
+        if (result.hasErrors()) return "fruiteigenaarregistratie";  // fouten op de form => form opnieuw tonen
         user.setRole("USER");
         userService.saveUser(user);
         return "redirect:/";

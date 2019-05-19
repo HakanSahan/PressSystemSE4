@@ -1,11 +1,14 @@
 package be.springPressOrder.domain;
 
 import lombok.*;
+import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import javax.validation.constraints.Pattern;
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Collection;
 
@@ -15,7 +18,7 @@ import java.util.Collection;
 @Data
 //@RequiredArgsConstructor
 //@NoArgsConstructor(access= AccessLevel.PRIVATE,force=true)
-public class User implements UserDetails {
+public class User implements UserDetails, Serializable {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private int id;
@@ -23,16 +26,27 @@ public class User implements UserDetails {
     @Column(unique = true)
     private String username;
 
+    @Column
+    @NotEmpty(message="Name can not be empty.")
     private String name;
+
+    @Column
     private String firstname;
+
     // Must be {bcrypt}-encoded
+    @Column
     private String password;
 
+    @Column
     private String phone;
+
+    @Column
+    @Pattern(regexp="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}$",message="Insert a valid email")
     private String email;
     //private Address address;
 
     //Will be declared in subclass
+    @Column
     private String role;
 
     /*public Address getAddress() {

@@ -74,7 +74,7 @@ public class Loader implements ApplicationListener<ContextRefreshedEvent> {
         pressOrderRepository.save(order3);
         log.info("Saved press order3 - id: " + order3.getId());
 
-        User user = new User("V","P","04","email","username","USER","password");
+        User user = new User("V","P","04","e@mail.com","username","USER","password");
         userRepository.save(user);
         /*PressOrder shirt = new PressOrder();
         shirt.setDescription("Spring Framework Guru Shirt");
