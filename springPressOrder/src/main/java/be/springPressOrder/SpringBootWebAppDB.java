@@ -8,9 +8,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
-import java.util.logging.Logger;
 
 
 @Component
@@ -36,6 +34,7 @@ public class SpringBootWebAppDB implements CommandLineRunner {
     public void run(String... args) throws Exception {
 
         User user = new User(1,"admin","{noop}password","ROLE_ADMIN","a","a","a");
+
 
         userRepository.save(user);
 
