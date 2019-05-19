@@ -5,9 +5,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "PressOrders")
+@Table(name = "Pressorders")
 public class PressOrder {
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
@@ -26,8 +25,8 @@ public class PressOrder {
     @OneToMany(mappedBy = "pressOrder")
     private Set<Schedule> schedules;
 
-    public PressOrder(){
-
+    public void setClientId(int idClient) {
+        this.idClient = idClient;
     }
 
     public PressOrder(int fruitAmount, int maxJuiceAmount, Order order){
@@ -74,10 +73,6 @@ public class PressOrder {
         return order;
     }
 
-    public Integer getOrderId()
-    {
-        return order.getId();
-    }
     public void setOrder(Order order) {
         this.order = order;
     }

@@ -1,87 +1,60 @@
 package be.springPressOrder.domain;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
+import javax.persistence.*;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.util.Date;
 
+@Entity
+@Table(name = "Juices")
+@XmlRootElement(name="juice")
 public class Juice {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
-    @OneToOne
+   @OneToOne
     private Fruit fruit;
 
-    public Storage getStorage() {
-        return storage;
-    }
-
-    public void setStorage(Storage storage) {
-        this.storage = storage;
-    }
-
-    @ManyToOne
-    @JoinColumn(name = "storage_id")
-    private Storage storage;
-
-    private int amount;
+    private int avAmount;
     @DateTimeFormat(pattern = "yyyy-MM-dd' 'HH:mm")
-    private Date pressDate;
+    private Date presdate;
     private int fromClient;
 
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public Fruit getFruit() {
-        return fruit;
-    }
-
-    public void setFruit(Fruit fruit) {
-        this.fruit = fruit;
-    }
-
-    public Date getPressDate() {
-        return pressDate;
-    }
-
-    public void setPressDate(Date pressDate) {
-        this.pressDate = pressDate;
-    }
-
-    public Order getOrder() {
-        return order;
-    }
 
     @ManyToOne
     @JoinColumn(name = "order_id", nullable = true)
     private Order order;
 
-    public Juice(Fruit fruit, int amount, Date presdate, int fromClient) {
+    public Juice(Fruit fruit, int avAmount, Date presdate, int fromClient) {
         this.fruit = fruit;
-        this.amount = amount;
-        this.pressDate = presdate;
+        this.avAmount = avAmount;
+        this.presdate = presdate;
         this.fromClient = fromClient;
     }
 
     public Juice(){
 
     }
+
+    @XmlElement(name="Soort")
     public Fruit getSort() {
-        return sort;
+        return fruit;
     }
 
-    public int getAmount() {
-        return amount;
+    @XmlElement(name="AvAmount")
+    public int getAvAmount() {
+        return avAmount;
     }
 
-    public Date getPressdate() {
-        return pressDate;
+    @XmlElement(name="Presdate")
+    public Date getPresdate() {
+        return presdate;
     }
 
+    @XmlElement(name="Klant")
     public int getFromClient() {
         return fromClient;
     }

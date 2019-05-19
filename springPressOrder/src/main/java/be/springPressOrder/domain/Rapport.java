@@ -48,12 +48,4 @@ public class Rapport {
     public String getLog() {
         return log;
     }
-
-    public Date getCheckTime() {
-        return checkTime;
-    }
-
-    public Machine getMachine(){
-        return machine;
-    }
 }

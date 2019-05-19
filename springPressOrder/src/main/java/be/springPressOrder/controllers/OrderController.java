@@ -6,9 +6,11 @@ import be.springPressOrder.services.PressSystemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class OrderController {
@@ -64,6 +66,11 @@ public class OrderController {
         model.addAttribute("listOrders", pressSystemService.listPressOrderByOrder(id));//listAllPressOrders());
         return "ordersdetails";
     }
-
+    @RequestMapping(value={"/orderbyclientid.html"}, method = RequestMethod.GET)
+    public String orderDetailsByClientId(@RequestParam("idClient") Integer idClient, ModelMap model){
+        //Order order = orderService.getOrderByClientId(idClient);
+        model.addAttribute("objOrder",orderService.getOrderByClientId(idClient));
+        return "ordersshow";
+    }
 
 }
