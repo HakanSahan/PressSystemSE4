@@ -59,10 +59,10 @@ public class IndexController {
         return "/error/403";
     }
 */
-  /*  @GetMapping("/login-error")
+    @GetMapping("/login-error")
     public String loginError(Model model) {
         model.addAttribute("error", true);
         return "login";
-    }*/
+    }
 
 }

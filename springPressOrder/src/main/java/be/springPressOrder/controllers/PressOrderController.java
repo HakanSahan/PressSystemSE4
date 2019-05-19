@@ -29,6 +29,11 @@ public class PressOrderController {
         this.pressSystemService = pressSystemService;
     }
 
+    @Autowired
+    public void setOrderService(PressSystemService pressSystemService) {
+        this.pressSystemService = pressSystemService;
+    }
+
     @RequestMapping(value = "/pressorders", method = RequestMethod.GET)
     public String list(Model model) {
         model.addAttribute("pressOrders", pressSystemService.listAllPressOrders());
@@ -67,19 +72,16 @@ public class PressOrderController {
         return "redirect:/pressorders";
     }
 
-    /*@RequestMapping(value={"/pressorderbyorderbyid.html"}, method = RequestMethod.GET)
-    public String pressOrderDetailsByOrderId(@RequestParam("orderid") Integer orderid, ModelMap model){
+    @RequestMapping(value={"/pressorderbyorderbyid.html"}, method = RequestMethod.GET)
+    public String pressOrderDetailsByOrderId(@RequestParam("orderId") Integer orderId, ModelMap model){
         //Order order = orderService.getOrderByClientId(idClient);
-        model.addAttribute("pressOrder",pressSystemService.getPressOrderById(pressSystemService.getOrderById(orderid)));
+        model.addAttribute("pressOrder",pressSystemService.getPressOrderById(orderId));
         return "pressordersshow";
-    }*/
+    }
 
-   /* @RequestMapping("pressorder/plan/{id}")
+    @RequestMapping("pressorder/plan/{id}")
     public String plan(@PathVariable Integer id, Model model) {
         model.addAttribute("pressOrder", pressSystemService.getPressOrderById(id));
         return "pressorderplan";
-    }*/
-
-
-
+    }
 }

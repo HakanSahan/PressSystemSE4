@@ -7,8 +7,6 @@ import javax.persistence.*;
 import javax.validation.constraints.Digits;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
 
 @Entity
 @Table(name = "Orders")
@@ -39,9 +37,6 @@ public class Order {
     @JoinColumn(name = "pressOrder_id", referencedColumnName = "id")
     private PressOrder pressOrder;
 
-    @OneToMany(mappedBy = "order")
-    private Set<Juice> juices;
-
     public Order(){
         orderDate = new Date();
         status = Status.NotPlanned;
@@ -51,7 +46,6 @@ public class Order {
         this.amount = amount;
         this.fruit = fruit;
         this.idClient = idClient;
-        juices = new HashSet<>();
         orderDate = new Date();
         status = Status.NotPlanned;
     }
@@ -72,7 +66,7 @@ public class Order {
         return idClient;
     }
 
-    public PressOrder getPressOrder() {
+    public PressOrder getPressOrders() {
         return pressOrder;
     }
 
@@ -88,11 +82,11 @@ public class Order {
         this.amount = amount;
     }
 
-    public Status getStatus() {
+    public OrderStatus getStatus() {
         return status;
     }
 
-    public void setStatus(Status status) {
+    public void setStatus(OrderStatus status) {
         this.status = status;
     }
 

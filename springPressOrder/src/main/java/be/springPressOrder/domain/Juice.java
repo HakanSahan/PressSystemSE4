@@ -18,23 +18,20 @@ public class Juice {
    @OneToOne
     private Fruit fruit;
 
-    private int amount;
+    private int avAmount;
     @DateTimeFormat(pattern = "yyyy-MM-dd' 'HH:mm")
-    private Date pressDate;
+    private Date presdate;
     private int fromClient;
+
 
     @ManyToOne
     @JoinColumn(name = "order_id", nullable = true)
     private Order order;
 
-    @ManyToOne
-    @JoinColumn(name = "storage_id", nullable = true)
-    private Storage storage;
-
-    public Juice(Fruit fruit, int amount, Date presdate, int fromClient) {
+    public Juice(Fruit fruit, int avAmount, Date presdate, int fromClient) {
         this.fruit = fruit;
-        this.amount = amount;
-        this.pressDate = presdate;
+        this.avAmount = avAmount;
+        this.presdate = presdate;
         this.fromClient = fromClient;
     }
 
@@ -42,19 +39,19 @@ public class Juice {
 
     }
 
-    @XmlElement(name="Fruit")
-    public Fruit getFruit() {
+    @XmlElement(name="Soort")
+    public Fruit getSort() {
         return fruit;
     }
 
-    @XmlElement(name="amount")
-    public int getAmount() {
-        return amount;
+    @XmlElement(name="AvAmount")
+    public int getAvAmount() {
+        return avAmount;
     }
 
     @XmlElement(name="Presdate")
-    public Date getPressDate() {
-        return pressDate;
+    public Date getPresdate() {
+        return presdate;
     }
 
     @XmlElement(name="Klant")
@@ -66,7 +63,7 @@ public class Juice {
         this.amount = amount;
     }
 
-    public void setPressDate(Date presdate) {
+    public void setPresdate(Date presdate) {
         this.pressDate = presdate;
     }
 
