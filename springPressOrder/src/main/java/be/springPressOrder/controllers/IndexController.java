@@ -1,5 +1,6 @@
 package be.springPressOrder.controllers;
 
+import be.springPressOrder.domain.HttpsClient;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,6 +34,15 @@ public class IndexController {
     public String loginError(Model model) {
         model.addAttribute("error", true);
         return "login";
+    }
+
+    @RequestMapping("/weather")
+    String weather() {
+        System.out.println("Hello world");
+        HttpsClient client = new HttpsClient();
+        client.testIt();
+        return "index";
+
     }
 
 }
