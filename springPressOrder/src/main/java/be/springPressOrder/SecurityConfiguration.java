@@ -42,10 +42,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/request").hasAnyRole("PRESSER","ADMIN")
                 .antMatchers("/request/**").hasAnyRole("PRESSER","ADMIN")
                 //.antMatchers("/order/**").hasAnyRole("ADMIN")
-                .antMatchers("/pressorders/**").hasAnyRole("USER","ADMIN","TECHNICIAN")
-                .antMatchers("/pressorder/**").hasAnyRole("USER","ADMIN")
-                .antMatchers("/order/**").hasAnyRole("USER","ADMIN")
-                .anyRequest().hasAnyRole("USER","ADMIN").and()
+                .antMatchers("/pressorders/**").hasAnyRole("PRESSER","ADMIN","TECHNICIAN")
+               .antMatchers("/technicianOverview/**").hasAnyRole("TECHNICIAN")
+                .antMatchers("/pressorder/**").hasAnyRole("PRESSER","ADMIN")
+                .antMatchers("/order/**").hasAnyRole("PRESSER","ADMIN")
+                .anyRequest().hasAnyRole("PRESSER","ADMIN").and()
                     .formLogin().loginPage("/login").failureUrl("/login-error")
                         .defaultSuccessUrl("/menu",true).permitAll().and()
                     .logout().invalidateHttpSession(true).logoutSuccessUrl("/logout").permitAll();
@@ -59,11 +60,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
 
         auth.inMemoryAuthentication()
-                .withUser("user").password("password").roles("USER")
+                .withUser("user").password("password").roles("PRESSER")
                 .and()
                 .withUser("admin").password("password").roles("ADMIN")
                 .and()
-                .withUser("presser").password(("presser")).roles("USER")
+                .withUser("presser").password(("presser")).roles("PRESSER")
                 .and()
                 .withUser("technician").password(("technician")).roles("TECHNICIAN");
     }
