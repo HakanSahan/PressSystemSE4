@@ -5,8 +5,11 @@
 </head>
 <body>
     <div class="container">
-        <form class="form-horizontal" th:object="${objSchedule}" th:action="@{/schedule/test}" method="POST">
+        <form class="form-horizontal" th:object="${objSchedule}" th:action="@{/schedule}" method="POST">
             <input type="hidden" th:field="*{id}"/>
+            <div class="well" th:if="${message}!=null" th:text="${message}">
+
+            </div>
             <div class="form-group">
                 <label class="col-sm-2 control-label">Machine</label>
                 <label>
@@ -33,15 +36,24 @@
             </div>
             <div class="form-group">
                 <label class="col-sm-2 control-label">Start hour</label>
+                <span class="validationError"
+                      th:if="#{fields.hasErrors('beginHour')}"
+                      th:errors="*{beginHour}">Please use the correct format YYYY-MM-DD HH:MM
+                </span>
                 <label>
-                    <input type="date" th:field="*{beginHour}"/>
+                    <input type="text" th:field="*{beginHour}"/>
                 </label>
+
             </div>
             <div class="form-group">
                 <label class="col-sm-2 control-label">End hour</label>
                 <label>
-                    <input type="date" th:field="*{endHour}"/>
+                    <input type="text" th:field="*{endHour}"/>
                 </label>
+                <span class="validationError"
+                      th:if="#{fields.hasErrors('endHour')}"
+                      th:errors="*{endHour}">entryDatumError
+                </span>
             </div>
             <div class="row">
                 <button class="btn btn-default" type="submit">Submit</button>

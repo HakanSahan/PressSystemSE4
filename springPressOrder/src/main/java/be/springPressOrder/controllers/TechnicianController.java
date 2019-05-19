@@ -8,11 +8,15 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-@Slf4j
+import javax.jws.WebParam;
+import javax.validation.Valid;
+
+
 @Controller
 public class TechnicianController {
 
@@ -35,11 +39,18 @@ public class TechnicianController {
         return "requestForm";
     }
 
-    @RequestMapping(value = "/request", method = RequestMethod.POST)
-    public String saveRequest(RequestTechnicianData requestTechnician){
+    @RequestMapping(value = "request", method = RequestMethod.POST)
+    public String saveRequest(@Valid RequestTechnicianData requestTechnician, Errors errors, Model model){
         System.out.println("=================================================TEST POST TECHNICIAN REQUEST=============================================");
         pressSystemService.processRequestTechnician(requestTechnician);
         return "redirect: /";
+    }
+
+    @RequestMapping(value = "request", method = RequestMethod.GET)
+    public String showRequest(){
+        System.out.println("=================================================TEST POST TECHNICIAN REQUEST=============================================");
+        //pressSystemService.processRequestTechnician(requestTechnician);
+        return "request";
     }
 
 }

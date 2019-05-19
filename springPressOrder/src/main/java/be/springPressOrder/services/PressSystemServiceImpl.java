@@ -11,6 +11,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.sql.SQLOutput;
+import java.text.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -176,8 +178,14 @@ public class PressSystemServiceImpl implements PressSystemService {
     }
 
     @Override
-    public Schedule processSchedule(ScheduleData scheduleData){
-        return scheduleRepository.save(new Schedule(machineRepository.findOne(scheduleData.machineId),pressOrderRepository.findOne(scheduleData.pressOrderId),scheduleData.beginHour,scheduleData.endHour));
+    public String processSchedule(ScheduleData scheduleData) throws ParseException {
+        String message = "";
+        DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        System.out.println(format.parse(scheduleData.beginHour).toString());
+        System.out.println(format.parse(scheduleData.endHour).toString());
+        Schedule schedule = new Schedule(machineRepository.findOne(scheduleData.machineId),pressOrderRepository.findOne(scheduleData.pressOrderId),format.parse(scheduleData.beginHour),format.parse(scheduleData.endHour));
+        schedule = scheduleRepository.save(schedule);
+        return String.format("Press order has been scheduled with id %d",schedule.getId());
     }
 
     @Override

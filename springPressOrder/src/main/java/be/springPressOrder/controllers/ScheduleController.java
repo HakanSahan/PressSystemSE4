@@ -3,12 +3,14 @@ package be.springPressOrder.controllers;
 import be.springPressOrder.Data.ScheduleData;
 import be.springPressOrder.domain.Schedule;
 import be.springPressOrder.services.PressSystemService;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import org.springframework.validation.Errors;
+import javax.validation.Valid;
+import java.text.ParseException;
 
 
 @Controller
@@ -24,18 +26,37 @@ public class ScheduleController {
     @GetMapping
     public String scheduleCreateForm(Model model){
         ScheduleData newSchedule = new ScheduleData();
-        model.addAttribute("listMachines",pressSystemService.listAllMachines());
-        model.addAttribute("objSchedule",newSchedule);
-        model.addAttribute("listPressOrders", pressSystemService.listAllPressOrders());
-        //model.addAttribute("listMachines",pressSystemService.listAllMachines());
+        prepareFrom(newSchedule, model);
         return "scheduleform";
     }
 
-    @PostMapping(path = "/test")
-    public String saveSchedule(ScheduleData schedule){
+    private void prepareFrom(ScheduleData scheduleData,Model model){
+        model.addAttribute("listMachines",pressSystemService.listAllMachines());
+        model.addAttribute("objSchedule",scheduleData);
+        model.addAttribute("listPressOrders", pressSystemService.listAllPressOrders());
+    }
+
+    @PostMapping
+    public String saveSchedule(@Valid ScheduleData schedule,Errors errors,Model model){
         System.out.println("TEST POST");
-        pressSystemService.processSchedule(schedule);
-        return "redirect: /schedules";
+        String message="";
+        try{
+            if(errors.hasErrors()){
+                message = "Correct input errors please";
+                throw new IllegalArgumentException();
+            }
+
+            message = pressSystemService.processSchedule(schedule);
+            schedule = new ScheduleData();
+        }
+        catch(IllegalArgumentException e){
+
+        } catch (ParseException e) {
+
+        }
+        prepareFrom(schedule,model);
+        model.addAttribute("message",message);
+        return "scheduleform";
     }
 
         /*@RequestMapping(value = "/schedules", method = RequestMethod.GET)

@@ -24,11 +24,11 @@ public class IndexController {
         return "login";
     }*/
 
-    @RequestMapping("/403")
+/*    @RequestMapping("/403")
     public String error403() {
         return "/403";
     }
-
+*/
     @GetMapping("/login-error")
     public String loginError(Model model) {
         model.addAttribute("error", true);

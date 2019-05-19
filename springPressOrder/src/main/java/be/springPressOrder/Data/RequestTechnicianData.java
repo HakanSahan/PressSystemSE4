@@ -3,6 +3,7 @@ package be.springPressOrder.Data;
 import lombok.Data;
 import org.hibernate.validator.constraints.NotBlank;
 
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 @Data
@@ -13,7 +14,7 @@ public class RequestTechnicianData {
     @NotBlank(message = "Message cannot be blank")
     public String message;
 
-    @NotBlank(message = "technician cannot be blank")
+    @NotNull(message = "technician cannot be blank")
     public Integer technicianId;
 
     public Date sendDate;

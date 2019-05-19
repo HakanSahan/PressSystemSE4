@@ -8,10 +8,10 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 //@Log4j
 public class GlobalExceptionHandler {
 
-
+/*
     @ExceptionHandler(Exception.class)
     public String handleEmptyFieldException(Exception e){
         return "/403";
     }
-
+*/
 }

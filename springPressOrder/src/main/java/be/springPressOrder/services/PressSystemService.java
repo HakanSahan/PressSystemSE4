@@ -8,6 +8,7 @@ import be.springPressOrder.domain.*;
 import com.google.common.reflect.ImmutableTypeToInstanceMap;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,7 +51,7 @@ public interface PressSystemService {
 
     Iterable<Machine> listAllMachines();
 
-    Schedule processSchedule(ScheduleData scheduleData);
+    String processSchedule(ScheduleData scheduleData) throws ParseException;
 
     Iterable<Technician> listAllTechnicians();
 
