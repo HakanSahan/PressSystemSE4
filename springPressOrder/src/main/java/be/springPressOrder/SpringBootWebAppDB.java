@@ -26,6 +26,12 @@ public class SpringBootWebAppDB implements ApplicationListener<ContextRefreshedE
     private UserRepository userRepository;
 
     @Autowired
+<<<<<<< HEAD
+=======
+    public void setScheduleRepository(ScheduleRepository scheduleRepository){this.scheduleRepository = scheduleRepository;}
+
+    @Autowired
+>>>>>>> parent of 2e50c06... merge fix
     public void setTechnicianRepository(TechnicianRepository technicianRepository){this.technicianRepository =technicianRepository;}
 
     @Autowired
@@ -37,12 +43,16 @@ public class SpringBootWebAppDB implements ApplicationListener<ContextRefreshedE
     @Autowired
     public void setMachineRepository(MachineRepository machineRepository){this.machineRepository = machineRepository;}
 
+<<<<<<< HEAD
     @Autowired
     public void setScheduleRepository(ScheduleRepository scheduleRepository){this.scheduleRepository = scheduleRepository;}
+=======
+>>>>>>> parent of 2e50c06... merge fix
 
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event) {
 
+<<<<<<< HEAD
         Fruit apple = new Fruit("Apple");
         Fruit pear = new Fruit("Pear");
         fruitRepository.save(apple);
@@ -50,6 +60,23 @@ public class SpringBootWebAppDB implements ApplicationListener<ContextRefreshedE
         Order order1 = new Order(2,apple,1);
         orderRepository.save(order1);
         //log.info("Saved order1 - id: " + order1.getId());
+=======
+        User user = new User("admin","admin","047","ROLE_ADMIN","admin","ROLE_ADMIN","{noop}password");
+
+        userRepository.save(user);
+
+        Fruit fruit = new Fruit("Apple");
+        fruitRepository.save(fruit);
+
+        machineRepository.save(new Machine());
+
+        List<Order> orders = Arrays.asList(
+                new Order(50,fruit,1),
+                new Order(50,fruit,1),
+                new Order(50,fruit,1));
+
+        orderRepository.save(orders);
+>>>>>>> parent of 2e50c06... merge fix
 
         Order order2 = new Order(3,pear,2);
         orderRepository.save(order2);
