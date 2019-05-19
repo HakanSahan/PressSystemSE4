@@ -41,8 +41,6 @@ public class SpringBootWebAppDB implements ApplicationListener<ContextRefreshedE
     public void setMachineRepository(MachineRepository machineRepository){this.machineRepository = machineRepository;}
 
 
-    @Autowired
-    public void setScheduleRepository(ScheduleRepository scheduleRepository){this.scheduleRepository = scheduleRepository;}
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event) {
         Fruit apple = new Fruit("Apple");
