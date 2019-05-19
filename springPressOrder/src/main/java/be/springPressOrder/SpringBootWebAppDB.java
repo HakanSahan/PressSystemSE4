@@ -24,6 +24,8 @@ public class SpringBootWebAppDB implements ApplicationListener<ContextRefreshedE
     private TechnicianRepository technicianRepository;
     private RequestTechnicianRepository requestTechnicianRepository;
     private UserRepository userRepository;
+    private StorageRepository storageRepository;
+    private JuiceRepository juiceRepository;
 
     @Autowired
     public void setPressOrderRepository(PressOrderRepository pressOrderRepository) { this.pressOrderRepository = pressOrderRepository; }
@@ -49,6 +51,12 @@ public class SpringBootWebAppDB implements ApplicationListener<ContextRefreshedE
     @Autowired
     public void setMachineRepository(MachineRepository machineRepository){this.machineRepository = machineRepository;}
 
+    @Autowired
+    public void setStorageRepository(StorageRepository storageRepository){this.storageRepository=storageRepository;}
+
+    @Autowired
+    public void setJuiceRepository(JuiceRepository juiceRepository){this.juiceRepository=juiceRepository;}
+
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event) {
 
@@ -58,6 +66,13 @@ public class SpringBootWebAppDB implements ApplicationListener<ContextRefreshedE
 
         Fruit fruit = new Fruit("Apple");
         fruitRepository.save(fruit);
+
+        Storage storage = new Storage(fruit,3.0);
+        Juice juice1 = new Juice(fruit,50,new Date(),1);
+        juiceRepository.save(juice1);
+        storage.addJuice(juice1);
+        storageRepository.save(storage);
+
 
         machineRepository.save(new Machine());
 

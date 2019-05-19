@@ -60,4 +60,6 @@ public interface PressSystemService {
     RequestTechnician getRequestTechnicianById(int id);
 
     RequestTechnician processRequestTechnician(RequestTechnicianData requestTechnicianData);
+
+    public Iterable<Storage> listAllStorages();
 }
