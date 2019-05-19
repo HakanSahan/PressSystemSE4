@@ -66,7 +66,10 @@ public class OrderController {
         model.addAttribute("listOrders", pressSystemService.listPressOrderByOrder(id));//listAllPressOrders());
         return "ordersdetails";
     }
+<<<<<<< HEAD
 
+=======
+>>>>>>> parent of 2e50c06... merge fix
     @RequestMapping(value={"/orderbyclientid.html"}, method = RequestMethod.GET)
     public String orderDetailsByClientId(@RequestParam("idClient") Integer idClient, ModelMap model){
         //Order order = orderService.getOrderByClientId(idClient);
