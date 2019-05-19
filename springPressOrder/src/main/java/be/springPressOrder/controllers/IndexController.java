@@ -8,12 +8,41 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class IndexController {
 
-    /*@GetMapping("/")
+
+    @GetMapping("/")
     public String index() {
         return "index";
-    }*/
+    }
 
-    @RequestMapping("/")
+    @GetMapping("/home")
+    public String menu(){
+        return "home";
+    }
+
+    @RequestMapping("/login")
+    public String login() {
+        return "login";
+    }
+
+    @RequestMapping("/logout")
+    public String logout() {
+        return "logout";
+    }
+
+
+    @RequestMapping("/403")
+    public String error403() {
+        return "/error/403";
+    }
+
+    @GetMapping("/login-error")
+    public String loginError(Model model) {
+        model.addAttribute("error", true);
+        return "login";
+    }
+
+
+    /*@RequestMapping("/")
     String index() {
         return "index";
     }
@@ -32,7 +61,6 @@ public class IndexController {
     public String loginError(Model model) {
         model.addAttribute("error", true);
         return "login";
-    }
-
+    }*/
 
 }

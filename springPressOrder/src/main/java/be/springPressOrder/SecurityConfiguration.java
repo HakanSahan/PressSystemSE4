@@ -12,8 +12,10 @@ import org.springframework.security.web.access.AccessDeniedHandler;
 @EnableWebSecurity
 @Configuration
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
+
     @Autowired
     private AccessDeniedHandler accessDeniedHandler;
+
 
     @Autowired
     private UserDetailsService userDetailsService;
@@ -25,43 +27,39 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     }
 
     @Override
-    protected void configure(HttpSecurity httpSecurity) throws Exception {
-        httpSecurity.authorizeRequests()
-                .antMatchers("/").hasAnyRole("PRESSER","ADMIN","TECHNICIAN")
-                .antMatchers("/menu/**").hasAnyRole("PRESSER","ADMIN","TECHNICIAN")
+    protected void configure(HttpSecurity http) throws Exception {
 
-                .antMatchers("/fruiteigenaar/**").permitAll()
-                .antMatchers("/orderrest/**").permitAll()
+        http.authorizeRequests()
+                .antMatchers("/favicon.ico").permitAll()
+                .antMatchers("/login*").permitAll()
+                .antMatchers("/images/**").permitAll()
+                .antMatchers("/css/**").permitAll()
+
+
+        /*.antMatchers("/", "/h2/**").hasRole("ADMIN")
                 .antMatchers("/orders/**").hasAnyRole("ADMIN")
-                //.antMatchers("/order/**").hasAnyRole("ADMIN")
-                .antMatchers("/fruiteigenaaroverzicht/**").hasAnyRole("ADMIN")
-                .antMatchers("/pressorders/**").hasAnyRole("PRESSER","ADMIN")
                 .antMatchers("/weather/**").hasAnyRole("ADMIN")
-                .antMatchers("/technicianOverview/**").hasAnyRole("TECHNICIAN")
-                .antMatchers("/console/**").hasAnyRole("ADMIN")
-                .anyRequest().authenticated()
-                .and()
-
-                .formLogin().loginPage("/login").permitAll()
-
-                .and()
-                .exceptionHandling().accessDeniedHandler(accessDeniedHandler);
-
-
-        httpSecurity.csrf().disable();
-        httpSecurity.headers().frameOptions().disable();
+                .antMatchers(HttpMethod.POST, "/schedule/test").permitAll()
+                .antMatchers("/request").permitAll()
+                .antMatchers("/order/**").hasAnyRole("ADMIN")
+                .antMatchers("/pressorder/**").hasAnyRole("PRESSER","ADMIN","TECHNICIAN")
+                .antMatchers("/technicianOverview/**").hasAnyRole("TECHNICIAN")*/
+                .anyRequest().authenticated().and()
+                .formLogin().loginPage("/login").failureUrl("/login-error")
+                .defaultSuccessUrl("/home",true).permitAll().and()
+                .logout().invalidateHttpSession(true).logoutSuccessUrl("/logout").permitAll();
+        http.exceptionHandling().accessDeniedPage("/403");
+        http.csrf().and().cors().disable();
+        http.headers().frameOptions().disable();// NEEDED FOR H2 CONSOLE
     }
-//antMatchers("/fruiteigenaar").hasAnyRole("ADMIN")
-//                .antMatchers("/fruiteigenaarregistratie").hasAnyRole("ADMIN")
-    /*@Autowired
+
+   /* @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
 
         auth.inMemoryAuthentication()
-                .withUser("pv").password("{bcrypt}$2a$10$QfNyqLAr24uJVmFMiFC7luVH98wIDefLEL9Z.MRNuKDe9n3YGOMR.").roles("PRESSER")
+                .withUser("pv").password("presser").roles("PRESSER")
                 .and()
-                .withUser("hs").password("{bcrypt}$2a$10$tQADq.D9jOmYE0BGKgfWgOUrC0Pi5kJr/DiPLfJkh0tecqzBaTB82").roles("ADMIN");
-
+                .withUser("hs").password("admin").roles("ADMIN");
     }*/
-
 
 }

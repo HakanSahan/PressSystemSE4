@@ -20,6 +20,10 @@
                         <li><a href="#" th:href="@{/technicianOverview}">Technician overview</a></li>
                     </ul>
 
+                    <form method="POST" th:action="@{/logout}" style="float: right">
+                        <button class="btn btn-danger btn-md logout" name="logout" value="Logout">Logout</button>
+                    </form>
+
                 </div>
             </div>
         </nav>

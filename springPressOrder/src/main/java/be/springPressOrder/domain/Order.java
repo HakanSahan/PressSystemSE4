@@ -4,48 +4,44 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.validation.constraints.Digits;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 @Entity
 @Table(name = "Orders")
 public class Order {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
+
     @Digits(integer=3, fraction=0, message = "Please select an amount less than thousand ")
     private int amount;
-    public enum OrderStatus {Canceled}
-    private OrderStatus status;
+
+    public enum Status {NotPlanned, Planned, Executing, Executed, Canceled}
+    private Status status;
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd' 'HH:mm")
+    private Date orderDate;
 
     @ManyToOne
     @JoinColumn(name = "fruid_id")
     private Fruit fruit;
-
-    @DateTimeFormat(pattern = "yyyy-MM-dd' 'HH:mm")
-    private Date orderDate;
     private int idClient;
 
-    @OneToMany(mappedBy = "order")
-    private List<Juice> juices;
+    public void setIdClient(int idClient) {
+        this.idClient = idClient;
+    }
 
+    @OneToOne(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
+    private PressOrder pressOrders;
 
     public int getIdClient() {
         return idClient;
     }
 
     public Order(){
-
-    }
-
-    public Order(int amount, Juice juice, int idClient){
-        this.amount = amount;
-        this.juices = new ArrayList<Juice>();
-        this.juices.add(juice);
-        this.idClient = idClient;
         orderDate = new Date();
-        status = OrderStatus.Canceled;
+        status = Status.NotPlanned;
     }
 
     public int getId() {
@@ -60,11 +56,11 @@ public class Order {
         this.amount = amount;
     }
 
-    public OrderStatus getStatus() {
+    public Status getStatus() {
         return status;
     }
 
-    public void setStatus(OrderStatus status) {
+    public void setStatus(Status status) {
         this.status = status;
     }
 
@@ -76,11 +72,16 @@ public class Order {
         this.orderDate = orderDate;
     }
 
-    public List<Juice> getJuices() {
-        return juices;
+    public Fruit getFruit() {
+        return fruit;
     }
 
-    public void setJuice(List<Juice> juices) {
-        this.juices = juices;
+    public Order(int amount, Fruit fruit, int idClient){
+        this.amount = amount;
+        this.fruit = fruit;
+        this.idClient = idClient;
+        orderDate = new Date();
+        status = Status.NotPlanned;
     }
+
 }

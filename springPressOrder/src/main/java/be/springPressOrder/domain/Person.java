@@ -1,47 +1,56 @@
 package be.springPressOrder.domain;
 
-import lombok.Data;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-import java.util.Arrays;
-import java.util.Collection;
-
 
 @Entity
-@Table(name = "USERS")
-@Data
-//@RequiredArgsConstructor
-//@NoArgsConstructor(access= AccessLevel.PRIVATE,force=true)
-public abstract class Person implements UserDetails {
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+public abstract class Person {
+
     @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.TABLE)
     private int id;
 
-    @Column(unique = true)
-    private String username;
-
+    @Column
     private String name;
+
+    @Column
     private String firstname;
-    // Must be {bcrypt}-encoded
-    private String password;
 
+    @Column
     private String phone;
+
+    @Column
     private String email;
-    //private Address address;
 
-    //Will be declared in subclass
-    private final String role;
+    @ManyToOne
+    @JoinColumn(name = "address_id")
+    private Address address;
 
-    /*public Address getAddress() {
+    Person(int id, String name, String firstname, String phone, String email) {
+        this.id = id;
+        this.name = name;
+        this.firstname = firstname;
+        this.phone = phone;
+        this.email = email;
+    }
+
+    Person(String name, String firstname, String phone, String email) {
+        this.name = name;
+        this.firstname = firstname;
+        this.phone = phone;
+        this.email = email;
+    }
+
+    Person(){}
+
+    public Address getAddress() {
         return address;
     }
 
     public void setAddress(Address address) {
         this.address = address;
-    }*/
+    }
 
     public int getId() {
         return id;
@@ -77,52 +86,6 @@ public abstract class Person implements UserDetails {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public String getPassword(){return password;}
-
-    public Person(String name, String firstname, String phone, String email, String username, String role, String password) {
-        this.name = name;
-        this.firstname = firstname;
-        this.phone = phone;
-        this.email = email;
-        this.username = username;
-        this.role = role;
-        this.password = password;
-    }
-
-    public Person(String role) {
-        this.role = role;
-    }
-
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Arrays.asList(new SimpleGrantedAuthority(role));
-    }
-
-    @Override
-    public String getUsername() {
-        return username;
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return true;
     }
 
 }
