@@ -15,14 +15,18 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
-        httpSecurity.authorizeRequests().antMatchers("/").permitAll()
+        httpSecurity.authorizeRequests()
+                .antMatchers("/").permitAll()
+
+                .antMatchers("/fruiteigenaar/**").permitAll()
                 .antMatchers("/orders/**").hasAnyRole("ADMIN")
                 //.antMatchers("/order/**").hasAnyRole("ADMIN")
+                .antMatchers("/fruiteigenaaroverzicht/**").hasAnyRole("ADMIN")
                 .antMatchers("/pressorders/**").hasAnyRole("USER","ADMIN")
-                .anyRequest().authenticated().and()
-
-                .authorizeRequests().antMatchers("/console/**").hasAnyRole("ADMIN")
+                .antMatchers("/console/**").hasAnyRole("ADMIN")
+                .anyRequest().authenticated()
                 .and()
+
                 .formLogin().loginPage("/login").permitAll()
 
                 .and()
@@ -32,7 +36,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         httpSecurity.csrf().disable();
         httpSecurity.headers().frameOptions().disable();
     }
-
+//antMatchers("/fruiteigenaar").hasAnyRole("ADMIN")
+//                .antMatchers("/fruiteigenaarregistratie").hasAnyRole("ADMIN")
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
 

@@ -9,7 +9,7 @@
 <body>
 <div class="container">
     <!--/*/ <th:block th:include="fragments/header :: header"></th:block> /*/-->
-    <div th:if="${not #lists.isEmpty(pressOrders)}">
+    <div th:if="${not #lists.isEmpty(juices)}">
         <h2>Press order list</h2>
         <table class="table table-striped">
             <tr>
@@ -28,7 +28,6 @@
                 <td><a th:href="${'/pressorder/' + pressOrder.id}">View</a></td>
                 <td><a th:href="${'/pressorder/edit/' + pressOrder.id}">Edit</a></td>
                 <td><a th:href="${'/pressorder/delete/' + pressOrder.id}">Delete</a></td>
-                <td><a th:href="${'/pressorder/plan/' + pressOrder.id}">plan</a></td>
             </tr>
         </table>
 

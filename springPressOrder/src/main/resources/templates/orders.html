@@ -15,7 +15,6 @@
             <tr>
                 <th>Id</th>
                 <th>Amount</th>
-                <th>Juice</th>
                 <th>Status</th>
                 <th>Date</th>
                 <th>Client id</th>
@@ -23,7 +22,6 @@
             <tr th:each="objOrder : ${listOrders}">
                 <td th:text="${objOrder.id}"><a href="/order/${order.id}">Id</a></td>
                 <td th:text="${objOrder.amount}">Amount</td>
-                <td th:text="${objOrder.juice}">Juice</td>
                 <td th:text="${objOrder.status}">Status</td>
                 <td th:text="${objOrder.orderDate}">Date</td>
                 <td th:text="${objOrder.idClient}">Client id</td>
