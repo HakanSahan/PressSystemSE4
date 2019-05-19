@@ -4,6 +4,8 @@ import be.springPressOrder.domain.Order;
 import org.aspectj.weaver.ast.Or;
 import org.springframework.data.repository.CrudRepository;
 
+import java.util.List;
+
 public interface OrderRepository extends CrudRepository<Order, Integer> {
     List<Order> findByIdClient(int idClient);
 

@@ -9,7 +9,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "technicians")
-public class Technician extends Person{
+public class Technician extends User{
 
     @Column
     private Boolean isAvaileble;
@@ -18,12 +18,8 @@ public class Technician extends Person{
     private List<RequestTechnician> requestTechnicians = new ArrayList<>();
 
 
-    public Technician(int id, String name, String firstname, String phone, String email) {
-        super(id, name, firstname, phone, email);
-    }
-
-    public Technician(String name, String firstname, String phone, String email) {
-        super(name, firstname, phone, email);
+    public Technician(String name, String firstname, String phone, String email, String username,String role, String password) {
+        super(name, firstname, phone, email,username,role,password);
     }
 
     public Technician(){}

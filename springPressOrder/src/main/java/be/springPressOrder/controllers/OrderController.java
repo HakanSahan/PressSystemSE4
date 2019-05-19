@@ -66,11 +66,11 @@ public class OrderController {
         model.addAttribute("listOrders", pressSystemService.listPressOrderByOrder(id));//listAllPressOrders());
         return "ordersdetails";
     }
-    @RequestMapping(value={"/orderbyclientid.html"}, method = RequestMethod.GET)
+   /* @RequestMapping(value={"/orderbyclientid.html"}, method = RequestMethod.GET)
     public String orderDetailsByClientId(@RequestParam("idClient") Integer idClient, ModelMap model){
         //Order order = orderService.getOrderByClientId(idClient);
-        model.addAttribute("objOrder",orderService.getOrderByClientId(idClient));
+        model.addAttribute("objOrder",pressSystemService.get(idClient));
         return "ordersshow";
-    }
+    }*/
 
 }

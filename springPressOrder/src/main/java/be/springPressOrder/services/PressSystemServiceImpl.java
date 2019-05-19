@@ -7,6 +7,8 @@ import be.springPressOrder.Data.ScheduleData;
 import be.springPressOrder.dao.*;
 import be.springPressOrder.domain.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.sql.SQLOutput;
@@ -78,7 +80,7 @@ public class PressSystemServiceImpl implements PressSystemService {
         ArrayList<PressOrder> result = new  ArrayList<>();
         for (PressOrder pressOrder : pressOrderRepository.findAll())
         {
-            if(pressOrder.getOrderId().equals(idOrder))
+            if(pressOrder.getOrder().getId() == idOrder)
                 result.add(pressOrder);
         }
         return result;
@@ -211,7 +213,7 @@ public class PressSystemServiceImpl implements PressSystemService {
         return requestTechnicianRepository.save(new RequestTechnician(requestTechnicianData.sendDate,requestTechnicianData.message,technicianRepository.findOne(requestTechnicianData.technicianId)));
     }
 
-    @Override
+
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
         User user = userRepository.findByUsername(username);

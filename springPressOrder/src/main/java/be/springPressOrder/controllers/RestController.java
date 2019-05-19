@@ -6,6 +6,7 @@ import be.springPressOrder.domain.Order;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @org.springframework.web.bind.annotation.RestController
@@ -17,7 +18,7 @@ public class RestController {
     private OrderRepository orderRepository;
 
     @GetMapping("/{id}")
-    public Order getOrderbyId(@PathVariable("id") int id) {
+    public List<Order> getOrderbyId(@PathVariable("id") int id) {
         return orderRepository.findByIdClient(id); //.get()
     }
 }

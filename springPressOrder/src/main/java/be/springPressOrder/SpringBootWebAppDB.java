@@ -2,6 +2,7 @@ package be.springPressOrder;
 
 import be.springPressOrder.dao.*;
 import be.springPressOrder.domain.*;
+import cucumber.api.java.cs.A;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
@@ -25,6 +26,15 @@ public class SpringBootWebAppDB implements ApplicationListener<ContextRefreshedE
     private UserRepository userRepository;
 
     @Autowired
+    public void setPressOrderRepository(PressOrderRepository pressOrderRepository) { this.pressOrderRepository = pressOrderRepository; }
+
+    @Autowired
+    public void setOrderRepository(OrderRepository orderRepository) { this.orderRepository = orderRepository; }
+
+    @Autowired
+    public void setFruitRepository(FruitRepository fruitRepository) { this.fruitRepository = fruitRepository; }
+
+    @Autowired
     public void setScheduleRepository(ScheduleRepository scheduleRepository){this.scheduleRepository = scheduleRepository;}
 
     @Autowired
@@ -39,11 +49,10 @@ public class SpringBootWebAppDB implements ApplicationListener<ContextRefreshedE
     @Autowired
     public void setMachineRepository(MachineRepository machineRepository){this.machineRepository = machineRepository;}
 
-
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event) {
 
-        User user = new User("admin","admin","047","ROLE_ADMIN","admin","ROLE_ADMIN","{noop}password");
+        User user = new User("admin","admin","047","mail@mail.be","admin","ROLE_ADMIN","{noop}password");
 
         userRepository.save(user);
 
@@ -97,9 +106,9 @@ public class SpringBootWebAppDB implements ApplicationListener<ContextRefreshedE
         machineRepository.save(machine2);
         machineRepository.save(machine3);
 
-        Technician technician1 = new Technician("Duck","James","+32479019788","JamesDuck@Duck.com");
-        Technician technician2 = new Technician("Flamingo","Jeff","+32488527488","JeffFlamingo@Duck.com");
-
+        //Technician technician1 = new Technician("Duck","James","+32479019788","JamesDuck@Duck.com");
+        //Technician technician2 = new Technician("Flamingo","Jeff","+32488527488","JeffFlamingo@Duck.com");
+/*
         RequestTechnician request1 = new RequestTechnician(new Date(),"Please HELP",technician1);
 
         RequestTechnician request2 = new RequestTechnician(new Date(),"Boot too big",technician1);
@@ -107,19 +116,19 @@ public class SpringBootWebAppDB implements ApplicationListener<ContextRefreshedE
         RequestTechnician request3 = new RequestTechnician(new Date(),"Please HELP",technician2);
 
         RequestTechnician request4 = new RequestTechnician(new Date(),"Boot too big",technician2);
-
-        technician1.getRequestTechnicians().add(request1);
+*/
+       /* technician1.getRequestTechnicians().add(request1);
         technician1.getRequestTechnicians().add(request2);
         technician2.getRequestTechnicians().add(request3);
-        technician2.getRequestTechnicians().add(request4);
+        technician2.getRequestTechnicians().add(request4);*/
 
-        technicianRepository.save(technician1);
-        technicianRepository.save(technician2);
+        //technicianRepository.save(technician1);
+        //technicianRepository.save(technician2);
 
-        requestTechnicianRepository.save(request1);
+       /* requestTechnicianRepository.save(request1);
         requestTechnicianRepository.save(request4);
         requestTechnicianRepository.save(request2);
-        requestTechnicianRepository.save(request3);
+        requestTechnicianRepository.save(request3);*/
 
         Schedule schedule = new Schedule(machine1,pressOrder1,new Date(),new Date());
 

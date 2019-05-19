@@ -3,8 +3,7 @@ package be.springPressOrder.controllers;
 import be.springPressOrder.domain.Client;
 import be.springPressOrder.domain.User;
 import be.springPressOrder.services.ClientService;
-import be.springPressOrder.services.OrderService;
-import be.springPressOrder.services.PressOrderService;
+import be.springPressOrder.services.PressSystemService;
 import be.springPressOrder.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,14 +19,8 @@ import javax.validation.Valid;
 
 @Controller
 public class FruitEigenaarController {
-    private PressOrderService pressOrderService;
+    private PressSystemService pressSystemService;
     private UserService userService;
-    private OrderService orderService;
-
-    @Autowired
-    public void setPressOrderService(PressOrderService pressOrderService) {
-        this.pressOrderService = pressOrderService;
-    }
 
     @Autowired
     public void setUserService(UserService userService) {
@@ -35,16 +28,15 @@ public class FruitEigenaarController {
     }
 
     @Autowired
-    public void setOrderService(OrderService orderService) {
-        this.orderService = orderService;
-    }
+    private void setPressSystemService(PressSystemService pressSystemService){this.pressSystemService = pressSystemService;}
 
-    @RequestMapping(value = "/fruiteigenaar/overzicht/{id}", method = RequestMethod.GET)
+   /** @RequestMapping(value = "/fruiteigenaar/overzicht/{id}", method = RequestMethod.GET)
     public String list(@PathVariable Integer id,Model model) {
-        model.addAttribute("Orders", orderService.getOrdersByClientId(id));
-        model.addAttribute("PressOrders", pressOrderService.getPressOrdersByClientId(id));
+        model.addAttribute("Orders", pressSystemService.getOrdersByClientId(id));
+        model.addAttribute("PressOrders", pressSystemService.getPressOrdersByClientId(id));
         return "fruiteigenaaroverzicht";
-    }
+    }**/
+
     @RequestMapping(value = "/fruiteigenaar/registratie", method = RequestMethod.GET)
     public String list(Model model) {
         model.addAttribute("objUser", new User());
