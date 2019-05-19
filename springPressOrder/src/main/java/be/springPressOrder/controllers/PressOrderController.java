@@ -29,21 +29,6 @@ public class PressOrderController {
         this.pressSystemService = pressSystemService;
     }
 
-    @Autowired
-<<<<<<< HEAD
-<<<<<<< HEAD
-    public void setOrderService(PressSystemService pressSystemService) {
-        this.pressSystemService = pressSystemService;
-=======
-    public void setOrderService(OrderService orderService) {
-        this.orderService = orderService;
->>>>>>> parent of 2e50c06... merge fix
-=======
-    public void setOrderService(OrderService orderService) {
-        this.orderService = orderService;
->>>>>>> parent of 2e50c06... merge fix
-    }
-
     @RequestMapping(value = "/pressorders", method = RequestMethod.GET)
     public String list(Model model) {
         model.addAttribute("pressOrders", pressSystemService.listAllPressOrders());
@@ -65,7 +50,7 @@ public class PressOrderController {
     @RequestMapping("pressorder/new")
     public String newPressOrder(Model model) {
         model.addAttribute("objPressOrder", new PressOrderData());
-        model.addAttribute("objFruits",pressSystemService.listAllFruits());
+        model.addAttribute("objFruits", pressSystemService.listAllFruits());
         return "pressorderform";
     }
 
@@ -81,38 +66,4 @@ public class PressOrderController {
         pressSystemService.deletePressOrder(id);
         return "redirect:/pressorders";
     }
-
-    @RequestMapping(value={"/pressorderbyorderbyid.html"}, method = RequestMethod.GET)
-<<<<<<< HEAD
-<<<<<<< HEAD
-    public String pressOrderDetailsByOrderId(@RequestParam("orderId") Integer orderId, ModelMap model){
-        //Order order = orderService.getOrderByClientId(idClient);
-        model.addAttribute("pressOrder",pressSystemService.getPressOrderById(orderId));
-=======
-    public String pressOrderDetailsByOrderId(@RequestParam("orderid") Integer orderid, ModelMap model){
-        //Order order = orderService.getOrderByClientId(idClient);
-        model.addAttribute("pressOrder",pressOrderService.getPressOrderByOrder(orderService.getOrderById(orderid)));
->>>>>>> parent of 2e50c06... merge fix
-=======
-    public String pressOrderDetailsByOrderId(@RequestParam("orderid") Integer orderid, ModelMap model){
-        //Order order = orderService.getOrderByClientId(idClient);
-        model.addAttribute("pressOrder",pressOrderService.getPressOrderByOrder(orderService.getOrderById(orderid)));
->>>>>>> parent of 2e50c06... merge fix
-        return "pressordersshow";
-    }
-
-    @RequestMapping("pressorder/plan/{id}")
-    public String plan(@PathVariable Integer id, Model model) {
-        model.addAttribute("pressOrder", pressOrderService.getPressOrderById(id));
-        return "pressorderplan";
-    }
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-=======
->>>>>>> parent of 2e50c06... merge fix
-
-
-
->>>>>>> parent of 2e50c06... merge fix
 }

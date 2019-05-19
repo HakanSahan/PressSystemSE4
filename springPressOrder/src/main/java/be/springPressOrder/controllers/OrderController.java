@@ -44,7 +44,7 @@ public class OrderController {
     @RequestMapping("order/new")
     public String newOrder(Model model) {
         model.addAttribute("objOrder", new OrderData());
-        model.addAttribute("objFruits",pressSystemService.listAllFruits());
+        model.addAttribute("objFruits", pressSystemService.listAllFruits());
         return "orderform";
     }
 
@@ -62,33 +62,16 @@ public class OrderController {
     }
 
     @RequestMapping("order/pressorders/{id}")
-    public String listDetail(@PathVariable Integer id,Model model) {
+    public String listDetail(@PathVariable Integer id, Model model) {
         model.addAttribute("listOrders", pressSystemService.listPressOrderByOrder(id));//listAllPressOrders());
         return "ordersdetails";
     }
-<<<<<<< HEAD
-<<<<<<< HEAD
 
-    /* Hier ontbreekt een methode /client id
 
-    @RequestMapping(value={"/orderbyclientid.html"}, method = RequestMethod.GET)
-    public String orderDetailsByClientId(@RequestParam("idClient") Integer idClient, ModelMap model){
+    @RequestMapping(value = {"/orderbyclientid.html"}, method = RequestMethod.GET)
+    public String orderDetailsByClientId(@RequestParam("idClient") Integer idClient, ModelMap model) {
         //Order order = orderService.getOrderByClientId(idClient);
-        model.addAttribute("objOrder",pressSystemService.);
-=======
-    @RequestMapping(value={"/orderbyclientid.html"}, method = RequestMethod.GET)
-    public String orderDetailsByClientId(@RequestParam("idClient") Integer idClient, ModelMap model){
-        //Order order = orderService.getOrderByClientId(idClient);
-        model.addAttribute("objOrder",orderService.getOrderByClientId(idClient));
->>>>>>> parent of 2e50c06... merge fix
-=======
-    @RequestMapping(value={"/orderbyclientid.html"}, method = RequestMethod.GET)
-    public String orderDetailsByClientId(@RequestParam("idClient") Integer idClient, ModelMap model){
-        //Order order = orderService.getOrderByClientId(idClient);
-        model.addAttribute("objOrder",orderService.getOrderByClientId(idClient));
->>>>>>> parent of 2e50c06... merge fix
-        return "ordersshow";
+        //model.addAttribute("objOrder",pressSystemService.get)
+        return "";
     }
-
-     */
 }
