@@ -1,78 +1,64 @@
 package be.springPressOrder.domain;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "Pressorders")
 public class PressOrder {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+    private Integer id;
 
     private int fruitAmount;
-    private int juice;
     private int maxJuiceAmount;
-    private Date startHour;
-    private Date endHour;
-    public enum Status {NotPlannend, Plannend, Executing, Executed, Canceled} ;
+    public enum Status {NotPlanned, Planned, Executing, Executed, Canceled}
     private Status status;
-    @OneToOne
+
+    @OneToOne(mappedBy = "pressOrder")
     private Order order;
     private int idClient;
 
     //private Machine machine;
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
+    @OneToMany(mappedBy = "pressOrder")
+    private Set<Schedule> schedules;
 
     public void setClientId(int idClient) {
         this.idClient = idClient;
     }
 
-    public int getFruitAmount() {
-        return fruitAmount;
+    public PressOrder(int fruitAmount, int maxJuiceAmount, Order order){
+        this.fruitAmount = fruitAmount;
+        this.maxJuiceAmount = maxJuiceAmount;
+        this.status = Status.NotPlanned;
+        this.order = order;
+        schedules = new HashSet<>();
     }
 
     public void setFruitAmount(int fruitAmount) {
         this.fruitAmount = fruitAmount;
     }
 
-    public int getJuice() {
-        return juice;
-    }
-
-    public void setJuice(int juice) {
-        this.juice = juice;
-    }
-
-    public int getMaxJuiceAmount() {
-        return maxJuiceAmount;
-    }
-
     public void setMaxJuiceAmount(int maxJuiceAmount) {
         this.maxJuiceAmount = maxJuiceAmount;
     }
 
-    public Date getStartHour() {
-        return startHour;
+    public Integer getId() {
+        return id;
     }
 
-    public void setStartHour(Date startHour) {
-        this.startHour = startHour;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
-    public Date getEndHour() {
-        return endHour;
+    public int getFruitAmount() {
+        return fruitAmount;
     }
 
-    public void setEndHour(Date endHour) {
-        this.endHour = endHour;
+    public int getMaxJuiceAmount() {
+        return maxJuiceAmount;
     }
 
     public Status getStatus() {
@@ -91,21 +77,7 @@ public class PressOrder {
         this.order = order;
     }
 
-    /*public Machine getMachine() {
-        return machine;
-    }
-
-    public void setMachine(Machine machine) {
-        this.machine = machine;
-    }*/
-
-    public PressOrder(int hoeveelheidFruit, Order bestelling) {
-        this.fruitAmount = hoeveelheidFruit;
-        this.order = bestelling;
-        status = Status.NotPlannend;
-    }
-
-    public PressOrder() {
-        status = Status.NotPlannend;
+    public Set<Schedule> getSchedules() {
+        return schedules;
     }
 }

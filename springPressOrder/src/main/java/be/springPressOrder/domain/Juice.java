@@ -59,13 +59,12 @@ public class Juice {
         return fromClient;
     }
 
-    
-    public void setAvAmount(int avAmount) {
-        this.avAmount = avAmount;
+    public void setAmount(int amount) {
+        this.amount = amount;
     }
 
     public void setPresdate(Date presdate) {
-        this.presdate = presdate;
+        this.pressDate = presdate;
     }
 
     public void setFromClient(int fromClient) {

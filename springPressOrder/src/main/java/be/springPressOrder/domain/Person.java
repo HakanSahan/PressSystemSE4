@@ -24,11 +24,15 @@ public abstract class Person implements UserDetails {
     private String username;
 
     private String name;
+
+    @Column
     private String firstname;
     // Must be {bcrypt}-encoded
     private String password;
 
     private String phone;
+
+    @Column
     private String email;
     //private Address address;
 

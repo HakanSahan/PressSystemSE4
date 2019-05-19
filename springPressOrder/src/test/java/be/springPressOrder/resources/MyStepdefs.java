@@ -1,10 +1,20 @@
 package be.springPressOrder.resources;
 
 
+import cucumber.api.java.en.And;
+import cucumber.api.java.en.Given;
+import cucumber.api.java.en.Then;
+import cucumber.api.java.en.When;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
 import cucumber.api.java.en.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.ExpectedCondition;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import javax.persistence.Convert;
 
@@ -16,6 +26,7 @@ public class MyStepdefs {
     @Given("^I am on the page where I can add one Order$")
     public void i_am_on_the_page_where_I_can_add_a_new_order() throws Throwable{
         System.setProperty("webdriver.gecko.driver","geckodriver.exe");
+        driver = new ChromeDriver();
 
         driver = new ChromeDriver();
         //inloggen
@@ -51,12 +62,12 @@ public class MyStepdefs {
 
     @Then("^I should see the following on the screen$")
     public void iShouldSeeTheFollowingOnTheScreen(Object checklist) {
-
+        new WebDriverWait(driver,10).until(ExpectedConditions.textToBePresentInElementLocated(By.tagName("h2"),"Order details"));
     }
 
-    @When("^I click the OrdersList link$")
+    @When("^I go to the page with a list of orders$")
     public void iClickTheOrdersListLink() {
-
+        driver.navigate().to("http://localhost:8080/listOrders");
     }
 
     @Then("^I should see a list cointaining \"([^\"]*)\"$")

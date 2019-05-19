@@ -1,22 +1,61 @@
 package be.springPressOrder.domain;
 
-import java.util.ArrayList;
-import java.util.Date;
 
+import javax.persistence.*;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
+
+@Entity
+@Table(name = "Machines")
 public class Machine {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
-    public enum Status {Ok,Not_OK} ;
+
+    public Integer getId(){
+        return id;
+    }
+
+    public void setId(Integer id){this.id = id;}
+
+    public enum Status {Ok,Not_OK}
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public int getMaxCapacityPerHour() {
+        return maxCapacityPerHour;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
+
     private Status status;
     private boolean isOccupied;
     private int maxCapacityPerHour;
-    private ArrayList<Rapport> reportList;
+
+    @OneToMany(mappedBy = "machine")
+    private Set<Rapport> reportList;
+
+    @OneToMany(mappedBy = "machine")
+    private Set<Schedule> schedules;
 
     public Machine(int id, boolean isOccupied, int maxCapacityPerHour) {
         this.id = id;
         this.isOccupied = isOccupied;
         this.maxCapacityPerHour = maxCapacityPerHour;
-        reportList = new ArrayList<>();
+        reportList = new HashSet<>();
+        schedules = new HashSet<>();
         status = Status.Ok;
+    }
+
+    public Machine(){
+        reportList = new HashSet<>();
+        schedules = new HashSet<>();
     }
 
     public boolean isOccupied() {
@@ -35,11 +74,15 @@ public class Machine {
         this.maxCapacityPerHour = maxCapacityPerHour;
     }
 
-    public ArrayList<Rapport> getReportList() {
+    public Set<Rapport> getReportList() {
         return reportList;
     }
 
-    public Rapport MachineCheck(){
-        return new Rapport(Status.Ok,Status.Not_OK,"Something went wrong",new Date());
+    public void addRapport(Rapport rapport){
+        reportList.add(rapport);
+    }
+
+    public Set<Schedule> getSchedules(){
+        return schedules;
     }
 }

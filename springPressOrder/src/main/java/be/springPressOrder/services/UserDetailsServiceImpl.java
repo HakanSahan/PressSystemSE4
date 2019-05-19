@@ -1,7 +1,7 @@
 package be.springPressOrder.services;
 
-import be.springPressOrder.dao.PersonsRepository;
-import be.springPressOrder.domain.Person;
+import be.springPressOrder.dao.UserRepository;
+import be.springPressOrder.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -15,13 +15,13 @@ import org.springframework.stereotype.Service;
 public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Autowired
-    private PersonsRepository personsRepository;
+    private UserRepository userRepository;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-        Person user = personsRepository.findByUsername(username);
+        User user = userRepository.findByUsername(username);
         if (user != null) return user;
-        throw new UsernameNotFoundException("Person "+username+" not found!");
+        throw new UsernameNotFoundException("User "+username+" not found!");
     }
 }

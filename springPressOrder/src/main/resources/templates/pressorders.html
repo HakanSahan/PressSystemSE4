@@ -22,7 +22,7 @@
             <tr th:each="pressOrder : ${pressOrders}">
                 <td th:text="${pressOrder.id}"><a href="/pressorder/${pressOrder.id}">Id</a></td>
                 <td th:text="${pressOrder.fruitAmount}">Fruit amount</td>
-                <td th:text="${pressOrder.juice}">Juice</td>
+                <!--<td th:text="${pressOrder.order.fruit.getFruitname()}">Juice</td>-->
                 <td th:text="${pressOrder.maxJuiceAmount}">Max juice amount</td>
                 <td th:text="${pressOrder.status}">Status</td>
                 <td><a th:href="${'/pressorder/' + pressOrder.id}">View</a></td>
