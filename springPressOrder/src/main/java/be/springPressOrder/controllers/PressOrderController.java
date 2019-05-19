@@ -31,8 +31,13 @@ public class PressOrderController {
 
     @Autowired
 <<<<<<< HEAD
+<<<<<<< HEAD
     public void setOrderService(PressSystemService pressSystemService) {
         this.pressSystemService = pressSystemService;
+=======
+    public void setOrderService(OrderService orderService) {
+        this.orderService = orderService;
+>>>>>>> parent of 2e50c06... merge fix
 =======
     public void setOrderService(OrderService orderService) {
         this.orderService = orderService;
@@ -79,9 +84,15 @@ public class PressOrderController {
 
     @RequestMapping(value={"/pressorderbyorderbyid.html"}, method = RequestMethod.GET)
 <<<<<<< HEAD
+<<<<<<< HEAD
     public String pressOrderDetailsByOrderId(@RequestParam("orderId") Integer orderId, ModelMap model){
         //Order order = orderService.getOrderByClientId(idClient);
         model.addAttribute("pressOrder",pressSystemService.getPressOrderById(orderId));
+=======
+    public String pressOrderDetailsByOrderId(@RequestParam("orderid") Integer orderid, ModelMap model){
+        //Order order = orderService.getOrderByClientId(idClient);
+        model.addAttribute("pressOrder",pressOrderService.getPressOrderByOrder(orderService.getOrderById(orderid)));
+>>>>>>> parent of 2e50c06... merge fix
 =======
     public String pressOrderDetailsByOrderId(@RequestParam("orderid") Integer orderid, ModelMap model){
         //Order order = orderService.getOrderByClientId(idClient);
@@ -96,7 +107,10 @@ public class PressOrderController {
         return "pressorderplan";
     }
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> parent of 2e50c06... merge fix
 
 
 

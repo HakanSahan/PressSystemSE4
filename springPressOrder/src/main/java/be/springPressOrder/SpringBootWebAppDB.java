@@ -28,10 +28,13 @@ public class SpringBootWebAppDB implements ApplicationListener<ContextRefreshedE
 
     @Autowired
 <<<<<<< HEAD
+<<<<<<< HEAD
     public void setMachineRepository(MachineRepository machineRepository){this.machineRepository = machineRepository;}
 
         User user = new User(1,"admin","{noop}password","ROLE_ADMIN","a","a","a");
 =======
+=======
+>>>>>>> parent of 2e50c06... merge fix
     public void setScheduleRepository(ScheduleRepository scheduleRepository){this.scheduleRepository = scheduleRepository;}
 
     @Autowired
@@ -51,6 +54,9 @@ public class SpringBootWebAppDB implements ApplicationListener<ContextRefreshedE
     public void onApplicationEvent(ContextRefreshedEvent event) {
 
         User user = new User("admin","admin","047","ROLE_ADMIN","admin","ROLE_ADMIN","{noop}password");
+<<<<<<< HEAD
+>>>>>>> parent of 2e50c06... merge fix
+=======
 >>>>>>> parent of 2e50c06... merge fix
 
         userRepository.save(user);

@@ -67,6 +67,7 @@ public class OrderController {
         return "ordersdetails";
     }
 <<<<<<< HEAD
+<<<<<<< HEAD
 
     /* Hier ontbreekt een methode /client id
 
@@ -74,6 +75,12 @@ public class OrderController {
     public String orderDetailsByClientId(@RequestParam("idClient") Integer idClient, ModelMap model){
         //Order order = orderService.getOrderByClientId(idClient);
         model.addAttribute("objOrder",pressSystemService.);
+=======
+    @RequestMapping(value={"/orderbyclientid.html"}, method = RequestMethod.GET)
+    public String orderDetailsByClientId(@RequestParam("idClient") Integer idClient, ModelMap model){
+        //Order order = orderService.getOrderByClientId(idClient);
+        model.addAttribute("objOrder",orderService.getOrderByClientId(idClient));
+>>>>>>> parent of 2e50c06... merge fix
 =======
     @RequestMapping(value={"/orderbyclientid.html"}, method = RequestMethod.GET)
     public String orderDetailsByClientId(@RequestParam("idClient") Integer idClient, ModelMap model){
