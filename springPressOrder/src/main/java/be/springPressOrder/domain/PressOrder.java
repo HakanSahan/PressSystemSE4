@@ -20,6 +20,8 @@ public class PressOrder {
 
     @OneToOne(mappedBy = "pressOrder")
     private Order order;
+    private int idClient;
+
     //private Machine machine;
 
     @OneToMany(mappedBy = "pressOrder")
