@@ -27,9 +27,31 @@ public class SpringBootWebAppDB implements ApplicationListener<ContextRefreshedE
     private UserRepository userRepository;
 
     @Autowired
+<<<<<<< HEAD
     public void setMachineRepository(MachineRepository machineRepository){this.machineRepository = machineRepository;}
 
         User user = new User(1,"admin","{noop}password","ROLE_ADMIN","a","a","a");
+=======
+    public void setScheduleRepository(ScheduleRepository scheduleRepository){this.scheduleRepository = scheduleRepository;}
+
+    @Autowired
+    public void setTechnicianRepository(TechnicianRepository technicianRepository){this.technicianRepository =technicianRepository;}
+
+    @Autowired
+    public void setRequestTechnicianRepository(RequestTechnicianRepository requestTechnicianRepository){this.requestTechnicianRepository = requestTechnicianRepository;}
+
+    @Autowired
+    public void setUserRepository(UserRepository userRepository){this.userRepository = userRepository;}
+
+    @Autowired
+    public void setMachineRepository(MachineRepository machineRepository){this.machineRepository = machineRepository;}
+
+
+    @Override
+    public void onApplicationEvent(ContextRefreshedEvent event) {
+
+        User user = new User("admin","admin","047","ROLE_ADMIN","admin","ROLE_ADMIN","{noop}password");
+>>>>>>> parent of 2e50c06... merge fix
 
         userRepository.save(user);
 
