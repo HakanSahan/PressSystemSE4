@@ -1,12 +1,7 @@
 package be.springPressOrder.domain;
 
-import org.springframework.format.annotation.DateTimeFormat;
-
-import javax.persistence.*;
 import java.util.Date;
 
-@Entity
-@Table(name = "Juices")
 public class Juice {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -74,6 +69,9 @@ public class Juice {
 
     public Juice(){
 
+    }
+    public Fruit getSort() {
+        return sort;
     }
 
     public int getAmount() {

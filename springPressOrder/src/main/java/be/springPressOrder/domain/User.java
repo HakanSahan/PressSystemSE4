@@ -2,6 +2,7 @@ package be.springPressOrder.domain;
 
 import lombok.*;
 import org.hibernate.validator.constraints.NotEmpty;
+import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -140,4 +141,5 @@ public class User implements UserDetails, Serializable {
     public boolean isEnabled() {
         return true;
     }
+
 }

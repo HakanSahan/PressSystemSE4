@@ -1,14 +1,13 @@
 package be.springPressOrder.domain;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "Pressorders")
+@Table(name = "PressOrders")
 public class PressOrder {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
@@ -75,6 +74,10 @@ public class PressOrder {
         return order;
     }
 
+    public Integer getOrderId()
+    {
+        return order.getId();
+    }
     public void setOrder(Order order) {
         this.order = order;
     }

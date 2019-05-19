@@ -14,7 +14,6 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.validation.Valid;
 
@@ -23,8 +22,9 @@ import javax.validation.Valid;
 public class PressOrderController {
 
     private PressSystemService pressSystemService;
+
     @Autowired
-    public void setPressSystemService(PressSystemService pressSystemService) {
+    public void setPressOrderService(PressSystemService pressSystemService) {
         this.pressSystemService = pressSystemService;
     }
 
@@ -64,13 +64,6 @@ public class PressOrderController {
     public String delete(@PathVariable Integer id) {
         pressSystemService.deletePressOrder(id);
         return "redirect:/pressorders";
-    }
-
-    @RequestMapping(value={"/pressorderbyorderbyid.html"}, method = RequestMethod.GET)
-    public String pressOrderDetailsByOrderId(@RequestParam("orderid") Integer orderid, ModelMap model){
-        //Order order = orderService.getOrderByClientId(idClient);
-        model.addAttribute("pressOrder",pressSystemService.listPressOrderByOrder(orderid));
-        return "pressordersshow";
     }
 
     /*@RequestMapping("pressorder/xorder/{id}")

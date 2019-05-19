@@ -23,9 +23,9 @@ public interface PressSystemService {
 
     Iterable<PressOrder> listPressOrderByFruit(String fruitName);
 
-    PressOrder addPressOrder(int amountOfFruit,Fruit fruit, int maxJuiceAmount,int idClient);
+    PressOrder addPressOrder(int amountOfFruit, Fruit fruit, int maxJuiceAmount, int idClient);
 
-    PressOrder savePressOrder(int id, int amountOfFruit, Fruit fruit, int maxJuiceAmount,int idClient);
+    PressOrder savePressOrder(int id, int amountOfFruit, Fruit fruit, int maxJuiceAmount, int idClient);
 
     void deletePressOrder(Integer id);
 
@@ -34,8 +34,6 @@ public interface PressSystemService {
     Iterable<Order> listOrderByFruit(String fruitName);
 
     Order getOrderById(Integer id);
-
-    Iterable<Order> getOrderByClientId(Integer id);
 
     Order addOrder(int amount, Fruit fruit, int idClient);
 
@@ -62,6 +60,4 @@ public interface PressSystemService {
     RequestTechnician getRequestTechnicianById(int id);
 
     RequestTechnician processRequestTechnician(RequestTechnicianData requestTechnicianData);
-
-    public UserDetails loadUserByUsername(String username);
 }

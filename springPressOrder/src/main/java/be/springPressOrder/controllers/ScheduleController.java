@@ -1,7 +1,6 @@
 package be.springPressOrder.controllers;
 
 import be.springPressOrder.Data.ScheduleData;
-import be.springPressOrder.domain.Schedule;
 import be.springPressOrder.services.PressSystemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

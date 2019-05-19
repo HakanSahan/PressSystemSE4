@@ -30,12 +30,13 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
        /* http.authorizeRequests()
 
+        http.authorizeRequests()
                 .antMatchers("/favicon.ico").permitAll()
                 .antMatchers("/login*").permitAll()
                 .antMatchers("/images/**").permitAll()
                 .antMatchers("/css/**").permitAll()
 
-                .antMatchers("/", "/h2/**").hasRole("ADMIN")
+        .antMatchers("/", "/h2/**").hasRole("ADMIN")
                 .antMatchers("/orders/**").hasAnyRole("ADMIN")
                 .antMatchers("/schedule").permitAll()
                 .antMatchers(HttpMethod.POST, "/schedule/test").permitAll()
@@ -59,9 +60,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
 
         auth.inMemoryAuthentication()
-                .withUser("user").password("password").roles("USER")
-                .and()
-                .withUser("admin").password("password").roles("ADMIN")
+                .withUser("pv").password("presser").roles("PRESSER")
                 .and()
                 .withUser("presser").password(("presser")).roles("USER")
                 .and()

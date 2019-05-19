@@ -3,6 +3,8 @@ package be.springPressOrder.domain;
 import java.util.Date;
 
 public class Weather {
+
+    //@JsonBackReference
     private int averageAmountOfRain;
     private int avarageHoursOfSun;
     private double avarageWindSpeed;

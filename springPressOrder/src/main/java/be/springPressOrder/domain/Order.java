@@ -5,11 +5,12 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.validation.constraints.Digits;
-import java.util.*;
+import java.util.Date;
 
 @Entity
 @Table(name = "Orders")
 public class Order {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
@@ -27,27 +28,18 @@ public class Order {
     @DateTimeFormat(pattern = "yyyy-MM-dd' 'HH:mm")
     private Date orderDate;
 
-    // Moet set zijn anders :  Illegal attempt to map a non collection as a @OneToMany, @ManyToMany or @CollectionOfElements: be.springPressOrder.domain.Order.juices
-    @OneToMany(mappedBy = "order")
-    private Set<Juice> juices;
-
     @ManyToOne
     @JoinColumn(name = "fruid_id")
     private Fruit fruit;
-
     private int idClient;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "pressOrder_id", referencedColumnName = "id")
     private PressOrder pressOrder;
 
-    public Order(int amount, Juice juice, int idClient){
-        this.amount = amount;
-        this.juices = new HashSet<>();
-        this.juices.add(juice);
-        this.idClient = idClient;
+    public Order(){
         orderDate = new Date();
-        status = Status.Canceled;
+        status = Status.NotPlanned;
     }
 
     public Order(int amount, Fruit fruit, int idClient){

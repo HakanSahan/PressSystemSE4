@@ -1,8 +1,6 @@
 package be.springPressOrder.controllers;
 
 import be.springPressOrder.Data.RequestTechnicianData;
-import be.springPressOrder.domain.RequestTechnician;
-import be.springPressOrder.domain.Technician;
 import be.springPressOrder.services.PressSystemService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
