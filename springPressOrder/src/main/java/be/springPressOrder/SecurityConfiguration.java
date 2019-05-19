@@ -35,15 +35,14 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/images/**").permitAll()
                 .antMatchers("/css/**").permitAll()
 
-
-        /*.antMatchers("/", "/h2/**").hasRole("ADMIN")
+        .antMatchers("/", "/h2/**").hasRole("ADMIN")
                 .antMatchers("/orders/**").hasAnyRole("ADMIN")
                 .antMatchers("/weather/**").hasAnyRole("ADMIN")
-                .antMatchers(HttpMethod.POST, "/schedule/test").permitAll()
+                //.antMatchers(HttpMethod.POST, "/schedule/test").permitAll()
                 .antMatchers("/request").permitAll()
                 .antMatchers("/order/**").hasAnyRole("ADMIN")
                 .antMatchers("/pressorder/**").hasAnyRole("PRESSER","ADMIN","TECHNICIAN")
-                .antMatchers("/technicianOverview/**").hasAnyRole("TECHNICIAN")*/
+                .antMatchers("/technicianOverview/**").hasAnyRole("TECHNICIAN")
                 .anyRequest().authenticated().and()
                 .formLogin().loginPage("/login").failureUrl("/login-error")
                 .defaultSuccessUrl("/home",true).permitAll().and()
