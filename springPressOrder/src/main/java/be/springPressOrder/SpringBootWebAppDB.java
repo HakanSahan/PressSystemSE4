@@ -41,8 +41,11 @@ public class SpringBootWebAppDB implements ApplicationListener<ContextRefreshedE
     public void setMachineRepository(MachineRepository machineRepository){this.machineRepository = machineRepository;}
 
 
+<<<<<<< HEAD
     @Autowired
     public void setScheduleRepository(ScheduleRepository scheduleRepository){this.scheduleRepository = scheduleRepository;}
+=======
+>>>>>>> parent of 2e50c06... merge fix
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event) {
         Fruit apple = new Fruit("Apple");
