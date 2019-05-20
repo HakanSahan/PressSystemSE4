@@ -11,8 +11,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.sql.SQLOutput;
-import java.text.*;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -30,6 +31,8 @@ public class PressSystemServiceImpl implements PressSystemService {
     private UserRepository userRepository;
     private StorageRepository storageRepository;
     private FruitDataRepository fruitDataRepository;
+
+
 
     @Autowired
     public void setPressOrderRepository(PressOrderRepository pressOrderRepository) { this.pressOrderRepository = pressOrderRepository; }
@@ -121,6 +124,19 @@ public class PressSystemServiceImpl implements PressSystemService {
     public Iterable<Order> listAllOrders() {
         return orderRepository.findAll();
     }
+
+    //nieuwe Order maken
+    @Override
+    public Order newOrder(Order order) {
+        return orderRepository.save(order);
+    }
+
+    //nieuwe PressOrder maken
+    @Override
+    public PressOrder newPressOrder (PressOrder pressOrder) {
+        return pressOrderRepository.save(pressOrder);
+    }
+
 
     @Override
     public Iterable<Order> listOrderByFruit(String  fruitName) {

@@ -1,31 +1,36 @@
 package be.springPressOrder.controllers;
 
-import be.springPressOrder.Data.OrderData;
 import be.springPressOrder.domain.Order;
-import lombok.extern.slf4j.Slf4j;
 import be.springPressOrder.services.PressSystemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 
 
 @Controller
 public class OrderController {
 
-
-    private PressSystemService pressSystemService;
+//private PressSystemService pressSystemService;
 
     @Autowired
-    public void setPressSystemService(PressSystemService pressSystemService) {
-        this.pressSystemService = pressSystemService;
+    PressSystemService pressSystemService;
+
+    //bestaande orders zien
+    @RequestMapping (path = "seeOrder", method=RequestMethod.POST)
+    Order seeOrder (@RequestBody Order order)	{
+        return pressSystemService.getOrderById(order.getId());
     }
 
-    @RequestMapping(value = "/orders", method = RequestMethod.GET)
+    //nieuwe orders maken(verwijst naar methode in PressSystemServiceImpl) en zien
+    @RequestMapping (path = "newOrder", method=RequestMethod.POST)
+    Order  newOrder (@RequestBody Order order)	{
+        order = pressSystemService.newOrder(order);
+        return pressSystemService.getOrderById(order.getId());
+    }
+
+    /*@RequestMapping(value = "/orders", method = RequestMethod.GET)
     public String list(Model model) {
         model.addAttribute("listOrders", pressSystemService.listAllOrders());
         return "orders";
@@ -65,7 +70,7 @@ public class OrderController {
     }
 
     @RequestMapping("order/pressorders/{id}")
-    public String listDetail(@PathVariable Integer id,Model model) {
+    public String listDetail(@PathVariable Integer id, Model model) {
         model.addAttribute("listOrders", pressSystemService.listPressOrderByOrder(id));//listAllPressOrders());
         return "ordersdetails";
     }
@@ -74,6 +79,6 @@ public class OrderController {
         //Order order = orderService.getOrderByClientId(idClient);
         model.addAttribute("objOrder",pressSystemService.getOrderByClientId(idClient));
         return "ordersshow";
-    }
+    }*/
 
 }

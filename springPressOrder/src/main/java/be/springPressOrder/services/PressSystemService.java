@@ -5,12 +5,9 @@ import be.springPressOrder.Data.PressOrderData;
 import be.springPressOrder.Data.RequestTechnicianData;
 import be.springPressOrder.Data.ScheduleData;
 import be.springPressOrder.domain.*;
-import com.google.common.reflect.ImmutableTypeToInstanceMap;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.List;
 
 public interface PressSystemService {
     Iterable<PressOrder> listAllPressOrders();
@@ -30,6 +27,9 @@ public interface PressSystemService {
     void deletePressOrder(Integer id);
 
     Iterable<Order> listAllOrders();
+
+    public Order newOrder (Order order);
+    public PressOrder newPressOrder (PressOrder pressOrder);
 
     Iterable<Order> listOrderByFruit(String fruitName);
 
