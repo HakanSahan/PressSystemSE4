@@ -1,8 +1,11 @@
 package be.springPressOrder.controllers;
 
 import be.springPressOrder.Data.RequestTechnicianData;
+import be.springPressOrder.Data.ScheduleData;
+import be.springPressOrder.domain.Technician;
+import be.springPressOrder.domain.User;
 import be.springPressOrder.services.PressSystemService;
-import lombok.extern.slf4j.Slf4j;
+import be.springPressOrder.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,8 +14,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import javax.jws.WebParam;
 import javax.validation.Valid;
+import java.text.ParseException;
 
 
 @Controller
@@ -20,13 +23,24 @@ public class TechnicianController {
 
     private PressSystemService pressSystemService;
 
-    @Autowired
-    public void setPressSystemService(PressSystemService pressSystemService){this.pressSystemService = pressSystemService;}
+    private UserService userService;
 
-    @RequestMapping(value = "/technican/{id}")
-    public String listTechnicianRequets(@PathVariable Integer id,Model model){
-        model.addAttribute("listRequests",pressSystemService.getTechnicianById(id).getRequestTechnicians());
-        return "technicianOverview";
+    @Autowired
+    private void setPressSystemService(PressSystemService pressSystemService){this.pressSystemService = pressSystemService;}
+
+    @Autowired
+    private void setUserService(UserService userService){this.userService = userService;}
+
+    @RequestMapping(value = "/technician")
+    public String listTechnicianRequets(Model model){
+        User user = userService.getAuthenticatedUser();
+        if(user.getRole() == "ROLE_TECHNICIAN"){
+            Technician technician = (Technician) user;
+            model.addAttribute("listRequests",pressSystemService.getRequestTechnicianByTechnician(technician));
+        }
+        else
+            model.addAttribute("listRequests",pressSystemService.listAllRequestTechnicians());
+        return "requests";
     }
 
     @RequestMapping(value = "/request/new", method = RequestMethod.GET)
@@ -39,16 +53,36 @@ public class TechnicianController {
 
     @RequestMapping(value = "request", method = RequestMethod.POST)
     public String saveRequest(@Valid RequestTechnicianData requestTechnician, Errors errors, Model model){
-        System.out.println("=================================================TEST POST TECHNICIAN REQUEST=============================================");
-        pressSystemService.processRequestTechnician(requestTechnician);
-        return "redirect: /";
+        String message="";
+        try{
+            if(errors.hasErrors()){
+                message = "Correct input errors please";
+                throw new IllegalArgumentException();
+            }
+            pressSystemService.processRequestTechnician(requestTechnician);
+        }
+        catch(IllegalArgumentException e){
+
+        }
+        if(message != "") {
+            model.addAttribute("message", message);
+            model.addAttribute("objRequest",requestTechnician);
+            model.addAttribute("listTechnicians",pressSystemService.listAllTechnicians());
+            return "requestForm";
+        }
+        return "redirect:/machines";
     }
 
-    @RequestMapping(value = "request", method = RequestMethod.GET)
-    public String showRequest(){
-        System.out.println("=================================================TEST POST TECHNICIAN REQUEST=============================================");
-        //pressSystemService.processRequestTechnician(requestTechnician);
-        return "request";
+    @RequestMapping(value = "requests", method = RequestMethod.GET)
+    public String showRequest(Model model){
+        model.addAttribute("listRequests",pressSystemService.listAllRequestTechnicians());
+        return "requests";
+    }
+
+    @RequestMapping(value = "technician/delete{id}")
+    public String deleteRequest(@PathVariable Integer id, Model model){
+        pressSystemService.deleteRequest(id);
+        return "redirect:/technician";
     }
 
 }

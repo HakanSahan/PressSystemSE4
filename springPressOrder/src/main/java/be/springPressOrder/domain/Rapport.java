@@ -33,6 +33,8 @@ public class Rapport {
         this.log = log;
     }
 
+    public Rapport(){}
+
     public int getId() {
         return id;
     }

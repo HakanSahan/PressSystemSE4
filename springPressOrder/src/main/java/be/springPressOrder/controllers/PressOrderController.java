@@ -1,8 +1,10 @@
 package be.springPressOrder.controllers;
 
 import be.springPressOrder.Data.PressOrderData;
+import be.springPressOrder.domain.Order;
 import be.springPressOrder.domain.PressOrder;
 import be.springPressOrder.services.PressSystemService;
+import be.springPressOrder.services.UserService;
 import lombok.Value;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.xpath.operations.Mod;
@@ -23,21 +25,31 @@ import javax.validation.Valid;
 public class PressOrderController {
 
     private PressSystemService pressSystemService;
+    private UserService userService;
 
     @Autowired
     public void setPressOrderService(PressSystemService pressSystemService) {
         this.pressSystemService = pressSystemService;
     }
 
+    @Autowired
+    public void setUserService(UserService userService){this.userService = userService;}
+
     @RequestMapping(value = "/pressorders", method = RequestMethod.GET)
     public String list(Model model) {
-        model.addAttribute("pressOrders", pressSystemService.listAllPressOrders());
+        String role = userService.getAuthenticatedUser().getRole();
+        if(role.equals("ROLE_USER"))
+            model.addAttribute("pressOrders", pressSystemService.listAllPressOrdersByUser(userService.getAuthenticatedUser().getId()));
+        else
+            model.addAttribute("pressOrders", pressSystemService.listAllPressOrders());
+        model.addAttribute("role", role);
         return "pressorders";
     }
 
     @RequestMapping("pressorder/{id}")
     public String showPressOrder(@PathVariable Integer id, Model model) {
         model.addAttribute("pressOrder", pressSystemService.getPressOrderById(id));
+       // model.addAttribute("predictedAmountOfJuice",pressSystemService.predictAmountOfJuice(id));
         return "pressordersshow";
     }
 
@@ -56,7 +68,23 @@ public class PressOrderController {
 
     @RequestMapping(value = "pressOrder", method = RequestMethod.POST)
     public String savePressOrder(@Valid PressOrderData pressOrder, Errors errors, Model model) {
-        //pressSystemService.addPressOrder(pressOrder.getFruitAmount(),pressOrder.getOrder().getFruit(),pressOrder.getMaxJuiceAmount(),pressOrder.getOrder().getIdClient());
+        String message="";
+        try{
+            if(errors.hasErrors()){
+                message = "Correct input errors please";
+                throw new IllegalArgumentException();
+            }
+        }
+        catch(IllegalArgumentException e){
+
+        }
+        if(!message.equals("")){
+            model.addAttribute("message",message);
+            model.addAttribute("objFruits",pressSystemService.listAllFruits());
+            model.addAttribute("objPressOrder",pressOrder);
+            return "pressorderform";
+        }
+        pressOrder.setUserId(userService.getAuthenticatedUser().getId());
         PressOrder newPressOrder = pressSystemService.processPressOrder(pressOrder);
         return "redirect:/pressorder/" + newPressOrder.getId();
     }
@@ -67,19 +95,9 @@ public class PressOrderController {
         return "redirect:/pressorders";
     }
 
-    /*@RequestMapping(value={"/pressorderbyorderbyid.html"}, method = RequestMethod.GET)
-    public String pressOrderDetailsByOrderId(@RequestParam("orderid") Integer orderid, ModelMap model){
-        //Order order = orderService.getOrderByClientId(idClient);
-        model.addAttribute("pressOrder",pressSystemService.getPressOrderById(pressSystemService.getOrderById(orderid)));
-        return "pressordersshow";
-    }*/
-
-   /* @RequestMapping("pressorder/plan/{id}")
-    public String plan(@PathVariable Integer id, Model model) {
-        model.addAttribute("pressOrder", pressSystemService.getPressOrderById(id));
-        return "pressorderplan";
-    }*/
-
-
-
+    @RequestMapping("pressorder/cancel/{id}")
+    public String cancel(@PathVariable Integer id) {
+        pressSystemService.deletePressOrder(id);
+        return "redirect:/pressorders";
+    }
 }

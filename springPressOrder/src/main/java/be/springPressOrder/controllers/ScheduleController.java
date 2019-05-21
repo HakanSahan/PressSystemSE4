@@ -37,7 +37,6 @@ public class ScheduleController {
 
     @PostMapping
     public String saveSchedule(@Valid ScheduleData schedule,Errors errors,Model model){
-        System.out.println("TEST POST");
         String message="";
         try{
             if(errors.hasErrors()){
@@ -46,6 +45,8 @@ public class ScheduleController {
             }
 
             message = pressSystemService.processSchedule(schedule);
+            if(schedule.getId() != 0)
+                return String.format("redirect:/machines/%d",schedule.getMachineId());
             schedule = new ScheduleData();
         }
         catch(IllegalArgumentException e){

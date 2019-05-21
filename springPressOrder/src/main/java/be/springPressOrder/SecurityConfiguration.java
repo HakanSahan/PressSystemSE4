@@ -28,31 +28,30 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-       /* http.authorizeRequests()
 
         http.authorizeRequests()
-                .antMatchers("/favicon.ico").permitAll()
-                .antMatchers("/login*").permitAll()
-                .antMatchers("/images/**").permitAll()
-                .antMatchers("/css/**").permitAll()
+                .antMatchers("/favicon.ico", "/login*", "/images/**", "/css/**", "/storage", "/").permitAll()
 
-        .antMatchers("/", "/h2/**").hasRole("ADMIN")
-                .antMatchers("/orders/**").hasAnyRole("ADMIN")
-                .antMatchers("/schedule").permitAll()
-                .antMatchers(HttpMethod.POST, "/schedule/test").permitAll()
-                .antMatchers("/request").hasAnyRole("USER","ADMIN")
-                .antMatchers("/request/**").hasAnyRole("USER","ADMIN")
-                //.antMatchers("/order/**").hasAnyRole("ADMIN")
-                .antMatchers("/pressorders/**").hasAnyRole("USER","ADMIN","TECHNICIAN")
-                .antMatchers("/pressorder/**").hasAnyRole("USER","ADMIN")
-                .antMatchers("/order/**").hasAnyRole("USER","ADMIN")
+                .antMatchers("/h2/**", "/**")   .hasAnyRole("ADMIN", "PRESSER","USER")
+                .antMatchers("/orders/**")      .hasAnyRole("ADMIN")
+                .antMatchers("/schedule")       .permitAll()
+                .antMatchers("/technician")     .hasAnyRole("TECHNICIAN")
+                .antMatchers("/machines")       .hasAnyRole("TECHNICIAN","PRESSER")
+                .antMatchers("/machines/**")    .hasAnyRole("PRESSER")
+                .antMatchers("/request")        .hasAnyRole("USER")
+                .antMatchers("/request/**")     .hasAnyRole("USER")
+                .antMatchers("/pressorders")    .hasAnyRole("USER","PRESSER")
+                .antMatchers("/pressorders/**") .hasAnyRole("USER","PRESSER")
+                .antMatchers("/pressorder/**")  .hasAnyRole("USER", "PRESSER")
+                .antMatchers("/order/**")       .hasAnyRole("USER")
+
                 .anyRequest().hasAnyRole("USER","ADMIN").and()
                     .formLogin().loginPage("/login").failureUrl("/login-error")
-                        .defaultSuccessUrl("/menu",true).permitAll().and()
+                        .defaultSuccessUrl("/",true).permitAll().and()
                     .logout().invalidateHttpSession(true).logoutSuccessUrl("/logout").permitAll();
-        http.exceptionHandling().accessDeniedPage("/403");*/
-       http.authorizeRequests().anyRequest().permitAll();
-        http.csrf().and().cors().disable();
+        http.exceptionHandling().accessDeniedPage("/403");
+       //http.authorizeRequests().anyRequest().permitAll();
+        http.csrf().disable();
         http.headers().frameOptions().disable();
     }
 
@@ -60,11 +59,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
 
         auth.inMemoryAuthentication()
-                .withUser("pv").password("presser").roles("PRESSER")
+                .withUser("pv")         .password("presser")        .roles("PRESSER")
                 .and()
-                .withUser("presser").password(("presser")).roles("USER")
+                .withUser("presser")    .password(("presser"))      .roles("USER")
                 .and()
-                .withUser("technician").password(("technician")).roles("TECHNICIAN");
+                .withUser("technician").password(("technician"))    .roles("TECHNICIAN");
     }
 
     @Bean

@@ -21,8 +21,6 @@ public class Order {
     @Digits(integer=3, fraction=0, message = "Please select an amount less than thousand ")
     private int amount;
 
-    public enum Status {NotPlanned, Planned, Executing, Executed, Canceled}
-
     @Column
     private Status status;
 
@@ -33,7 +31,10 @@ public class Order {
     @ManyToOne
     @JoinColumn(name = "fruid_id")
     private Fruit fruit;
-    private int idClient;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "pressOrder_id", referencedColumnName = "id")
@@ -44,20 +45,20 @@ public class Order {
 
     public Order(){
         orderDate = new Date();
-        status = Status.NotPlanned;
+        status = Status.NOT_PLANNED;
     }
 
-    public Order(int amount, Fruit fruit, int idClient){
+    public Order(int amount, Fruit fruit, User user){
         this.amount = amount;
         this.fruit = fruit;
-        this.idClient = idClient;
+        this.user = user;
         juices = new HashSet<>();
         orderDate = new Date();
-        status = Status.NotPlanned;
+        status = Status.NOT_PLANNED;
     }
 
-    public void setIdClient(int idClient) {
-        this.idClient = idClient;
+    public void setIdClient(User user) {
+        this.user = user;
     }
 
     public void setOrderDate(Date orderDate) {
@@ -68,8 +69,8 @@ public class Order {
         return juices;
     }
 
-    public int getIdClient() {
-        return idClient;
+    public User getUser() {
+        return user;
     }
 
     public PressOrder getPressOrder() {
@@ -107,4 +108,6 @@ public class Order {
     public void addJuice(Juice juice){juices.add(juice);}
 
     public void setJuices(Set<Juice> juices){this.juices = juices;}
+
+    public void setPressOrder(PressOrder pressOrder){this.pressOrder = pressOrder;}
 }

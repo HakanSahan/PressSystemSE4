@@ -12,6 +12,8 @@ import javax.validation.constraints.Pattern;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 
 @Entity
@@ -40,6 +42,9 @@ public class User implements UserDetails, Serializable {
 
     @Column
     private String phone;
+
+    @OneToMany(mappedBy = "user")
+    private Set<Order> orders;
 
     @Column
     @Pattern(regexp="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}$",message="Insert a valid email")
@@ -100,6 +105,10 @@ public class User implements UserDetails, Serializable {
 
     public String getPassword(){return password;}
 
+    public Set<Order> getOrders(){
+        return orders;
+    }
+
     public User(String name, String firstname, String phone, String email, String username, String role, String password) {
         this.name = name;
         this.firstname = firstname;
@@ -108,6 +117,7 @@ public class User implements UserDetails, Serializable {
         this.username = username;
         this.role = role;
         this.password = password;
+        this.orders = new HashSet<>();
     }
 
     public User(){}

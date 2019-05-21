@@ -5,7 +5,7 @@ import java.util.Date;
 public class Prediction {
 
     private Date madePrediction;
-    private enum PredictionState{LOW,AVERAGE,HIGH}
+    public enum PredictionState{LOW,AVERAGE,HIGH}
     private PredictionState predictionState;
     private Fruit predictedFruit;
     private Date beginPrediction;

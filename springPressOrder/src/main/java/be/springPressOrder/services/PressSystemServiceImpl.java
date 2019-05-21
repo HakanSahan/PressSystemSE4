@@ -7,9 +7,11 @@ import be.springPressOrder.Data.ScheduleData;
 import be.springPressOrder.dao.*;
 import be.springPressOrder.domain.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import java.sql.SQLOutput;
 import java.text.*;
@@ -103,7 +105,7 @@ public class PressSystemServiceImpl implements PressSystemService {
     }
 
     @Override
-    public PressOrder addPressOrder(int amountOfFruit, Fruit fruit, int maxJuiceAmount, int idClient) {
+    public PressOrder addPressOrder(int amountOfFruit, Fruit fruit, int maxJuiceAmount, Integer idClient) {
        return pressOrderRepository.save(createPressOrder(amountOfFruit,fruit,maxJuiceAmount,idClient));
     }
 
@@ -133,13 +135,8 @@ public class PressSystemServiceImpl implements PressSystemService {
     }
 
     @Override
-    public Order addOrder(int amount, Fruit fruit, int idClient) {
+    public Order addOrder(int amount, Fruit fruit, Integer idClient) {
         return orderRepository.save(createOrder(amount,fruit,idClient));
-    }
-
-    @Override
-    public Order saveOrder(int id, int amount, Fruit fruit, int idClient) {
-        return null;
     }
 
     @Override
@@ -147,24 +144,65 @@ public class PressSystemServiceImpl implements PressSystemService {
         orderRepository.delete(id);
     }
 
-    private Order createOrder(int amount, Fruit fruit, int idClient){
-        return new Order(amount,fruit,idClient);
+    @Override
+    public void deleteSchedule(Integer id){scheduleRepository.delete(id);}
+
+    private Order createOrder(int amount, Fruit fruit, Integer idClient){
+        return new Order(amount,fruit,userRepository.findOne(idClient));
     }
 
-    private PressOrder createPressOrder(int amountOfFruit, Fruit fruit, int maxJuiceAmount, int idClient){
-        Order order = createOrder(0,fruit,idClient);
+    private PressOrder createPressOrder(int amountOfFruit, Fruit fruit, int maxJuiceAmount, Integer userId){
+        Order order = createOrder(0,fruit,userId);
         return new PressOrder(amountOfFruit,maxJuiceAmount,order);
     }
 
     @Override
     public Order processOrder(OrderData orderData){
-        Order order = new Order(orderData.fruitAmount,fruitRepository.findOne(orderData.fruitId),orderData.clientId);
+        Order order = new Order(orderData.fruitAmount,fruitRepository.findOne(orderData.fruitId),userRepository.findOne(orderData.userId));
         return orderRepository.save(order);
     }
 
     @Override
     public PressOrder processPressOrder(PressOrderData pressOrderData){
-        return pressOrderRepository.save(new PressOrder(pressOrderData.fruitAmount,pressOrderData.maxJuiceAmount,new Order(0,fruitRepository.findOne(pressOrderData.fruitId),pressOrderData.clientId)));
+        Order order = new Order(0,fruitRepository.findOne(pressOrderData.fruitId),userRepository.findOne(pressOrderData.userId));
+        orderRepository.save(order);
+        PressOrder pressOrder = new PressOrder(pressOrderData.fruitAmount,pressOrderData.maxJuiceAmount,order);
+        return pressOrderRepository.save(pressOrder);
+    }
+
+    @Override
+    public ScheduleData getNewScheduleData(){
+        return new ScheduleData();
+    }
+
+    @Override
+    public User getUserByName(String name){
+        return userRepository.findByUsername(name);
+    }
+
+    @Override
+    public ScheduleData prepareScheduleData(int id){
+        Schedule schedule = scheduleRepository.findOne(id);
+        ScheduleData scheduleData = new ScheduleData();
+
+        DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+
+        scheduleData.id = schedule.getId();
+        scheduleData.machineId = schedule.getMachine().getId();
+        scheduleData.pressOrderId = schedule.getPressOrder().getId();
+        scheduleData.beginHour = format.format(schedule.getStartHour());
+        scheduleData.endHour = format.format(schedule.getEndHour());
+        return scheduleData;
+    }
+
+    @Override
+    public List<PressOrder> listAllPressOrdersByUser(Integer userId){
+        return pressOrderRepository.findAllByOrder_User(userRepository.findOne(userId));
+    }
+
+    @Override
+    public List<Order> listAllOrdersByUser(Integer userId){
+        return orderRepository.findAllByUser(userRepository.findOne(userId));
     }
 
     @Override
@@ -176,9 +214,15 @@ public class PressSystemServiceImpl implements PressSystemService {
     public String processSchedule(ScheduleData scheduleData) throws ParseException {
         String message = "";
         DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-        System.out.println(format.parse(scheduleData.beginHour).toString());
-        System.out.println(format.parse(scheduleData.endHour).toString());
-        Schedule schedule = new Schedule(machineRepository.findOne(scheduleData.machineId),pressOrderRepository.findOne(scheduleData.pressOrderId),format.parse(scheduleData.beginHour),format.parse(scheduleData.endHour));
+        Schedule schedule;
+        if(scheduleData.getId() != 0)
+            schedule = scheduleRepository.findOne(scheduleData.getId());
+        else
+            schedule = new Schedule();
+        schedule.setMachine(machineRepository.findOne(scheduleData.machineId));
+        schedule.setPressOrder(pressOrderRepository.findOne(scheduleData.pressOrderId));
+        schedule.setStartHour(format.parse(scheduleData.beginHour));
+        schedule.setEndHour(format.parse(scheduleData.endHour));
         schedule = scheduleRepository.save(schedule);
         return String.format("Press order has been scheduled with id %d",schedule.getId());
     }
@@ -187,6 +231,13 @@ public class PressSystemServiceImpl implements PressSystemService {
     public Iterable<Machine> listAllMachines(){
         return machineRepository.findAll();
     }
+
+    @Override
+    public Machine getMachineById(int id){return machineRepository.findOne(id);}
+
+    @Override
+    public List<Schedule> getSchedulesByMachine(Machine machine){return scheduleRepository.findAllByMachine(machine);}
+
 
     @Override
     public Iterable<Technician> listAllTechnicians(){
@@ -213,6 +264,10 @@ public class PressSystemServiceImpl implements PressSystemService {
         return requestTechnicianRepository.save(new RequestTechnician(requestTechnicianData.sendDate,requestTechnicianData.message,technicianRepository.findOne(requestTechnicianData.technicianId)));
     }
 
+    @Override
+    public void deleteRequest(Integer id){
+        requestTechnicianRepository.delete(id);
+    }
 
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
@@ -221,14 +276,27 @@ public class PressSystemServiceImpl implements PressSystemService {
         throw new UsernameNotFoundException("User "+username+" not found!");
     }
 
+    @Override
+    public List<RequestTechnician> getRequestTechnicianByTechnician(Technician technician){
+        return requestTechnicianRepository.getAllByTechnician(technician);
+    }
+
     public Iterable<Storage> listAllStorages(){
         return storageRepository.findAll();
+    }
+
+    public double predictAmountOfJuice(Integer pressOrderId){
+        PressOrder po = pressOrderRepository.findById(pressOrderId);
+        Order o  = orderRepository.findOrderByPressOrder(po);
+        FruitData fd = fruitDataRepository.findByFruit(o.getFruit());
+        return po.getFruitAmount() * fd.getAvgJuiceAmount();
     }
 
     public Storage getStorageById(int id){
         return storageRepository.findOne(id);
     }
 
+    @Override
     public void checkMachinesStatus(){
         Iterable<Machine> machines = machineRepository.findAll();
         for (Machine machine:machines) {
@@ -247,16 +315,28 @@ public class PressSystemServiceImpl implements PressSystemService {
         }
     }
 
-    public void predictFruitAmount(){
-        Weather weather = new Weather(25,5,20,5,new Date(),new Date());
-        Fruit fruit = new Fruit();
-        //if(weather.getAverageAmountOfRain() > 250 && weather.getAvarageHoursOfSun() > 5)
+    @Override
+    public Prediction predictFruitAmount(Integer storageId){
+        Weather weather = getWeatherData();
+        Storage storage = storageRepository.findOne(storageId);
+        Fruit fruit = fruitRepository.findOne(storage.getFruit().getId());
+        FruitData fruitData = fruitDataRepository.findByFruit(fruit);
+        if(fruitData.getMaximumAverageWindSpeed() > weather.getAvarageWindSpeed()
+                && fruitData.getRequiredAvergeHoursOfSunPerDay() < weather.getAvarageHoursOfSun()
+                && fruitData.getRequiredRainFallPerWeek() > weather.getAverageAmountOfRain())
+        return new Prediction(fruit,new Date(),new Date(), Prediction.PredictionState.HIGH);
+        else if(fruitData.getMaximumAverageWindSpeed() > weather.getAvarageWindSpeed()
+                && fruitData.getRequiredAvergeHoursOfSunPerDay() > weather.getAvarageHoursOfSun()
+                && fruitData.getRequiredRainFallPerWeek() > weather.getAverageAmountOfRain())
+            return new Prediction(fruit,new Date(),new Date(), Prediction.PredictionState.AVERAGE);
+        else
+            return new Prediction(fruit,new Date(),new Date(), Prediction.PredictionState.LOW);
     }
 
     public void pressPressOrder(int pressOrderId){
         PressOrder po = getPressOrderById(pressOrderId);
         FruitData fruitData = fruitDataRepository.findByFruit(po.getOrder().getFruit());
-        po.setStatus(PressOrder.Status.Executed);
+        po.setStatus(Status.READY);
         int amountOfJuiceTotal = (int)Math.round(po.getFruitAmount()*fruitData.getAvgJuiceAmount());
         Juice juiceForClient = new Juice();
         if(amountOfJuiceTotal > po.getMaxJuiceAmount()) {
@@ -274,10 +354,22 @@ public class PressSystemServiceImpl implements PressSystemService {
         pressOrderRepository.save(po);
     }
 
+    @Override
+    public Boolean checkEnoughInStock(int storageId,int amount){
+        Storage storage =storageRepository.findOne(storageId);
+        return storage.getTotal() >= amount;
+    }
+
+    @Override
+    public Storage getStorageForFruit(int fruitId){
+        return storageRepository.findStorageByFruit(fruitRepository.findOne(fruitId));
+    }
+
+    @Override
     public void getJuicesForOrder(int orderId){
         Order order = getOrderById(orderId);
         Storage storage =storageRepository.findStorageByFruit(order.getFruit());
-        if(storage.getTotal() >= order.getAmount()){
+        if(checkEnoughInStock(storage.getId(),order.getAmount())){
             if(storage.getTotal() == order.getAmount()) {
                 order.setJuices(storage.getJuices());
                 storage.getJuices().clear();
@@ -302,7 +394,12 @@ public class PressSystemServiceImpl implements PressSystemService {
             storageRepository.save(storage);
         }
         else
-            order.setStatus(Order.Status.Canceled);
+            order.setStatus(Status.CANCLED);
     }
 
+    private Weather getWeatherData(){
+        RestTemplate rt = new RestTemplate();
+        Weather weather = rt.getForObject("http://localhost:8081/weather", Weather.class);
+        return weather;
+    }
 }

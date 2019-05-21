@@ -1,31 +1,46 @@
 package be.springPressOrder.controllers;
 
 import be.springPressOrder.Data.OrderData;
+import be.springPressOrder.Data.ScheduleData;
 import be.springPressOrder.domain.Order;
 import be.springPressOrder.services.PressSystemService;
+import be.springPressOrder.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import javax.jws.WebParam;
+import javax.validation.Valid;
+import java.text.ParseException;
 
 @Controller
 public class OrderController {
 
 
     private PressSystemService pressSystemService;
+    private UserService userService;
 
     @Autowired
     public void setPressSystemService(PressSystemService pressSystemService) {
         this.pressSystemService = pressSystemService;
     }
 
+    @Autowired
+    public void setUserService(UserService userService){this.userService = userService;}
+
     @RequestMapping(value = "/orders", method = RequestMethod.GET)
     public String list(Model model) {
-        model.addAttribute("listOrders", pressSystemService.listAllOrders());
+        if(userService.getAuthenticatedUser().getRole() != "ROLE_PRESSER")
+        model.addAttribute("listOrders", pressSystemService.listAllOrdersByUser(userService.getAuthenticatedUser().getId()));
+        else
+            model.addAttribute("listOrders", pressSystemService.listAllOrders());
         return "orders";
     }
 
@@ -49,8 +64,27 @@ public class OrderController {
     }
 
     @RequestMapping(value = "order", method = RequestMethod.POST)
-    public String saveOrder(OrderData order) {
-        System.out.println("==================================TEST POST ORDER======================================");
+    public String saveOrder(@Valid OrderData order, Errors errors, Model model) {
+        String message="";
+        try{
+            if(errors.hasErrors()){
+                message = "Correct input errors please";
+                throw new IllegalArgumentException();
+            }
+            if(!pressSystemService.checkEnoughInStock(order.getFruitId(),order.getFruitAmount()))
+                message ="Not enough juice";
+            order.setUserId(userService.getAuthenticatedUser().getId());
+            pressSystemService.processOrder(order);
+        }
+        catch(IllegalArgumentException e){
+
+        }
+        if(!message.equals("")){
+            model.addAttribute("message",message);
+            model.addAttribute("objFruits",pressSystemService.listAllFruits());
+            model.addAttribute("objOrder",order);
+            return "orderform";
+        }
         Order newOrder = pressSystemService.processOrder(order);
         return "redirect:/order/" + newOrder.getId();
     }
@@ -66,11 +100,5 @@ public class OrderController {
         model.addAttribute("listOrders", pressSystemService.listPressOrderByOrder(id));//listAllPressOrders());
         return "ordersdetails";
     }
-   /* @RequestMapping(value={"/orderbyclientid.html"}, method = RequestMethod.GET)
-    public String orderDetailsByClientId(@RequestParam("idClient") Integer idClient, ModelMap model){
-        //Order order = orderService.getOrderByClientId(idClient);
-        model.addAttribute("objOrder",pressSystemService.get(idClient));
-        return "ordersshow";
-    }*/
 
 }

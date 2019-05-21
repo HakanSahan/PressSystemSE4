@@ -13,27 +13,29 @@ public class PressOrder {
 
     private int fruitAmount;
     private int maxJuiceAmount;
-    public enum Status {NotPlanned, Planned, Executing, Executed, Canceled}
     private Status status;
 
     @OneToOne(mappedBy = "pressOrder")
     private Order order;
-    private int idClient;
-
-    //private Machine machine;
 
     @OneToMany(mappedBy = "pressOrder")
     private Set<Schedule> schedules;
 
-    public void setClientId(int idClient) {
-        this.idClient = idClient;
-    }
-
     public PressOrder(int fruitAmount, int maxJuiceAmount, Order order){
         this.fruitAmount = fruitAmount;
         this.maxJuiceAmount = maxJuiceAmount;
-        this.status = Status.NotPlanned;
+        this.status = Status.NOT_PLANNED;
         this.order = order;
+        schedules = new HashSet<>();
+    }
+    public PressOrder(int fruitAmount, int maxJuiceAmount){
+        this.fruitAmount = fruitAmount;
+        this.maxJuiceAmount = maxJuiceAmount;
+        this.status = Status.NOT_PLANNED;
+        schedules = new HashSet<>();
+    }
+
+    public PressOrder(){
         schedules = new HashSet<>();
     }
 
