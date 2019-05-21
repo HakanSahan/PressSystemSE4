@@ -1,63 +1,54 @@
 package be.springPressOrder.domain;
 
-
 import javax.persistence.*;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
 
 @Entity
-@Table(name = "Machines")
+@Table (name= "Machines")
 public class Machine {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
-
-    public Integer getId(){
-        return id;
-    }
-
-    public void setId(Integer id){this.id = id;}
-
-    public enum Status {Ok,Not_OK}
-
-    public Status getStatus() {
-        return status;
-    }
-
-    public int getMaxCapacityPerHour() {
-        return maxCapacityPerHour;
-    }
-
-    public void setStatus(Status status) {
-        this.status = status;
-    }
-
+    public enum Status {Ok, NietOK};
     private Status status;
     private boolean isOccupied;
     private int maxCapacityPerHour;
+    private ArrayList<Rapport> reportLists;
 
-    @OneToMany(mappedBy = "machine")
-    private Set<Rapport> reportList;
 
-    @OneToMany(mappedBy = "machine")
-    private Set<Schedule> schedules;
+    public Machine(){
+
+    }
+
+    public Machine(Status status, boolean isOccupied, int maxCapacityPerHour) {
+        this.status = status;
+        this.isOccupied = isOccupied;
+        this.maxCapacityPerHour = maxCapacityPerHour;
+        this.reportLists = reportLists;
+    }
 
     public Machine(int id, boolean isOccupied, int maxCapacityPerHour) {
         this.id = id;
         this.isOccupied = isOccupied;
         this.maxCapacityPerHour = maxCapacityPerHour;
-        reportList = new HashSet<>();
-        schedules = new HashSet<>();
-        status = Status.Ok;
+        //TODO Status ?
     }
 
-    public Machine(){
-        reportList = new HashSet<>();
-        schedules = new HashSet<>();
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
     }
 
     public boolean isOccupied() {
@@ -75,16 +66,5 @@ public class Machine {
     public void setMaxCapacityPerHour(int maxCapacityPerHour) {
         this.maxCapacityPerHour = maxCapacityPerHour;
     }
-
-    public Set<Rapport> getReportList() {
-        return reportList;
-    }
-
-    public void addRapport(Rapport rapport){
-        reportList.add(rapport);
-    }
-
-    public Set<Schedule> getSchedules(){
-        return schedules;
-    }
+    // Methode apparatuur chack
 }

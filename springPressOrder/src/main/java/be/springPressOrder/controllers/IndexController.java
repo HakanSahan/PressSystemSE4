@@ -1,38 +1,30 @@
 package be.springPressOrder.controllers;
 
-import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
-
+import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 @Controller
 public class IndexController {
-
-    @GetMapping("/")
-    public String index() {
+    @RequestMapping("/")
+    String index() {
         return "index";
     }
 
-    @GetMapping("/menu")
-    public String menu(){
-        return "menu";
-    }
 
-    /*@RequestMapping("/login")
+    @RequestMapping("/login")
     public String login() {
         return "login";
-    }*/
-
-/*    @RequestMapping("/403")
-    public String error403() {
-        return "/403";
     }
-*/
-    @GetMapping("/login-error")
-    public String loginError(Model model) {
-        model.addAttribute("error", true);
-        return "login";
+
+    @RequestMapping("/403")
+    public String error403() {
+        return "/error/403";
     }
 
 }

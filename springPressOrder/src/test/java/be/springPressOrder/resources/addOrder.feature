@@ -15,6 +15,6 @@ Feature: Add Order
       | Juice:       | AppleJuice     |
       | Status       | NotPlannend    |
       | ClientId:    | 2              |
-    When I go to the page with a list of orders
+    When I click the OrdersList link
     Then I should see a list cointaining "AppleJuice"
     And I close the browser
