@@ -4,6 +4,8 @@ import be.springPressOrder.domain.Order;
 import be.springPressOrder.dao.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class OrderServiceImpl implements OrderService {
@@ -25,6 +27,12 @@ public class OrderServiceImpl implements OrderService {
         return orderRepository.findOne(id);
     }
 
+    //------------
+    @Override
+    public Order addOrder(Order order) {
+        return null;
+    }
+
     @Override
     public Order saveOrder(Order order) {
         return orderRepository.save(order);
@@ -33,5 +41,12 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public void deleteOrder(Integer id) {
         orderRepository.delete(id);
+    }
+
+
+    @Transactional(propagation= Propagation.REQUIRED,readOnly=false)
+    public Order createOrder(Order order) {
+
+        return orderRepository.save(order);
     }
 }
