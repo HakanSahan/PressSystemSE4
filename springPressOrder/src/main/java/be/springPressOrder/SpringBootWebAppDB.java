@@ -150,15 +150,15 @@ public class SpringBootWebAppDB implements ApplicationListener<ContextRefreshedE
         scheduleRepository.save(schedule);
 
         User user5 = new User("Vanvolsem","Pierre","03","p@v.com","pv","PRESSER",
-                "presser");
+                "{noop}presser");
         userRepository.save(user5);
 
         User user2 = new User("Sahan","Hakan","04","h@s.com","hs","ADMIN",
-                "admin");
+                "{noop}admin");
         userRepository.save(user2);
 
         User user3 = new User("Klochkova","Alex","05","a@k.com","ak","TECHNICIAN",
-                "tech");
+                "{noop}tech");
         userRepository.save(user3);
     }
 }
