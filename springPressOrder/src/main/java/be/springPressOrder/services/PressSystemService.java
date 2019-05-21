@@ -88,6 +88,7 @@ public interface PressSystemService {
 
     List<PressOrder> listAllPressOrdersByUser(Integer userId);
 
+     void ChangeMachineStatus(int id);
 
     void deleteRequest(Integer id);
     public Prediction predictFruitAmount(Integer storageId);
