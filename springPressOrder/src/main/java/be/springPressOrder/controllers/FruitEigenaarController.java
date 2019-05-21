@@ -32,25 +32,14 @@ public class FruitEigenaarController {
     @Autowired
     private void setPressSystemService(PressSystemService pressSystemService){this.pressSystemService = pressSystemService;}
 
-   /** @RequestMapping(value = "/fruiteigenaar/overzicht/{id}", method = RequestMethod.GET)
-    public String list(@PathVariable Integer id,Model model) {
-        model.addAttribute("Orders", pressSystemService.getOrdersByClientId(id));
-        model.addAttribute("PressOrders", pressSystemService.getPressOrdersByClientId(id));
-        return "fruiteigenaaroverzicht";
-    }**/
-
+    //Mapping voor een registratie pagina
     @RequestMapping(value = "/fruiteigenaar/registratie", method = RequestMethod.GET)
     public String list(Model model) {
         model.addAttribute("objUser", new User());
         return "fruiteigenaarregistratie";
     }
-
-
-    //@RequestMapping(value = "/fruiteigenaar/create", method = RequestMethod.POST)
-    /*public String saveOrder(Client client) {
-        //clientService.saveClient(client);
-        return "redirect:/order/1";
-    }*/
+    
+    //Mapping voor het maken van een user
     @RequestMapping(value = "/fruiteigenaar/create", method = RequestMethod.POST)
     public String saveOrder(@ModelAttribute("objUser") @Valid User user,
                             BindingResult result, ModelMap model) {
