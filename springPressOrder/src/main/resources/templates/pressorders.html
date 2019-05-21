@@ -22,13 +22,14 @@
             <tr th:each="pressOrder : ${pressOrders}">
                 <td th:text="${pressOrder.id}"><a href="/pressorder/${pressOrder.id}">Id</a></td>
                 <td th:text="${pressOrder.fruitAmount}">Fruit amount</td>
-                <!--<td th:text="${pressOrder.order.fruit.getFruitname()}">Juice</td>-->
+                <td th:text="${pressOrder.order.fruit.getFruitname()}">Juice</td>
                 <td th:text="${pressOrder.maxJuiceAmount}">Max juice amount</td>
                 <td th:text="${pressOrder.status}">Status</td>
                 <td><a th:href="${'/pressorder/' + pressOrder.id}">View</a></td>
-                <td><a th:href="${'/pressorder/edit/' + pressOrder.id}">Edit</a></td>
-                <td><a th:href="${'/pressorder/delete/' + pressOrder.id}">Delete</a></td>
-                <td><a th:href="${'/pressorder/plan/' + pressOrder.id}">plan</a></td>
+                <td th:if="${role} == 'ROLE_PRESSER'"><a th:href="${'/pressorder/edit/' + pressOrder.id}">Edit</a></td>
+                <td th:if="${role} == 'ROLE_PRESSER'"><a th:href="${'/pressorder/delete/' + pressOrder.id}">Delete</a></td>
+                <td th:if="${role} == 'ROLE_PRESSER'"><a th:href="${'/schedule'}">plan</a></td>
+                <td th:if="${role} == 'ROLE_PRESSER'"><a th:href="'/pressorders/'+${pressOrder.id}+'/press'">Press</a> </td>
             </tr>
         </table>
 

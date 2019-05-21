@@ -40,6 +40,8 @@ public class FruitData {
         this.maximumAverageWindSpeed = maximumAverageWindSpeed;
     }
 
+    public FruitData(){}
+
     public Fruit getFruit(){return fruit;}
 
     public Double getAvgJuiceAmount() { return avgJuiceAmount; }

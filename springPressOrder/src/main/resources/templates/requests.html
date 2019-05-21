@@ -13,10 +13,11 @@
                 <th>Date</th>
                 <th>Message</th>
             </tr>
-            <tr th:each="objSchedule : ${listRequests}">
-                <td th:text="${objSchedule.getId()}"></td>
-                <td th:text="${objSchedule.getRequest_time()}"></td>
-                <td th:text="${objSchedule.getMessage()}"></td>
+            <tr th:each="objRequest : ${listRequests}">
+                <td th:text="${objRequest.getId()}"></td>
+                <td th:text="${objRequest.getRequest_time()}"></td>
+                <td th:text="${objRequest.getMessage()}"></td>
+                <td><a th:href="'technician/delete/'+${objRequest.getId()}">Delete</a></td>
             </tr>
         </table>
     </div>

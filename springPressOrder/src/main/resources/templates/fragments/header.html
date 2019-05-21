@@ -1,10 +1,8 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head lang="en">
-
 </head>
 <body>
-
 <div class="container">
     <div th:fragment="header">
         <nav class="navbar navbar-default">
@@ -16,10 +14,10 @@
                         <li><a href="#" th:href="@{/pressorder/new}">Create press order</a></li>
                         <li><a href="#" th:href="@{/orders}">Orders</a></li>
                         <li><a href="#" th:href="@{/order/new}">Create order</a></li>
-                        <li><a href="#" th:href="@{/weather}">Weather</a></li>
-                        <li><a href="#" th:href="@{/technicianOverview}">Technician overview</a></li>
+                        <li><a href="#" th:href="@{/technician}">Technician overview</a></li>
+                        <li><a href="#" th:href="@{/machines}">Machines</a></li>
+                        <li><a href="#" th:href="@{/storage}">In Stock</a></li>
                     </ul>
-
                     <form method="POST" th:action="@{/logout}" style="float: right">
                         <button class="btn btn-danger btn-md logout" name="logout" value="Logout">Logout</button>
                     </form>
@@ -32,7 +30,6 @@
             <div class="row text-center">
                 <div class="">
                     <h2>PIPO Appelsap</h2>
-
                     <h3>Spring Boot Web App</h3>
                 </div>
             </div>

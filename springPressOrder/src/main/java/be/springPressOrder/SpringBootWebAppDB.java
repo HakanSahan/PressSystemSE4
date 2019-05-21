@@ -26,6 +26,9 @@ public class SpringBootWebAppDB implements ApplicationListener<ContextRefreshedE
     private UserRepository userRepository;
     private StorageRepository storageRepository;
     private JuiceRepository juiceRepository;
+    private FruitDataRepository fruitDataRepository;
+
+
 
     @Autowired
     public void setPressOrderRepository(PressOrderRepository pressOrderRepository) { this.pressOrderRepository = pressOrderRepository; }
@@ -57,14 +60,27 @@ public class SpringBootWebAppDB implements ApplicationListener<ContextRefreshedE
     @Autowired
     public void setJuiceRepository(JuiceRepository juiceRepository){this.juiceRepository=juiceRepository;}
 
+    @Autowired
+    public void setFruitDataRepository(FruitDataRepository fruitDataRepository){this.fruitDataRepository = fruitDataRepository;}
+
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event) {
 
         User user = new User("admin","admin","047","mail@mail.be","admin","ROLE_ADMIN","{noop}password");
 
+        User user4 = new User("Klochkova","Alex","05","a@k.com","user","ROLE_USER",
+                "{noop}password");
+        User user6 = new User("Klochkova","Alex","05","a@k.com","user2","ROLE_USER",
+                "{noop}password");
         userRepository.save(user);
+        userRepository.save(user4);
+        userRepository.save(user6);
 
         Fruit fruit = new Fruit("Apple");
+        fruitRepository.save(fruit);
+        FruitData fd = new FruitData(fruit,0.65,8,11,5,5,5);
+        fruit.setFruitData(fd);
+        fruitDataRepository.save(fd);
         fruitRepository.save(fruit);
 
         Storage storage = new Storage(fruit,3.0);
@@ -77,40 +93,50 @@ public class SpringBootWebAppDB implements ApplicationListener<ContextRefreshedE
         machineRepository.save(new Machine());
 
         List<Order> orders = Arrays.asList(
-                new Order(50,fruit,1),
-                new Order(50,fruit,1),
-                new Order(50,fruit,1));
+                new Order(50,fruit,user4),
+                new Order(50,fruit,user4),
+                new Order(50,fruit,user4));
 
         orderRepository.save(orders);
 
-        Order order2 = new Order(50,fruit,1);
+        Order order2 = new Order(50,fruit,user4);
         orderRepository.save(order2);
-        //log.info("Saved order2 - id: " + order2.getId());
 
         List<PressOrder> pressOrders = Arrays.asList(
-                new PressOrder(100, 99, order2),
-                new PressOrder(1, 7,  order2),
-                new PressOrder(2, 6, order2));
+                new PressOrder(100, 99),
+                new PressOrder(1, 7),
+                new PressOrder(2, 6));
 
+        for (int i = 0; i<orders.size();i++){{
+            pressOrders.get(i).setOrder(orders.get(i));
+            orders.get(i).setPressOrder(pressOrders.get(i));
+
+        }}
         pressOrderRepository.save(pressOrders);
-
+        orderRepository.save(orders);
 
         PressOrder pressOrder1 = new PressOrder(100, 99, order2);
         pressOrderRepository.save(pressOrder1);
         //log.info("Saved press order1 - id: " + pressOrder1.getId());
 
-        PressOrder pressOrder2 = new PressOrder(1, 7,  order2);
+        Order order3 = new Order(50,fruit,user6);
+        orderRepository.save(order3);
+        PressOrder pressOrder2 = new PressOrder(1, 7,  order3);
         pressOrderRepository.save(pressOrder2);
         //log.info("Saved press order2 - id: " + pressOrder2.getId());
 
-        PressOrder order3 = new PressOrder(2, 6, order2);
-        pressOrderRepository.save(order3);
+        Order order4 = new Order(50,fruit,user6);
+        orderRepository.save(order4);
+        PressOrder pressOrder3 = new PressOrder(2, 6, order4);
+        pressOrderRepository.save(pressOrder3);
         //log.info("Saved press order3 - id: " + order3.getId());
-        Fruit apple = new Fruit("Apple");
         Fruit pear = new Fruit("Pear");
-        fruitRepository.save(apple);
         fruitRepository.save(pear);
-        Order order1 = new Order(2,apple,1);
+        FruitData pearData = new FruitData(pear,0.7,9,11,40,5,20);
+        fruitDataRepository.save(pearData);
+        Storage storagePear = new Storage(pear,4);
+        storageRepository.save(storagePear);
+        Order order1 = new Order(2,pear,user6);
         orderRepository.save(order1);
         ///log.info("Saved order1 - id: " + order1.getId());
 
@@ -121,9 +147,16 @@ public class SpringBootWebAppDB implements ApplicationListener<ContextRefreshedE
         machineRepository.save(machine2);
         machineRepository.save(machine3);
 
-        //Technician technician1 = new Technician("Duck","James","+32479019788","JamesDuck@Duck.com");
-        //Technician technician2 = new Technician("Flamingo","Jeff","+32488527488","JeffFlamingo@Duck.com");
-/*
+        Technician technician1 = new Technician("Duck","James","+32479019788","JamesDuck@Duck.com"
+                ,"TECHNICIAN","ROLE_TECHNICIAN","{noop}password");
+
+        Technician technician2 = new Technician("Flamingo","Jeff","+32488527488","JeffFlamingo@Duck.com"
+                ,"TECHNICIAN2","ROLE_TECHNICIAN","{noop}password");
+
+        userRepository.save(technician1);
+        userRepository.save(technician2);
+
+
         RequestTechnician request1 = new RequestTechnician(new Date(),"Please HELP",technician1);
 
         RequestTechnician request2 = new RequestTechnician(new Date(),"Boot too big",technician1);
@@ -131,8 +164,13 @@ public class SpringBootWebAppDB implements ApplicationListener<ContextRefreshedE
         RequestTechnician request3 = new RequestTechnician(new Date(),"Please HELP",technician2);
 
         RequestTechnician request4 = new RequestTechnician(new Date(),"Boot too big",technician2);
-*/
-       /* technician1.getRequestTechnicians().add(request1);
+
+        requestTechnicianRepository.save(request1);
+        requestTechnicianRepository.save(request4);
+        requestTechnicianRepository.save(request2);
+        requestTechnicianRepository.save(request3);
+
+        /*technician1.getRequestTechnicians().add(request1);
         technician1.getRequestTechnicians().add(request2);
         technician2.getRequestTechnicians().add(request3);
         technician2.getRequestTechnicians().add(request4);*/
@@ -149,16 +187,16 @@ public class SpringBootWebAppDB implements ApplicationListener<ContextRefreshedE
 
         scheduleRepository.save(schedule);
 
-        User user5 = new User("Vanvolsem","Pierre","03","p@v.com","pv","PRESSER",
-                "presser");
+        User user5 = new User("Vanvolsem","Pierre","03","p@v.com","pv","ROLE_PRESSER",
+                "{noop}presser");
         userRepository.save(user5);
 
-        User user2 = new User("Sahan","Hakan","04","h@s.com","hs","ADMIN",
-                "admin");
+        User user2 = new User("Sahan","Hakan","04","h@s.com","hs","ROLE¨_ADMIN",
+                "{noop}admin");
         userRepository.save(user2);
 
-        User user3 = new User("Klochkova","Alex","05","a@k.com","ak","TECHNICIAN",
-                "tech");
+        User user3 = new User("Klochkova","Alex","05","a@k.com","ak","ROLE_TECHNICIAN",
+                "{noop}tech");
         userRepository.save(user3);
     }
 }

@@ -1,4 +1,8 @@
 package be.springPressOrder.domain;
+
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -6,6 +10,9 @@ import java.util.Date;
 
 @Entity
 @Table(name = "Schedules")
+@Data
+//@RequiredArgsConstructor
+//@NoArgsConstructor(force=true)
 public class Schedule {
 
     @Id
@@ -25,9 +32,9 @@ public class Schedule {
     @DateTimeFormat(pattern = "yyyy-MM-dd' 'HH:mm")
     private Date endHour;
 
-    public Schedule(){
+    public Schedule(){}
 
-    }
+
 
     public Schedule(Machine machine, PressOrder pressOrder, Date startHour, Date endHour) {
         this.machine = machine;
@@ -36,7 +43,7 @@ public class Schedule {
         this.endHour = endHour;
     }
 
-    public Integer getId() {
+ /**   public Integer getId() {
         return id;
     }
 
@@ -74,5 +81,5 @@ public class Schedule {
 
     public void setEndHour(Date endHour) {
         this.endHour = endHour;
-    }
+    }**/
 }

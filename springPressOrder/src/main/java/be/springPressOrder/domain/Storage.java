@@ -18,7 +18,8 @@ public class Storage {
     private int id;
 
     @NotNull(message = "Fruit cannot be null")
-    @OneToOne(mappedBy = "storage")
+    @OneToOne()
+    @JoinColumn(name = "fruit_id", referencedColumnName = "id")
     private Fruit fruit;
 
     @OneToMany(mappedBy = "storage")
@@ -53,7 +54,7 @@ public class Storage {
     @XmlElement(name="fruit")
     public Fruit getFruit() { return fruit; }
 
-    @XmlElement(name="juices")
+    //@XmlElement(name="juices")
     public Set<Juice> getJuices() {
         return juices;
     }

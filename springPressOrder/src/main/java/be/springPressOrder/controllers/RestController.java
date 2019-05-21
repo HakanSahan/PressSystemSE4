@@ -17,8 +17,8 @@ public class RestController {
     @Autowired
     private OrderRepository orderRepository;
 
-    @GetMapping("/{id}")
+   /* @GetMapping("/{id}")
     public List<Order> getOrderbyId(@PathVariable("id") int id) {
-        return orderRepository.findByIdClient(id); //.get()
-    }
+        //return orderRepository.findByIdClient(id); //.get()
+    }*/
 }

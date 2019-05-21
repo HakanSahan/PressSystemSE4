@@ -24,8 +24,7 @@ public class Fruit {
     @OneToMany
     private Set<Juice> juices;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "storage_id", referencedColumnName = "id")
+    @OneToOne(mappedBy = "fruit")
     private Storage storage;
 
     @OneToOne
@@ -45,4 +44,6 @@ public class Fruit {
     }
 
     public int getId(){return  id;}
+
+    public void setFruitData(FruitData fruitData){this.fruitData = fruitData;}
 }

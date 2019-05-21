@@ -18,8 +18,6 @@ public class Machine {
         return id;
     }
 
-    public void setId(Integer id){this.id = id;}
-
     public enum Status {Ok,Not_OK}
 
     public Status getStatus() {

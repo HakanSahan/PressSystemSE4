@@ -1,9 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head lang="en">
-
     <title>PIPO Appelsap</title>
-
     <!--/*/ <th:block th:include="fragments/headerinc :: head"></th:block> /*/-->
 </head>
 <body>
@@ -15,6 +13,7 @@
             <tr>
                 <th>Id</th>
                 <th>Amount</th>
+                <th>Juice</th>
                 <th>Status</th>
                 <th>Date</th>
                 <th>Client id</th>
@@ -25,7 +24,7 @@
                 <td th:text="${objOrder.fruit.getFruitname()}">Fruit</td>
                 <td th:text="${objOrder.status}">Status</td>
                 <td th:text="${objOrder.orderDate}">Date</td>
-                <td th:text="${objOrder.idClient}">Client id</td>
+                <td th:text="${objOrder.getUser().getId()}">Client id</td>
                 <td><a th:href="${'/order/' + objOrder.id}">View</a></td>
                 <td><a th:href="${'/order/edit/' + objOrder.id}">Edit</a></td>
                 <td><a th:href="${'/order/delete/' + objOrder.id}">Delete</a></td>

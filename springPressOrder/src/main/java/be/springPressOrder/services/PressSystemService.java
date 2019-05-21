@@ -8,6 +8,7 @@ import be.springPressOrder.domain.*;
 import com.google.common.reflect.ImmutableTypeToInstanceMap;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import javax.jnlp.IntegrationService;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +24,7 @@ public interface PressSystemService {
 
     Iterable<PressOrder> listPressOrderByFruit(String fruitName);
 
-    PressOrder addPressOrder(int amountOfFruit, Fruit fruit, int maxJuiceAmount, int idClient);
+    PressOrder addPressOrder(int amountOfFruit, Fruit fruit, int maxJuiceAmount, Integer userId);
 
     PressOrder savePressOrder(int id, int amountOfFruit, Fruit fruit, int maxJuiceAmount, int idClient);
 
@@ -35,11 +36,15 @@ public interface PressSystemService {
 
     Order getOrderById(Integer id);
 
-    Order addOrder(int amount, Fruit fruit, int idClient);
-
-    Order saveOrder(int id, int amount, Fruit fruit, int idClient);
+    Order addOrder(int amount, Fruit fruit, Integer userId);
 
     void deleteOrder(Integer id);
+
+    void deleteSchedule(Integer id);
+
+    ScheduleData getNewScheduleData();
+
+    ScheduleData prepareScheduleData(int id);
 
     Order processOrder(OrderData orderData);
 
@@ -49,11 +54,23 @@ public interface PressSystemService {
 
     Iterable<Machine> listAllMachines();
 
+    Machine getMachineById(int id);
+
+    User getUserByName(String name);
+
+    List<RequestTechnician> getRequestTechnicianByTechnician(Technician technician);
+
+    List<Schedule> getSchedulesByMachine(Machine machine);
+
+    void checkMachinesStatus();
+
     String processSchedule(ScheduleData scheduleData) throws ParseException;
 
     Iterable<Technician> listAllTechnicians();
 
     Technician getTechnicianById(int id);
+
+    double predictAmountOfJuice(Integer pressOrderId);
 
     Iterable<RequestTechnician> listAllRequestTechnicians();
 
@@ -62,4 +79,18 @@ public interface PressSystemService {
     RequestTechnician processRequestTechnician(RequestTechnicianData requestTechnicianData);
 
     public Iterable<Storage> listAllStorages();
+
+    void getJuicesForOrder(int orderId);
+
+    Boolean checkEnoughInStock(int storageId,int amount);
+
+    Storage getStorageForFruit(int fruitId);
+
+    List<PressOrder> listAllPressOrdersByUser(Integer userId);
+
+
+    void deleteRequest(Integer id);
+    public Prediction predictFruitAmount(Integer storageId);
+
+    List<Order> listAllOrdersByUser(Integer userId);
 }

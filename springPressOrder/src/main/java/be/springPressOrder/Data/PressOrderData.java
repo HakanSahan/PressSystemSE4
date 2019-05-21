@@ -16,8 +16,7 @@ public class PressOrderData {
     @NotNull(message = "Fruit cannot be empty")
     public Integer fruitId;
 
-    @NotNull(message = "Client id cannot be empty")
-    public Integer clientId;
+    public Integer userId;
 
     public Integer maxJuiceAmount;
 }
