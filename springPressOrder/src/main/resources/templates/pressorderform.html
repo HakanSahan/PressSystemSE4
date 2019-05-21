@@ -10,7 +10,10 @@
 <div class="container">
     <!--/*/ <th:block th:include="fragments/header :: header"></th:block> /*/-->
 
-    <h2>Press order details</h2>
+
+    <div class="row">
+        <h2>Press order details | <input type="submit" class="btn btn-success" value="Submit"/></h2>
+    </div>
     <div>
         <form class="form-horizontal" th:object="${pressOrder}" th:action="@{/pressorder}" method="post">
             <input type="hidden" th:field="*{id}"/>
@@ -38,9 +41,7 @@
                     <input type="text" class="form-control" th:field="*{status}"/>
                 </div>
 
-                <div class="row">
-                    <button type="submit" class="btn btn-success">Submit</button>
-                </div>
+
             </div>
         </form>
     </div>
