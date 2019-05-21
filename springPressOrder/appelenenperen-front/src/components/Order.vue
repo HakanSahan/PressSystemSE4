@@ -16,13 +16,14 @@
             {{ info.project.user.firstName }}
             {{ info.project.user.lastName }}
           </li>-->
-          <li v-if="info.amount"><strong>Amount:</strong> {{ info.amount }}</li>
+          <li v-if="info.amount"><strong>Amount:</strong> {{ info.amount}}</li>
           <li v-if="info.status"><strong>Status:</strong> {{ info.status }}</li>
           <!--<li><strong>DateTime From:</strong> {{ info.dateTimeFrom }}</li>-->
           <li v-if="info.idClient"><strong>id Client:</strong> {{ info.idClient }}</li>
-          <li v-if="info.juices"><strong>Juices:</strong> {{ info.juices }}</li>
+          <li v-if="info.juices[0]"><strong>Juices:</strong> {{ info.juices[0] }}</li>
         </ul>
     </div>
+      <!-- Is niet interessant voor de gebruiker -->
     <div>
       <strong>Status: </strong> {{ status }}
     </div>

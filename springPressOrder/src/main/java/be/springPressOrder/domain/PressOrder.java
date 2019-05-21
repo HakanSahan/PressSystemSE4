@@ -36,6 +36,9 @@ public class PressOrder {
         this.order = order;
         schedules = new HashSet<>();
     }
+    public PressOrder(){
+
+    }
 
     public void setFruitAmount(int fruitAmount) {
         this.fruitAmount = fruitAmount;

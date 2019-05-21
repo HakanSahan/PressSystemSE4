@@ -18,7 +18,7 @@ public class RestController {
     private OrderRepository orderRepository;
 
     @GetMapping("/{id}")
-    public List<Order> getOrderbyId(@PathVariable("id") int id) {
-        return orderRepository.findByIdClient(id); //.get()
+    public Order getOrderbyId(@PathVariable("id") int id) {
+        return orderRepository.findById(id); //.get()
     }
 }

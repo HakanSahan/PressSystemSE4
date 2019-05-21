@@ -13,12 +13,14 @@ import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.access.AccessDeniedHandler;
 
+import javax.activation.DataSource;
+
 @EnableWebSecurity
 @Configuration
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-    @Autowired
-    private AccessDeniedHandler accessDeniedHandler;
+    /*@Autowired
+    private AccessDeniedHandler accessDeniedHandler;*/
 
     @Autowired
     private UserDetailsService userDetailsService;
@@ -28,7 +30,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-       /* http.authorizeRequests()
+       //http.authorizeRequests()
 
         http.authorizeRequests()
                 .antMatchers("/favicon.ico").permitAll()
@@ -44,13 +46,15 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/request/**").hasAnyRole("USER","ADMIN")
                 //.antMatchers("/order/**").hasAnyRole("ADMIN")
                 .antMatchers("/pressorders/**").hasAnyRole("USER","ADMIN","TECHNICIAN")
+                .antMatchers("/pressorders").hasAnyRole("USER","ADMIN","TECHNICIAN")
+
                 .antMatchers("/pressorder/**").hasAnyRole("USER","ADMIN")
                 .antMatchers("/order/**").hasAnyRole("USER","ADMIN")
                 .anyRequest().hasAnyRole("USER","ADMIN").and()
                     .formLogin().loginPage("/login").failureUrl("/login-error")
                         .defaultSuccessUrl("/menu",true).permitAll().and()
                     .logout().invalidateHttpSession(true).logoutSuccessUrl("/logout").permitAll();
-        http.exceptionHandling().accessDeniedPage("/403");*/
+        http.exceptionHandling().accessDeniedPage("/403");
        http.authorizeRequests().anyRequest().permitAll();
         http.csrf().and().cors().disable();
         http.headers().frameOptions().disable();
@@ -64,7 +68,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .and()
                 .withUser("presser").password(("presser")).roles("USER")
                 .and()
-                .withUser("technician").password(("technician")).roles("TECHNICIAN");
+                .withUser("technician").password(("technician")).roles("TECHNICIAN")
+                .and()
+                .withUser("admin").password(("password")).roles("ADMIN")
+        ;
     }
 
     @Bean

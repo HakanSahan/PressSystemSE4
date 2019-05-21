@@ -33,6 +33,7 @@ public class Order {
     @ManyToOne
     @JoinColumn(name = "fruid_id")
     private Fruit fruit;
+
     private int idClient;
 
     @OneToOne(cascade = CascadeType.ALL)
