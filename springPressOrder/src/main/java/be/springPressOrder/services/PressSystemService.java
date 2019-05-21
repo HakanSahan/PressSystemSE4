@@ -13,13 +13,15 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
+//Hier worden de methodes aangemaakt. Maar deze zijn leeg, de body komt in de implementatie
 public interface PressSystemService {
     Iterable<PressOrder> listAllPressOrders();
-
-    PressOrder getPressOrderById(Integer id);
-
+    
+    //Vraagt persoder met een bepaade ID op
+    PressOrder getPressOrderById(Integer id);    
+    // Geef alle fruiten terug
     Iterable<Fruit>      listAllFruits();
-
+    
     Iterable<PressOrder> listPressOrderByOrder(Integer id);
 
     Iterable<PressOrder> listPressOrderByFruit(String fruitName);
