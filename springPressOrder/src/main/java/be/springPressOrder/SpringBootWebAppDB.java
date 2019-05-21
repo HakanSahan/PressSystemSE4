@@ -51,9 +51,11 @@ public class SpringBootWebAppDB implements ApplicationListener<ContextRefreshedE
         orderRepository.save(order1);
         //log.info("Saved order1 - id: " + order1.getId());
 
-        User user = new User("admin","admin","047","ROLE_ADMIN","admin","ROLE_ADMIN","{noop}password");
+        User user = new User("admin","admin","047","mail@mail.be","admin","ROLE_ADMIN","{noop}password");
+        User pierre = new User("vanvolsem","pierre","047","mail@mail.be","user","ROLE_USER","{noop}password");
 
         userRepository.save(user);
+        userRepository.save(pierre);
 
         Fruit fruit = new Fruit("Apple");
         fruitRepository.save(fruit);

@@ -7,6 +7,8 @@ import lombok.Value;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.xpath.operations.Mod;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -20,6 +22,8 @@ import javax.validation.Valid;
 
 @Slf4j
 @Controller
+//@PostAuthorize("#model.get('ROL_USER').user.id == authentication.principal.id")
+//@Secured({"ROL_USER"})
 public class PressOrderController {
 
     private PressSystemService pressSystemService;
@@ -35,6 +39,7 @@ public class PressOrderController {
     }
 
     @RequestMapping(value = "/pressorders", method = RequestMethod.GET)
+    @PostAuthorize("#model.get('rol').persoon.emailadres == authentication.principal.username")
     public String list(Model model) {
         model.addAttribute("pressOrders", pressSystemService.listAllPressOrders());
         return "pressorders";
