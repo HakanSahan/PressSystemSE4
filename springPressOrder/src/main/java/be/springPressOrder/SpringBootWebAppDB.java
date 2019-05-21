@@ -67,6 +67,7 @@ public class SpringBootWebAppDB implements ApplicationListener<ContextRefreshedE
     public void onApplicationEvent(ContextRefreshedEvent event) {
 
         User user = new User("admin","admin","047","mail@mail.be","admin","ROLE_ADMIN","{noop}password");
+        User pierre = new User("vanvolsem","pierre","047","mail@mail.be","user","ROLE_USER","{noop}password");
 
         User user4 = new User("Klochkova","Alex","05","a@k.com","user","ROLE_USER",
                 "{noop}password");
@@ -75,6 +76,7 @@ public class SpringBootWebAppDB implements ApplicationListener<ContextRefreshedE
         userRepository.save(user);
         userRepository.save(user4);
         userRepository.save(user6);
+        userRepository.save(pierre);
 
         Fruit fruit = new Fruit("Apple");
         fruitRepository.save(fruit);

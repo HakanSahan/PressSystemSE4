@@ -13,12 +13,14 @@ import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.access.AccessDeniedHandler;
 
+import javax.activation.DataSource;
+
 @EnableWebSecurity
 @Configuration
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-    @Autowired
-    private AccessDeniedHandler accessDeniedHandler;
+    /*@Autowired
+    private AccessDeniedHandler accessDeniedHandler;*/
 
     @Autowired
     private UserDetailsService userDetailsService;

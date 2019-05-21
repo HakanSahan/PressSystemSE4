@@ -27,6 +27,7 @@ public class User implements UserDetails, Serializable {
     private int id;
 
     @Column(unique = true)
+    @NotEmpty(message="Username can not be empty.")
     private String username;
 
     @Column
@@ -109,6 +110,10 @@ public class User implements UserDetails, Serializable {
         return orders;
     }
 
+    public void setPassword(String password) {
+        this.password = "{noop}"+password;
+    }
+
     public User(String name, String firstname, String phone, String email, String username, String role, String password) {
         this.name = name;
         this.firstname = firstname;
@@ -120,7 +125,9 @@ public class User implements UserDetails, Serializable {
         this.orders = new HashSet<>();
     }
 
-    public User(){}
+    public User(){
+        this.role = "ROL_USER";
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

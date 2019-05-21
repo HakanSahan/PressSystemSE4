@@ -28,7 +28,7 @@ public class MyStepdefs {
         System.setProperty("webdriver.gecko.driver","geckodriver.exe");
         driver = new ChromeDriver();
 
-        driver = new ChromeDriver();
+        //driver = new ChromeDriver();
         //inloggen
         driver.navigate().to("http://localhost:8080/login");
         driver.findElement(By.id("username")).sendKeys("admin");
