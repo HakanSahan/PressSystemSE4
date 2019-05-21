@@ -1,6 +1,6 @@
 package be.springPressOrder.domain;
 
-import sun.plugin2.message.Message;
+//import sun.plugin2.message.Message;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
