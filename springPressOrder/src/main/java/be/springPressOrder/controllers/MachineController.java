@@ -59,6 +59,13 @@ public class MachineController {
         model.addAttribute("listPressOrders", pressSystemService.listAllPressOrders());
         return "scheduleform";
     }
+    
+    @RequestMapping("machines/changeStatus/{id}")
+    public String changeStatus(@PathVariable Integer id, Model model) {
+        pressSystemService.ChangeMachineStatus(id);
+        model.addAttribute("listMachines", pressSystemService.listAllMachines());
+        return "machines";
+    }
 
 
 
