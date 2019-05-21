@@ -209,6 +209,15 @@ public class PressSystemServiceImpl implements PressSystemService {
     public Iterable<Schedule> listAllSchedules(){
         return scheduleRepository.findAll();
     }
+    
+    @Override
+    public void ChangeMachineStatus(int id)
+    {
+        machineRepository.findOne(id).setStatus(Machine.Status.Ok);
+        System.out.println("***********************************************************************************************************************************************************");
+        System.out.println(machineRepository.findOne(id).getStatus());
+
+    }
 
     @Override
     public String processSchedule(ScheduleData scheduleData) throws ParseException {
