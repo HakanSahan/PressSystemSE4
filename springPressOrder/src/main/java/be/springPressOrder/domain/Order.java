@@ -1,81 +1,56 @@
 package be.springPressOrder.domain;
 
-import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.validation.constraints.Digits;
-import java.util.*;
+import javax.xml.bind.annotation.XmlRootElement;
+import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "Orders")
+@XmlRootElement(name = "orders")
 public class Order {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
-    @Column
     @Digits(integer=3, fraction=0, message = "Please select an amount less than thousand ")
     private int amount;
-
     public enum Status {NotPlanned, Planned, Executing, Executed, Canceled}
-
-    @Column
     private Status status;
-
-    @Column
     @DateTimeFormat(pattern = "yyyy-MM-dd' 'HH:mm")
     private Date orderDate;
-
-    // Moet set zijn anders :  Illegal attempt to map a non collection as a @OneToMany, @ManyToMany or @CollectionOfElements: be.springPressOrder.domain.Order.juices
-    @OneToMany(mappedBy = "order")
-    private Set<Juice> juices;
-
-    @ManyToOne
-    @JoinColumn(name = "fruid_id")
-    private Fruit fruit;
-
+    private String juice;
     private int idClient;
-
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "pressOrder_id", referencedColumnName = "id")
-    private PressOrder pressOrder;
-
-    public Order(int amount, Juice juice, int idClient){
-        this.amount = amount;
-        this.juices = new HashSet<>();
-        this.juices.add(juice);
-        this.idClient = idClient;
-        orderDate = new Date();
-        status = Status.Canceled;
-    }
-
-    public Order(int amount, Fruit fruit, int idClient){
-        this.amount = amount;
-        this.fruit = fruit;
-        this.idClient = idClient;
-        orderDate = new Date();
-        status = Status.NotPlanned;
-    }
 
     public void setIdClient(int idClient) {
         this.idClient = idClient;
     }
 
-    public void setOrderDate(Date orderDate) {
-        this.orderDate = orderDate;
+    public String getJuice() {
+        return juice;
     }
 
-    public Set<Juice> getJuices() {
-        return juices;
+    public void setJuice(String juice) {
+        this.juice = juice;
     }
+
+
+
+
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<PressOrder> pressOrders;
 
     public int getIdClient() {
         return idClient;
     }
 
-    public PressOrder getPressOrders() {
-        return pressOrder;
+    public Order(){
+        orderDate = new Date();
+        status = Status.NotPlanned;
     }
 
     public int getId() {
@@ -102,11 +77,18 @@ public class Order {
         return orderDate;
     }
 
-    public Fruit getFruit() {
-        return fruit;
+    public void setOrderDate(Date orderDate) {
+        this.orderDate = orderDate;
     }
 
-    public void addJuice(Juice juice){juices.add(juice);}
+    public Order(int amount, String juice, int idClient){
+        this.amount = amount;
+        this.juice = juice;
+        this.idClient = idClient;
+        orderDate = new Date();
+        status = Status.NotPlanned;
+    }
 
-    public void setJuices(Set<Juice> juices){this.juices = juices;}
+
+
 }
