@@ -32,8 +32,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
 
         http.authorizeRequests()
-                .antMatchers("/favicon.ico", "/login*", "/images/**", "/css/**", "/storage", "/").permitAll()
-
+                .antMatchers("/favicon.ico", "/login*", "/images/**", "/css/**", "/storage", "/", "/storage/json", "/order").permitAll()
                 .antMatchers("/h2/**", "/**")   .hasAnyRole("ADMIN", "PRESSER","USER")
                 .antMatchers("/orders/**")      .hasAnyRole("ADMIN")
                 .antMatchers("/schedule")       .permitAll()

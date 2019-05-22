@@ -69,7 +69,7 @@ public class SpringBootWebAppDB implements ApplicationListener<ContextRefreshedE
         User user = new User("admin","admin","047","mail@mail.be","admin","ROLE_ADMIN","{noop}password");
         User pierre = new User("vanvolsem","pierre","047","mail@mail.be","user","ROLE_USER","{noop}password");
 
-        User user4 = new User("Klochkova","Alex","05","a@k.com","user","ROLE_USER",
+        User user4 = new User("Klochkova","Alex","05","a@k.com","user8","ROLE_USER",
                 "{noop}password");
         User user6 = new User("Klochkova","Alex","05","a@k.com","user2","ROLE_USER",
                 "{noop}password");
