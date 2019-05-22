@@ -159,13 +159,13 @@ public class SpringBootWebAppDB implements ApplicationListener<ContextRefreshedE
         userRepository.save(technician2);
 
 
-        RequestTechnician request1 = new RequestTechnician(new Date(),"Please HELP",technician1);
+        RequestTechnician request1 = new RequestTechnician(new Date(),"Machine 1 and 2 stopped working",technician1);
 
-        RequestTechnician request2 = new RequestTechnician(new Date(),"Boot too big",technician1);
+        RequestTechnician request2 = new RequestTechnician(new Date(),"Machine 1 has some issues",technician1);
 
-        RequestTechnician request3 = new RequestTechnician(new Date(),"Please HELP",technician2);
+        RequestTechnician request3 = new RequestTechnician(new Date(),"Machine 3 wont boot",technician2);
 
-        RequestTechnician request4 = new RequestTechnician(new Date(),"Boot too big",technician2);
+        RequestTechnician request4 = new RequestTechnician(new Date(),"Machine 2 wont boot",technician2);
 
         requestTechnicianRepository.save(request1);
         requestTechnicianRepository.save(request4);

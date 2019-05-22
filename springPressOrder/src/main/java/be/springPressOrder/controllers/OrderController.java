@@ -52,7 +52,8 @@ public class OrderController {
 
     @RequestMapping("order/edit/{id}")
     public String edit(@PathVariable Integer id, Model model) {
-        model.addAttribute("objOrder", pressSystemService.getOrderById(id));
+        model.addAttribute("objOrder", pressSystemService.getDataOrderById(id));
+        model.addAttribute("objFruits",pressSystemService.listAllFruits());
         return "orderform";
     }
 
@@ -66,15 +67,18 @@ public class OrderController {
     @RequestMapping(value = "order", method = RequestMethod.POST)
     public String saveOrder(@Valid OrderData order, Errors errors, Model model) {
         String message="";
+        Order order2;
         try{
             if(errors.hasErrors()){
                 message = "Correct input errors please";
                 throw new IllegalArgumentException();
             }
-            if(!pressSystemService.checkEnoughInStock(order.getFruitId(),order.getFruitAmount()))
+            if(!pressSystemService.checkEnoughInStock(order.getFruitId(),order.getAmount())){
                 message ="Not enough juice";
+                throw new IllegalArgumentException();
+            }
             order.setUserId(userService.getAuthenticatedUser().getId());
-            pressSystemService.processOrder(order);
+            order2 = pressSystemService.processOrder(order);
         }
         catch(IllegalArgumentException e){
 
@@ -85,8 +89,7 @@ public class OrderController {
             model.addAttribute("objOrder",order);
             return "orderform";
         }
-        Order newOrder = pressSystemService.processOrder(order);
-        return "redirect:/order/" + newOrder.getId();
+        return "redirect:/order/" + order.getId();
     }
 
     @RequestMapping("order/delete/{id}")

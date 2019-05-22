@@ -28,7 +28,7 @@
                 <select th:field="*{fruitId}">
                     <option th:each="fruit : ${objFruits}"
                             th:value="${fruit.getId()}"
-                            th:text="${fruit.getFruitname()}"
+                            th:text="${fruit.getName()}"
                     ></option>
                 </select>
 

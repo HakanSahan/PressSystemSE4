@@ -39,7 +39,7 @@ public class Fruit {
 
     public Fruit(){}
 
-    public String getFruitname() {
+    public String getName() {
         return fruitname;
     }
 

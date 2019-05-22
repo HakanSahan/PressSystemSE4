@@ -110,4 +110,12 @@ public class Order {
     public void setJuices(Set<Juice> juices){this.juices = juices;}
 
     public void setPressOrder(PressOrder pressOrder){this.pressOrder = pressOrder;}
+
+    public void setFruit(Fruit fruit) {
+        this.fruit = fruit;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 }

@@ -21,7 +21,8 @@ public interface PressSystemService {
     PressOrder getPressOrderById(Integer id);    
     // Geef alle fruiten terug
     Iterable<Fruit>      listAllFruits();
-    
+    OrderData getDataOrderById(int id);
+
     Iterable<PressOrder> listPressOrderByOrder(Integer id);
 
     Iterable<PressOrder> listPressOrderByFruit(String fruitName);

@@ -94,11 +94,21 @@ public class PressSystemServiceImpl implements PressSystemService {
     }
 
     @Override
+    public OrderData getDataOrderById(int id) {
+        Order order = getOrderById(id);
+        OrderData od =new OrderData();
+        od.setUserId(order.getUser().getId());
+        od.setAmount(order.getAmount());
+        od.setFruitId(order.getFruit().getId());
+        return  od;
+    }
+
+    @Override
     public Iterable<PressOrder> listPressOrderByFruit(String fruitName) {
         ArrayList<PressOrder> result = new  ArrayList<>();
         for (PressOrder pressOrder : pressOrderRepository.findAll())
         {
-            if(pressOrder.getOrder().getFruit().getFruitname().equals(fruitName))
+            if(pressOrder.getOrder().getFruit().getName().equals(fruitName))
                 result.add(pressOrder);
         }
         return result;
@@ -158,8 +168,17 @@ public class PressSystemServiceImpl implements PressSystemService {
 
     @Override
     public Order processOrder(OrderData orderData){
-        Order order = new Order(orderData.fruitAmount,fruitRepository.findOne(orderData.fruitId),userRepository.findOne(orderData.userId));
-        return orderRepository.save(order);
+        DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        Order order;
+        if(orderData.getId() != 0)
+            order = orderRepository.findOne(orderData.getId());
+        else
+            order = new Order();
+        order.setAmount(orderData.getAmount());
+        order.setUser(userRepository.findOne(orderData.getUserId()));
+        order.setFruit(fruitRepository.findOne(orderData.getFruitId()));
+        order = orderRepository.save(order);
+        return order;
     }
 
     @Override
