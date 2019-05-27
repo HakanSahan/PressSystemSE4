@@ -97,6 +97,7 @@ public class PressSystemServiceImpl implements PressSystemService {
     public OrderData getDataOrderById(int id) {
         Order order = getOrderById(id);
         OrderData od =new OrderData();
+        od.setId(order.getId());
         od.setUserId(order.getUser().getId());
         od.setAmount(order.getAmount());
         od.setFruitId(order.getFruit().getId());

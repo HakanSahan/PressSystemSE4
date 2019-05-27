@@ -67,7 +67,7 @@ public class OrderController {
     @RequestMapping(value = "order", method = RequestMethod.POST)
     public String saveOrder(@Valid OrderData order, Errors errors, Model model) {
         String message="";
-        Order order2;
+        Order order2 = new Order();
         try{
             if(errors.hasErrors()){
                 message = "Correct input errors please";
@@ -89,7 +89,7 @@ public class OrderController {
             model.addAttribute("objOrder",order);
             return "orderform";
         }
-        return "redirect:/order/" + order.getId();
+        return "redirect:/order/" + order2.getId();
     }
 
     @RequestMapping("order/delete/{id}")

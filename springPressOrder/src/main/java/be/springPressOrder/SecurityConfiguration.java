@@ -33,7 +33,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
         http.authorizeRequests()
                 .antMatchers("/favicon.ico", "/login*", "/images/**", "/css/**", "/storage", "/", "/storage/json", "/order").permitAll()
-                .antMatchers("/h2/**", "/**")   .hasAnyRole("ADMIN", "PRESSER","USER")
+                .antMatchers("/h2/**", "/**")   .hasAnyRole("ADMIN")
                 .antMatchers("/orders/**")      .hasAnyRole("ADMIN")
                 .antMatchers("/schedule")       .permitAll()
                 .antMatchers("/technician")     .hasAnyRole("TECHNICIAN")
@@ -49,7 +49,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .anyRequest().hasAnyRole("USER","ADMIN").and()
                     .formLogin().loginPage("/login").failureUrl("/login-error")
                         .defaultSuccessUrl("/",true).permitAll().and()
-                    .logout().invalidateHttpSession(true).logoutSuccessUrl("/logout").permitAll();
+                    .logout().invalidateHttpSession(true).logoutSuccessUrl("/login").permitAll();
         http.exceptionHandling().accessDeniedPage("/403");
        //http.authorizeRequests().anyRequest().permitAll();
         http.csrf().disable();
